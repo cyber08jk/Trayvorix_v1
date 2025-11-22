@@ -57,13 +57,8 @@ Follow the detailed instructions in [SETUP.md](./SETUP.md) to:
 
 ### 4. Configure environment variables
 
-Copy `.env.example` to `.env.local` and add your Supabase credentials:
 
-```bash
-cp .env.example .env.local
-```
-
-Edit `.env.local`:
+Edit `.env`:
 ```
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key-here
@@ -190,9 +185,6 @@ Your Supabase project is already deployed. Just ensure:
 
 This project was built for a hackathon. Contributions are welcome!
 
-## 📄 License
-
-MIT License - feel free to use this project for your own purposes.
 
 ## 🙏 Acknowledgments
 
