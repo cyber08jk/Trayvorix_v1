@@ -8,7 +8,7 @@ interface Activity {
   description: string;
   user: string;
   timestamp: string;
-  icon: JSX.Element;
+  icon: React.ReactElement;
   color: string;
 }
 

@@ -4,7 +4,7 @@ import { Card } from '@components/common/Card';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
 import { Table } from '@components/common/Table';
-import { Loading, TableSkeleton } from '@components/common/Loading';
+import { TableSkeleton } from '@components/common/Loading';
 import { useToast } from '@components/common/Toast';
 
 interface Product {
@@ -127,7 +127,7 @@ export function Products() {
     },
   ];
 
-  const handleEdit = (product: Product) => {
+  const handleEdit = (_product: Product) => {
     showToast('Edit functionality coming soon', 'info');
   };
 

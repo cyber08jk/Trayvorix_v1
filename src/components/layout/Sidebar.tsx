@@ -9,12 +9,12 @@ interface SidebarProps {
 interface NavItem {
   name: string;
   path: string;
-  icon: JSX.Element;
+  icon: React.ReactElement;
   roles?: string[];
 }
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const { role, canEdit } = useRole();
+  const { role } = useRole();
 
   const navItems: NavItem[] = [
     {
