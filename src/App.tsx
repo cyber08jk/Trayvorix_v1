@@ -20,10 +20,9 @@ const queryClient = new QueryClient({
   },
 });
 
+import { Products } from '@pages/Products';
+
 // Placeholder pages
-function Products() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Products</h1></div>;
-}
 
 function Inventory() {
   return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Inventory</h1></div>;
