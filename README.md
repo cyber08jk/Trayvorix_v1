@@ -1,3 +1,7 @@
+# REVIEW DEPLOYMENT
+  EMAIL : admin@trayvorix.com
+  PASSWORD : admin123
+  
 # Trayvorix - Advanced Inventory Management System
 
 Trayvorix is a modern, cloud-native inventory management SaaS solution designed for multi-warehouse operations with real-time tracking, role-based access control, and intelligent automation.
@@ -15,7 +19,29 @@ Trayvorix is a modern, cloud-native inventory management SaaS solution designed 
 - **Notifications** - Real-time alerts for low stock, expiring batches, and approvals
 - **Responsive Design** - Works seamlessly on mobile, tablet, and desktop
 - **Progressive Web App** - Install and use offline
+- 
+## Screenshots
 
+### Screen 1
+<img src="Screenshot/1.jpeg" width="400">
+
+### Screen 2
+<img src="Screenshot/2.jpeg" width="400">
+
+### Screen 3
+<img src="Screenshot/3.jpeg" width="400">
+
+### Screen 4
+<img src="Screenshot/4.jpeg" width="400">
+
+### Screen 5
+<img src="Screenshot/5.jpeg" width="400">
+
+### Screen 6
+<img src="Screenshot/6.jpeg" width="400">
+
+### Screen 7
+<img src="Screenshot/7.jpeg" width="400">
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18 + TypeScript + Vite
