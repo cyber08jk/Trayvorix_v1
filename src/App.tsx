@@ -9,6 +9,7 @@ import { ForgotPassword } from '@pages/ForgotPassword';
 import { ResetPassword } from '@pages/ResetPassword';
 import { Dashboard } from '@pages/Dashboard';
 import { TestConnection } from '@pages/TestConnection';
+import { DemoLogin } from '@pages/DemoLogin';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -69,6 +70,8 @@ function App() {
           <ToastProvider>
             <Routes>
               {/* Public routes */}
+              <Route path="/" element={<DemoLogin />} />
+              <Route path="/demo" element={<DemoLogin />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
@@ -164,8 +167,13 @@ function App() {
                 }
               />
 
-              {/* Default redirect */}
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              {/* Demo dashboard - no auth required */}
+              <Route
+                path="/demo-dashboard"
+                element={
+                  <Layout><Dashboard /></Layout>
+                }
+              />
               
               {/* 404 */}
               <Route
