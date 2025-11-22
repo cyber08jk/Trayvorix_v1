@@ -69,11 +69,11 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+      <div className="animate-fadeIn">
+        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
           Dashboard
         </h1>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-3 text-base text-gray-600 dark:text-gray-400 font-medium">
           Welcome back! Here's what's happening with your inventory today.
         </p>
       </div>

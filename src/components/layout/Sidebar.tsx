@@ -144,8 +144,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform
-          bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700
+          fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-all duration-300
+          bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border-r border-gray-200 dark:border-gray-700 shadow-xl
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0
         `}

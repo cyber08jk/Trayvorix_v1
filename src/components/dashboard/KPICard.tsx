@@ -37,18 +37,18 @@ export function KPICard({ title, value, icon, trend, color = 'blue', loading }: 
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
       <div className="flex items-center justify-between mb-4">
-        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+        <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
           {title}
         </p>
-        <div className={`p-2 rounded-lg ${colorClasses[color]}`}>
+        <div className={`p-3 rounded-xl ${colorClasses[color]} group-hover:scale-110 transition-transform duration-300 shadow-md`}>
           {icon}
         </div>
       </div>
 
       <div className="flex items-baseline justify-between">
-        <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h3 className="text-4xl font-extrabold text-gray-900 dark:text-white">
           {value}
         </h3>
 
