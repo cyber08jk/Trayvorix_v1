@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatCurrency } from '@utils/currency';
 
 interface KPIData {
   totalProducts: number;
@@ -57,7 +58,7 @@ export function Dashboard() {
                 Inventory Value
               </p>
               <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                ${kpiData.totalInventoryValue.toLocaleString()}
+                {formatCurrency(kpiData.totalInventoryValue)}
               </p>
               <p className="mt-2 text-sm text-green-600 dark:text-green-400">
                 ↑ 8% from last month

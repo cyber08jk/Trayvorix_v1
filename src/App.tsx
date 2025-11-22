@@ -10,6 +10,8 @@ import { ResetPassword } from '@pages/ResetPassword';
 import { Dashboard } from '@pages/Dashboard';
 import { TestConnection } from '@pages/TestConnection';
 import { DemoLogin } from '@pages/DemoLogin';
+import { Warehouses } from '@pages/Warehouses';
+import { Profile } from '@pages/Profile';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -34,9 +36,7 @@ function Inventory() {
   return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Inventory</h1></div>;
 }
 
-function Warehouses() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Warehouses</h1></div>;
-}
+
 
 function Reports() {
   return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Reports</h1></div>;
@@ -54,9 +54,7 @@ function Settings() {
   return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1></div>;
 }
 
-function Profile() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">My Profile</h1></div>;
-}
+
 
 function App() {
   return (
