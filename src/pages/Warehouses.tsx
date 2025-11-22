@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Card } from '@components/common/Card';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
 
@@ -163,7 +162,7 @@ export function Warehouses() {
                                         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                                             <div
                                                 className={`h-2 rounded-full transition-all duration-500 ${usagePercent > 90 ? 'bg-red-500' :
-                                                        usagePercent > 75 ? 'bg-yellow-500' : 'bg-green-500'
+                                                    usagePercent > 75 ? 'bg-yellow-500' : 'bg-green-500'
                                                     }`}
                                                 style={{ width: `${usagePercent}%` }}
                                             ></div>

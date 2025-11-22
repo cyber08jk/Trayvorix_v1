@@ -39,8 +39,8 @@ export function Profile() {
                             <button
                                 onClick={() => setActiveTab('personal')}
                                 className={`w-full flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'personal'
-                                        ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400'
-                                        : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800'
+                                    ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400'
+                                    : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800'
                                     }`}
                             >
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,8 +51,8 @@ export function Profile() {
                             <button
                                 onClick={() => setActiveTab('security')}
                                 className={`w-full flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'security'
-                                        ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400'
-                                        : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800'
+                                    ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400'
+                                    : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800'
                                     }`}
                             >
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,8 +63,8 @@ export function Profile() {
                             <button
                                 onClick={() => setActiveTab('preferences')}
                                 className={`w-full flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'preferences'
-                                        ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400'
-                                        : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800'
+                                    ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400'
+                                    : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800'
                                     }`}
                             >
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -133,7 +133,7 @@ export function Profile() {
                                             <p className="text-sm text-gray-700 dark:text-gray-300">Protect your account with 2FA security.</p>
                                             <p className="text-xs text-gray-500 dark:text-gray-400">Currently disabled</p>
                                         </div>
-                                        <Button variant="outline">Enable 2FA</Button>
+                                        <Button variant="secondary">Enable 2FA</Button>
                                     </div>
                                 </div>
                                 <div className="flex justify-end">
@@ -166,7 +166,7 @@ export function Profile() {
                                             <p className="text-sm font-medium text-gray-900 dark:text-white">Desktop Notifications</p>
                                             <p className="text-xs text-gray-500 dark:text-gray-400">Get push notifications on your device</p>
                                         </div>
-                                        <Button variant="outline" size="sm">Configure</Button>
+                                        <Button variant="secondary" size="sm">Configure</Button>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
