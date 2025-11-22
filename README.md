@@ -1,3 +1,7 @@
+# REVIEW DEPLOYMENT
+  EMAIL : admin@trayvorix.com
+  PASSWORD : admin123
+  
 # Trayvorix - Advanced Inventory Management System
 
 Trayvorix is a modern, cloud-native inventory management SaaS solution designed for multi-warehouse operations with real-time tracking, role-based access control, and intelligent automation.
