@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@contexts/AuthContext';
 import { ToastProvider } from '@components/common/Toast';
@@ -23,6 +23,10 @@ const queryClient = new QueryClient({
 });
 
 import { Products } from '@pages/Products';
+import { Receipts } from '@pages/Receipts';
+import { Deliveries } from '@pages/Deliveries';
+import { Adjustments } from '@pages/Adjustments';
+import { MoveHistory } from '@pages/MoveHistory';
 
 // Placeholder pages
 
@@ -32,18 +36,6 @@ function Inventory() {
 
 function Warehouses() {
   return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Warehouses</h1></div>;
-}
-
-function Transfers() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Transfers</h1></div>;
-}
-
-function Movements() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Stock Movements</h1></div>;
-}
-
-function Adjustments() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Adjustments</h1></div>;
 }
 
 function Reports() {
@@ -60,6 +52,10 @@ function Tasks() {
 
 function Settings() {
   return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1></div>;
+}
+
+function Profile() {
+  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">My Profile</h1></div>;
 }
 
 function App() {
@@ -111,10 +107,18 @@ function App() {
                 }
               />
               <Route
-                path="/transfers"
+                path="/receipts"
                 element={
-                  <ProtectedRoute allowedRoles={['admin', 'operator']}>
-                    <Layout><Transfers /></Layout>
+                  <ProtectedRoute>
+                    <Layout><Receipts /></Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/deliveries"
+                element={
+                  <ProtectedRoute>
+                    <Layout><Deliveries /></Layout>
                   </ProtectedRoute>
                 }
               />
@@ -122,7 +126,7 @@ function App() {
                 path="/movements"
                 element={
                   <ProtectedRoute>
-                    <Layout><Movements /></Layout>
+                    <Layout><MoveHistory /></Layout>
                   </ProtectedRoute>
                 }
               />
@@ -131,6 +135,14 @@ function App() {
                 element={
                   <ProtectedRoute allowedRoles={['admin', 'operator']}>
                     <Layout><Adjustments /></Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Layout><Profile /></Layout>
                   </ProtectedRoute>
                 }
               />
@@ -174,7 +186,7 @@ function App() {
                   <Layout><Dashboard /></Layout>
                 }
               />
-              
+
               {/* 404 */}
               <Route
                 path="*"

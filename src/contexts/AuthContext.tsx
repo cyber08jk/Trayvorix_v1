@@ -24,12 +24,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setUserRole(session?.user?.user_metadata?.role ?? 'operator');
-      setLoading(false);
-    });
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setUserRole(session?.user?.user_metadata?.role ?? 'operator');
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.warn('Supabase auth error:', error);
+        setLoading(false);
+      });
 
     // Listen for auth changes
     const {
