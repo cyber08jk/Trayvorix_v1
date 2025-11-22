@@ -74,25 +74,25 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         </svg>
       ),
       children: [
-        { 
-          name: 'Receipts', 
-          path: '/receipts', 
-          icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" /></svg> 
+        {
+          name: 'Receipts',
+          path: '/receipts',
+          icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" /></svg>
         },
-        { 
-          name: 'Deliveries', 
-          path: '/deliveries', 
-          icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" /></svg> 
+        {
+          name: 'Deliveries',
+          path: '/deliveries',
+          icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" /></svg>
         },
-        { 
-          name: 'Adjustments', 
-          path: '/adjustments', 
-          icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg> 
+        {
+          name: 'Adjustments',
+          path: '/adjustments',
+          icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg>
         },
-        { 
-          name: 'Move History', 
-          path: '/movements', 
-          icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clipRule="evenodd" /></svg> 
+        {
+          name: 'Move History',
+          path: '/movements',
+          icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clipRule="evenodd" /></svg>
         },
       ],
     },
@@ -114,11 +114,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         <li key={item.name} className="relative">
           <button
             onClick={(e) => toggleMenu(item.name, e)}
-            className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg transition-colors ${
-              isExpanded 
-                ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30' 
+            className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg transition-colors ${isExpanded
+                ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-            }`}
+              }`}
             aria-expanded={isExpanded}
             aria-controls={`submenu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
           >
@@ -128,16 +127,16 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               </span>
               <span className="text-sm font-medium">{item.name}</span>
             </div>
-            <svg 
-              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180 text-indigo-600 dark:text-indigo-400' : 'text-gray-400'}`} 
-              fill="currentColor" 
+            <svg
+              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180 text-indigo-600 dark:text-indigo-400' : 'text-gray-400'}`}
+              fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
             >
               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </button>
-          <div 
+          <div
             id={`submenu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
             className={`transition-all duration-200 overflow-hidden ${isExpanded ? 'max-h-96' : 'max-h-0'}`}
             role="region"
@@ -157,12 +156,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           to={item.path!}
           onClick={onClose}
           className={({ isActive }) =>
-            `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${
-              isChild ? 'text-sm' : ''
-            } ${
-              isActive
-                ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
-                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+            `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${isChild ? 'text-sm' : ''
+            } ${isActive
+              ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
             }`
           }
           aria-current={location.pathname === item.path ? 'page' : undefined}
@@ -186,21 +183,19 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       {/* Backdrop for mobile */}
-      <div 
-        className={`fixed inset-0 z-30 bg-black/50 transition-opacity duration-300 lg:hidden ${
-          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`} 
+      <div
+        className={`fixed inset-0 z-30 bg-black/50 transition-opacity duration-300 lg:hidden ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}
         onClick={onClose}
         aria-hidden={!isOpen}
       />
 
-      <aside 
-        className={`fixed top-0 left-0 z-40 w-72 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 lg:top-16 lg:h-[calc(100vh-4rem)]`}
+      <aside
+        className={`fixed top-0 left-0 z-40 w-72 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
+          } lg:translate-x-0 lg:top-16 lg:h-[calc(100vh-4rem)]`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto">
+        <div className="h-full px-4 py-4 overflow-y-auto">
           <nav>
             <ul className="space-y-1.5">
               {navItems.map((item) => renderNavItem(item))}
@@ -210,23 +205,21 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
-                  `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${
-                    isActive
-                      ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${isActive
+                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`
                 }
                 onClick={onClose}
               >
                 {({ isActive }) => (
                   <>
-                    <svg 
-                      className={`w-5 h-5 flex-shrink-0 transition-colors ${
-                        isActive 
-                          ? 'text-indigo-600 dark:text-indigo-400' 
+                    <svg
+                      className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
+                          ? 'text-indigo-600 dark:text-indigo-400'
                           : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
-                      }`} 
-                      fill="currentColor" 
+                        }`}
+                      fill="currentColor"
                       viewBox="0 0 20 20"
                     >
                       <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
