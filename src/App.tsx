@@ -8,6 +8,7 @@ import { Login } from '@pages/Login';
 import { ForgotPassword } from '@pages/ForgotPassword';
 import { ResetPassword } from '@pages/ResetPassword';
 import { Dashboard } from '@pages/Dashboard';
+import { TestConnection } from '@pages/TestConnection';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -71,6 +72,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/test-connection" element={<TestConnection />} />
 
               {/* Protected routes with layout */}
               <Route

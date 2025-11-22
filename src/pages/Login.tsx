@@ -51,9 +51,16 @@ export function Login() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs text-gray-500 dark:text-gray-400">
-          Built for efficient warehouse management
-        </p>
+        <div className="text-center space-y-2">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Built for efficient warehouse management
+          </p>
+          <p className="text-xs">
+            <a href="/test-connection" className="text-primary-600 hover:text-primary-500">
+              Having connection issues? Test your setup →
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
