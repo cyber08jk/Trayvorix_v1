@@ -34,6 +34,7 @@ export function Profile() {
     const [activeTab, setActiveTab] = useState<'personal' | 'security' | 'preferences'>('personal');
     const [saving, setSaving] = useState(false);
     const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+    const [currentTheme, setCurrentTheme] = useState<'light' | 'dark' | 'system'>('system');
 
     // Helper function for toast
     const showToast = (message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info') => {
@@ -43,6 +44,26 @@ export function Profile() {
             console.log(`[${type}] ${message}`);
         }
     };
+
+    // Initialize theme from localStorage on mount
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+        if (savedTheme === 'dark') {
+            setCurrentTheme('dark');
+            document.documentElement.classList.add('dark');
+        } else if (savedTheme === 'light') {
+            setCurrentTheme('light');
+            document.documentElement.classList.remove('dark');
+        } else {
+            setCurrentTheme('system');
+            // Apply system preference
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+    }, []);
 
     // Personal Information State
     const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
@@ -172,6 +193,8 @@ export function Profile() {
 
     // Handle Theme Change
     const handleThemeChange = (theme: 'light' | 'dark' | 'system') => {
+        setCurrentTheme(theme);
+        
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
             localStorage.setItem('theme', 'dark');
@@ -539,33 +562,48 @@ export function Profile() {
                                         </label>
                                         <div className="grid grid-cols-3 gap-3">
                                             <button 
-                                                className="p-4 border-2 border-gray-300 dark:border-gray-600 hover:border-indigo-500 rounded-lg bg-white text-center transition-all"
+                                                className={`p-4 border-2 rounded-lg text-center transition-all ${
+                                                    currentTheme === 'light' 
+                                                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500 ring-offset-2' 
+                                                        : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 bg-white dark:bg-gray-800'
+                                                }`}
                                                 onClick={() => handleThemeChange('light')}
                                             >
                                                 <svg className="w-6 h-6 mx-auto text-yellow-500 mb-2" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
                                                 </svg>
-                                                <span className="text-sm text-gray-700 font-medium">Light</span>
+                                                <span className={`text-sm font-medium ${currentTheme === 'light' ? 'text-indigo-600' : 'text-gray-700 dark:text-gray-300'}`}>Light</span>
                                             </button>
                                             <button 
-                                                className="p-4 border-2 border-gray-300 dark:border-gray-600 hover:border-indigo-500 rounded-lg bg-gray-800 text-center transition-all"
+                                                className={`p-4 border-2 rounded-lg text-center transition-all ${
+                                                    currentTheme === 'dark' 
+                                                        ? 'border-indigo-500 bg-gray-800 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900' 
+                                                        : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 bg-gray-800'
+                                                }`}
                                                 onClick={() => handleThemeChange('dark')}
                                             >
                                                 <svg className="w-6 h-6 mx-auto text-indigo-400 mb-2" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                                                 </svg>
-                                                <span className="text-sm text-gray-300 font-medium">Dark</span>
+                                                <span className={`text-sm font-medium ${currentTheme === 'dark' ? 'text-indigo-400' : 'text-gray-300'}`}>Dark</span>
                                             </button>
                                             <button 
-                                                className="p-4 border-2 border-gray-300 dark:border-gray-600 hover:border-indigo-500 rounded-lg bg-gradient-to-r from-white to-gray-700 text-center transition-all"
+                                                className={`p-4 border-2 rounded-lg text-center transition-all ${
+                                                    currentTheme === 'system' 
+                                                        ? 'border-indigo-500 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900' 
+                                                        : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400'
+                                                } bg-gradient-to-r from-white to-gray-700`}
                                                 onClick={() => handleThemeChange('system')}
                                             >
                                                 <svg className="w-6 h-6 mx-auto text-gray-500 mb-2" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.321A1 1 0 0113.22 17H6.78a1 1 0 01-.39-1.922l.804-.32.122-.49H5a2 2 0 01-2-2V5zm12 0H5v8h10V5z" clipRule="evenodd" />
                                                 </svg>
-                                                <span className="text-sm text-gray-600 font-medium">System</span>
+                                                <span className={`text-sm font-medium ${currentTheme === 'system' ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-400'}`}>System</span>
                                             </button>
                                         </div>
+                                        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                                            Current: <span className="font-medium capitalize">{currentTheme}</span> mode
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex justify-end gap-3">
