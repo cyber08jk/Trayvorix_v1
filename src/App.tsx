@@ -187,6 +187,22 @@ function App() {
                   <Layout><Dashboard /></Layout>
                 }
               />
+              
+              {/* Demo profile - no auth required */}
+              <Route
+                path="/demo-profile"
+                element={
+                  <Layout><Profile /></Layout>
+                }
+              />
+
+              {/* Demo analytics - no auth required */}
+              <Route
+                path="/demo-analytics"
+                element={
+                  <Layout><Analytics /></Layout>
+                }
+              />
 
               {/* 404 */}
               <Route
