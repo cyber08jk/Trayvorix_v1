@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Card } from '@components/common/Card';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
-import { useAuth } from '@hooks/useAuth';
+import { useAuth, useRole } from '@hooks/useAuth';
 
 export function Profile() {
     const { user } = useAuth();
+    const { role } = useRole();
     const [activeTab, setActiveTab] = useState<'personal' | 'security' | 'preferences'>('personal');
 
     return (
@@ -31,8 +32,8 @@ export function Profile() {
                             <h2 className="text-lg font-bold text-gray-900 dark:text-white">
                                 {user?.email?.split('@')[0] || 'User'}
                             </h2>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                                {user?.role || 'Administrator'}
+                            <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">
+                                {role || 'Operator'}
                             </p>
                         </div>
                         <nav className="p-2 space-y-1">
