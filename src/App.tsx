@@ -12,6 +12,7 @@ import { TestConnection } from '@pages/TestConnection';
 import { DemoLogin } from '@pages/DemoLogin';
 import { Warehouses } from '@pages/Warehouses';
 import { Profile } from '@pages/Profile';
+import { Analytics } from '@pages/Analytics';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -34,12 +35,6 @@ import { MoveHistory } from '@pages/MoveHistory';
 
 function Inventory() {
   return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Inventory</h1></div>;
-}
-
-
-
-function Reports() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Reports</h1></div>;
 }
 
 function Audit() {
@@ -148,7 +143,15 @@ function App() {
                 path="/reports"
                 element={
                   <ProtectedRoute>
-                    <Layout><Reports /></Layout>
+                    <Layout><Analytics /></Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/analytics"
+                element={
+                  <ProtectedRoute>
+                    <Layout><Analytics /></Layout>
                   </ProtectedRoute>
                 }
               />

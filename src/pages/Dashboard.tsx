@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import { formatCurrency } from '@utils/currency';
+import { InventoryChart } from '@components/dashboard/InventoryChart';
+import { MovementsChart } from '@components/dashboard/MovementsChart';
+import { CategoryPieChart } from '@components/dashboard/CategoryPieChart';
+import { StockTrendChart } from '@components/dashboard/StockTrendChart';
 
 interface KPIData {
   totalProducts: number;
@@ -117,6 +121,41 @@ export function Dashboard() {
       </div>
 
       {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Inventory Value Chart */}
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Inventory Value Trend
+          </h3>
+          <InventoryChart />
+        </div>
+
+        {/* Stock Movements Chart */}
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Stock Movements
+          </h3>
+          <MovementsChart />
+        </div>
+
+        {/* Stock Trend Chart */}
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Stock Status Trend
+          </h3>
+          <StockTrendChart />
+        </div>
+
+        {/* Category Distribution */}
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Category Distribution
+          </h3>
+          <CategoryPieChart />
+        </div>
+      </div>
+
+      {/* Activity & Quick Actions Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
