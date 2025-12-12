@@ -169,7 +169,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
                 </div>
                 <div className="p-1">
                   <Link
-                    to="/profile"
+                    to={location.pathname.startsWith('/demo') ? '/demo-profile' : '/profile'}
                     className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700"
                     onClick={() => setShowUserMenu(false)}
                     role="menuitem"

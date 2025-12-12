@@ -22,7 +22,7 @@ export function Dashboard() {
     lowStockItems: 0,
     pendingTransfers: 0,
   });
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const { isDemoMode } = useDemo();
 
   useEffect(() => {
