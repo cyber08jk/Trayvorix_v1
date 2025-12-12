@@ -50,12 +50,10 @@ export function Login() {
         {/* Demo Credentials */}
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
           <p className="text-sm font-medium text-blue-900 dark:text-blue-300 mb-2">
-            Demo Credentials:
+           Credentials:
           </p>
           <div className="text-xs text-blue-700 dark:text-blue-400 space-y-1">
             <p><strong>Admin:</strong> admin@trayvorix.com / admin123</p>
-            <p><strong>Operator:</strong> operator@trayvorix.com / operator123</p>
-            <p><strong>Auditor:</strong> auditor@trayvorix.com / auditor123</p>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@contexts/AuthContext';
+import { DemoProvider } from '@contexts/DemoContext';
 import { ToastProvider } from '@components/common/Toast';
 import { ProtectedRoute } from '@components/auth/ProtectedRoute';
 import { Layout } from '@components/layout/Layout';
@@ -56,8 +57,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-          <ToastProvider>
-            <Routes>
+          <DemoProvider>
+            <ToastProvider>
+              <Routes>
               {/* Public routes */}
               <Route path="/" element={<DemoLogin />} />
               <Route path="/demo" element={<DemoLogin />} />
@@ -180,23 +182,55 @@ function App() {
                 }
               />
 
-              {/* Demo dashboard - no auth required */}
+              {/* Demo routes - no auth required */}
               <Route
                 path="/demo-dashboard"
                 element={
                   <Layout><Dashboard /></Layout>
                 }
               />
-              
-              {/* Demo profile - no auth required */}
+              <Route
+                path="/demo-products"
+                element={
+                  <Layout><Products /></Layout>
+                }
+              />
+              <Route
+                path="/demo-warehouses"
+                element={
+                  <Layout><Warehouses /></Layout>
+                }
+              />
+              <Route
+                path="/demo-receipts"
+                element={
+                  <Layout><Receipts /></Layout>
+                }
+              />
+              <Route
+                path="/demo-deliveries"
+                element={
+                  <Layout><Deliveries /></Layout>
+                }
+              />
+              <Route
+                path="/demo-movements"
+                element={
+                  <Layout><MoveHistory /></Layout>
+                }
+              />
+              <Route
+                path="/demo-adjustments"
+                element={
+                  <Layout><Adjustments /></Layout>
+                }
+              />
               <Route
                 path="/demo-profile"
                 element={
                   <Layout><Profile /></Layout>
                 }
               />
-
-              {/* Demo analytics - no auth required */}
               <Route
                 path="/demo-analytics"
                 element={
@@ -221,6 +255,7 @@ function App() {
               />
             </Routes>
           </ToastProvider>
+          </DemoProvider>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>

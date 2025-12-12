@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
+import { useDemo } from '@contexts/DemoContext';
+import { sampleWarehouses } from '@data/sampleData';
+import { supabase } from '@services/supabase';
+import { useToast } from '@components/common/Toast';
 
 interface WarehouseStats {
     id: string;
@@ -63,7 +67,50 @@ const MOCK_WAREHOUSES: WarehouseStats[] = [
 
 export function Warehouses() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [warehouses] = useState<WarehouseStats[]>(MOCK_WAREHOUSES);
+    const [warehouses, setWarehouses] = useState<WarehouseStats[]>([]);
+    const [loading, setLoading] = useState(true);
+    const { isDemoMode } = useDemo();
+    const { showToast } = useToast();
+
+    useEffect(() => {
+        fetchWarehouses();
+    }, [isDemoMode]);
+
+    const fetchWarehouses = async () => {
+        try {
+            setLoading(true);
+            
+            if (isDemoMode) {
+                // Use sample data for demo mode
+                setWarehouses(sampleWarehouses as WarehouseStats[]);
+            } else {
+                // Fetch real data from Supabase
+                const { data, error } = await supabase
+                    .from('warehouses')
+                    .select('*')
+                    .order('name', { ascending: true });
+
+                if (error) throw error;
+                
+                const formattedData = (data || []).map((item: any) => ({
+                    id: item.id,
+                    name: item.name,
+                    location: item.address || item.location || 'Unknown Location',
+                    capacity: item.capacity || 0,
+                    usedCapacity: item.used_capacity || 0,
+                    manager: item.manager || 'Not Assigned',
+                    status: item.status || 'active',
+                    temperature: item.temperature || 25,
+                    humidity: item.humidity || 50,
+                }));
+                setWarehouses(formattedData);
+            }
+        } catch (error: any) {
+            showToast(error.message || 'Error fetching warehouses', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const filteredWarehouses = warehouses.filter(w =>
         w.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

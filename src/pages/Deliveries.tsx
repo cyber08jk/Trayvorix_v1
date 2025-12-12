@@ -5,6 +5,9 @@ import { Input } from '@components/common/Input';
 import { Table } from '@components/common/Table';
 import { TableSkeleton } from '@components/common/Loading';
 import { useToast } from '@components/common/Toast';
+import { useDemo } from '@contexts/DemoContext';
+import { sampleDeliveries } from '@data/sampleData';
+import { supabase } from '@services/supabase';
 
 interface Delivery {
   id: string;
@@ -20,32 +23,29 @@ export function Deliveries() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const { showToast } = useToast();
+  const { isDemoMode } = useDemo();
 
   useEffect(() => {
     fetchDeliveries();
-  }, []);
+  }, [isDemoMode]);
 
   const fetchDeliveries = async () => {
     try {
       setLoading(true);
-      // Mock data
-      const mockDeliveries: Delivery[] = [
-        {
-          id: '1',
-          customer_name: 'Customer A',
-          status: 'shipped',
-          total_items: 10,
-          created_at: new Date().toISOString(),
-        },
-        {
-          id: '2',
-          customer_name: 'Customer B',
-          status: 'picking',
-          total_items: 25,
-          created_at: new Date().toISOString(),
-        },
-      ];
-      setDeliveries(mockDeliveries);
+      
+      if (isDemoMode) {
+        // Use sample data for demo mode
+        setDeliveries(sampleDeliveries as Delivery[]);
+      } else {
+        // Fetch real data from Supabase
+        const { data, error } = await supabase
+          .from('deliveries')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        setDeliveries(data || []);
+      }
     } catch (error: any) {
       showToast(error.message || 'Error fetching deliveries', 'error');
     } finally {

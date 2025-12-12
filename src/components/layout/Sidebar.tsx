@@ -62,7 +62,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     },
     {
       name: 'Products',
-      path: isDemoMode ? '/demo-dashboard' : '/products',
+      path: isDemoMode ? '/demo-products' : '/products',
       icon: (
         <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd" />
@@ -79,29 +79,29 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       children: [
         {
           name: 'Receipts',
-          path: isDemoMode ? '/demo-dashboard' : '/receipts',
+          path: isDemoMode ? '/demo-receipts' : '/receipts',
           icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" /></svg>
         },
         {
           name: 'Deliveries',
-          path: isDemoMode ? '/demo-dashboard' : '/deliveries',
+          path: isDemoMode ? '/demo-deliveries' : '/deliveries',
           icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" /></svg>
         },
         {
           name: 'Adjustments',
-          path: isDemoMode ? '/demo-dashboard' : '/adjustments',
+          path: isDemoMode ? '/demo-adjustments' : '/adjustments',
           icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg>
         },
         {
           name: 'Move History',
-          path: isDemoMode ? '/demo-dashboard' : '/movements',
+          path: isDemoMode ? '/demo-movements' : '/movements',
           icon: <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clipRule="evenodd" /></svg>
         },
       ],
     },
     {
       name: 'Warehouses',
-      path: isDemoMode ? '/demo-dashboard' : '/warehouses',
+      path: isDemoMode ? '/demo-warehouses' : '/warehouses',
       icon: (
         <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />

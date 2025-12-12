@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { formatCurrency } from '@utils/currency';
 import { InventoryChart } from '@components/dashboard/InventoryChart';
 import { MovementsChart } from '@components/dashboard/MovementsChart';
 import { CategoryPieChart } from '@components/dashboard/CategoryPieChart';
 import { StockTrendChart } from '@components/dashboard/StockTrendChart';
+import { useDemo } from '@contexts/DemoContext';
+import { sampleDashboardKPI } from '@data/sampleData';
+import { supabase } from '@services/supabase';
 
 interface KPIData {
   totalProducts: number;
@@ -13,12 +16,53 @@ interface KPIData {
 }
 
 export function Dashboard() {
-  const [kpiData] = useState<KPIData>({
-    totalProducts: 248,
-    totalInventoryValue: 125000,
-    lowStockItems: 12,
-    pendingTransfers: 5,
+  const [kpiData, setKpiData] = useState<KPIData>({
+    totalProducts: 0,
+    totalInventoryValue: 0,
+    lowStockItems: 0,
+    pendingTransfers: 0,
   });
+  const [loading, setLoading] = useState(true);
+  const { isDemoMode } = useDemo();
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [isDemoMode]);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      
+      if (isDemoMode) {
+        // Use sample data for demo mode
+        setKpiData(sampleDashboardKPI);
+      } else {
+        // Fetch real data from Supabase
+        const [productsRes, inventoryRes] = await Promise.all([
+          supabase.from('products').select('id', { count: 'exact' }),
+          supabase.from('inventory').select('quantity, product_id'),
+        ]);
+
+        const totalProducts = productsRes.count || 0;
+        const lowStockItems = (inventoryRes.data || []).filter(
+          (item: any) => item.quantity < 10
+        ).length;
+
+        setKpiData({
+          totalProducts,
+          totalInventoryValue: 125000, // You can calculate this from real data
+          lowStockItems,
+          pendingTransfers: 5, // Fetch from stock_movements with status pending
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      // Fallback to sample data on error
+      setKpiData(sampleDashboardKPI);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="space-y-6 animate-fade-in">

@@ -5,6 +5,9 @@ import { Input } from '@components/common/Input';
 import { Table } from '@components/common/Table';
 import { TableSkeleton } from '@components/common/Loading';
 import { useToast } from '@components/common/Toast';
+import { useDemo } from '@contexts/DemoContext';
+import { sampleReceipts } from '@data/sampleData';
+import { supabase } from '@services/supabase';
 
 interface Receipt {
   id: string;
@@ -21,34 +24,29 @@ export function Receipts() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const { showToast } = useToast();
+  const { isDemoMode } = useDemo();
 
   useEffect(() => {
     fetchReceipts();
-  }, []);
+  }, [isDemoMode]);
 
   const fetchReceipts = async () => {
     try {
       setLoading(true);
-      // For now, using mock data since the receipts table might not exist yet
-      const mockReceipts: Receipt[] = [
-        {
-          id: '1',
-          supplier_name: 'ABC Suppliers Ltd',
-          status: 'done',
-          total_items: 50,
-          created_at: new Date().toISOString(),
-          created_by: 'admin@example.com',
-        },
-        {
-          id: '2',
-          supplier_name: 'XYZ Vendors Inc',
-          status: 'waiting',
-          total_items: 30,
-          created_at: new Date().toISOString(),
-          created_by: 'admin@example.com',
-        },
-      ];
-      setReceipts(mockReceipts);
+      
+      if (isDemoMode) {
+        // Use sample data for demo mode
+        setReceipts(sampleReceipts as Receipt[]);
+      } else {
+        // Fetch real data from Supabase
+        const { data, error } = await supabase
+          .from('receipts')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        setReceipts(data || []);
+      }
     } catch (error: any) {
       showToast(error.message || 'Error fetching receipts', 'error');
     } finally {

@@ -5,6 +5,9 @@ import { Input } from '@components/common/Input';
 import { Table } from '@components/common/Table';
 import { TableSkeleton } from '@components/common/Loading';
 import { useToast } from '@components/common/Toast';
+import { useDemo } from '@contexts/DemoContext';
+import { sampleAdjustments } from '@data/sampleData';
+import { supabase } from '@services/supabase';
 
 interface Adjustment {
   id: string;
@@ -23,38 +26,44 @@ export function Adjustments() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const { showToast } = useToast();
+  const { isDemoMode } = useDemo();
 
   useEffect(() => {
     fetchAdjustments();
-  }, []);
+  }, [isDemoMode]);
 
   const fetchAdjustments = async () => {
     try {
       setLoading(true);
-      // Mock data
-      const mockAdjustments: Adjustment[] = [
-        {
-          id: '1',
-          product_name: 'Steel Rods',
-          location_name: 'Warehouse A - Rack 1',
-          quantity_change: -3,
-          reason: 'damage',
-          status: 'approved',
-          created_at: new Date().toISOString(),
-          created_by: 'admin@example.com',
-        },
-        {
-          id: '2',
-          product_name: 'Wooden Planks',
-          location_name: 'Warehouse B - Rack 5',
-          quantity_change: 5,
-          reason: 'cycle_count',
-          status: 'pending',
-          created_at: new Date().toISOString(),
-          created_by: 'operator@example.com',
-        },
-      ];
-      setAdjustments(mockAdjustments);
+      
+      if (isDemoMode) {
+        // Use sample data for demo mode
+        setAdjustments(sampleAdjustments as Adjustment[]);
+      } else {
+        // Fetch real data from Supabase
+        const { data, error } = await supabase
+          .from('stock_adjustments')
+          .select(`
+            *,
+            products (name),
+            locations (name)
+          `)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        
+        const formattedData = (data || []).map((item: any) => ({
+          id: item.id,
+          product_name: item.products?.name || 'Unknown Product',
+          location_name: item.locations?.name || 'Unknown Location',
+          quantity_change: item.quantity_change,
+          reason: item.reason,
+          status: item.status,
+          created_at: item.created_at,
+          created_by: item.created_by,
+        }));
+        setAdjustments(formattedData);
+      }
     } catch (error: any) {
       showToast(error.message || 'Error fetching adjustments', 'error');
     } finally {

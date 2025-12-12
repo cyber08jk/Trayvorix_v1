@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export function DemoLogin() {
@@ -6,8 +6,15 @@ export function DemoLogin() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Set demo mode in session storage when landing on demo page
+    sessionStorage.setItem('demoMode', 'true');
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Ensure demo mode is set
+    sessionStorage.setItem('demoMode', 'true');
     navigate('/demo-dashboard');
   };
 

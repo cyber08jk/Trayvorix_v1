@@ -6,6 +6,8 @@ import { Input } from '@components/common/Input';
 import { Table } from '@components/common/Table';
 import { TableSkeleton } from '@components/common/Loading';
 import { useToast } from '@components/common/Toast';
+import { useDemo } from '@contexts/DemoContext';
+import { sampleProducts } from '@data/sampleData';
 
 interface Product {
   id: string;
@@ -27,26 +29,34 @@ export function Products() {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
   const { showToast } = useToast();
+  const { isDemoMode } = useDemo();
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [isDemoMode]);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          categories (
-            name
-          )
-        `)
-        .order('created_at', { ascending: false });
+      
+      if (isDemoMode) {
+        // Use sample data for demo mode
+        setProducts(sampleProducts as Product[]);
+      } else {
+        // Fetch real data from Supabase
+        const { data, error } = await supabase
+          .from('products')
+          .select(`
+            *,
+            categories (
+              name
+            )
+          `)
+          .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setProducts(data || []);
+        if (error) throw error;
+        setProducts(data || []);
+      }
     } catch (error: any) {
       showToast(error.message || 'Error fetching products', 'error');
     } finally {
@@ -132,6 +142,11 @@ export function Products() {
   };
 
   const handleDelete = async (product: Product) => {
+    if (isDemoMode) {
+      showToast('Delete is disabled in demo mode', 'info');
+      return;
+    }
+    
     if (!confirm(`Are you sure you want to delete ${product.name}?`)) return;
 
     try {

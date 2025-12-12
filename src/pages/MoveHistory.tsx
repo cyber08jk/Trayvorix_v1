@@ -4,6 +4,9 @@ import { Input } from '@components/common/Input';
 import { Table } from '@components/common/Table';
 import { TableSkeleton } from '@components/common/Loading';
 import { useToast } from '@components/common/Toast';
+import { useDemo } from '@contexts/DemoContext';
+import { sampleMovements } from '@data/sampleData';
+import { supabase } from '@services/supabase';
 
 interface Movement {
   id: string;
@@ -23,58 +26,45 @@ export function MoveHistory() {
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [dateRange, setDateRange] = useState<string>('7days');
   const { showToast } = useToast();
+  const { isDemoMode } = useDemo();
 
   useEffect(() => {
     fetchMovements();
-  }, [dateRange]);
+  }, [dateRange, isDemoMode]);
 
   const fetchMovements = async () => {
     try {
       setLoading(true);
-      // Mock data
-      const mockMovements: Movement[] = [
-        {
-          id: '1',
-          product_name: 'Steel Rods',
-          from_location: 'Vendor',
-          to_location: 'Main Warehouse',
-          quantity: 100,
-          type: 'receive',
-          user_name: 'admin@example.com',
-          created_at: new Date().toISOString(),
-        },
-        {
-          id: '2',
-          product_name: 'Steel Rods',
-          from_location: 'Main Warehouse',
-          to_location: 'Production Floor',
-          quantity: 20,
-          type: 'transfer',
-          user_name: 'operator@example.com',
-          created_at: new Date(Date.now() - 86400000).toISOString(),
-        },
-        {
-          id: '3',
-          product_name: 'Wooden Chairs',
-          from_location: 'Warehouse A',
-          to_location: 'Customer',
-          quantity: 10,
-          type: 'ship',
-          user_name: 'operator@example.com',
-          created_at: new Date(Date.now() - 172800000).toISOString(),
-        },
-        {
-          id: '4',
-          product_name: 'Steel Rods',
-          from_location: 'Production Floor',
-          to_location: 'Damaged',
-          quantity: 3,
-          type: 'adjust',
-          user_name: 'admin@example.com',
-          created_at: new Date(Date.now() - 259200000).toISOString(),
-        },
-      ];
-      setMovements(mockMovements);
+      
+      if (isDemoMode) {
+        // Use sample data for demo mode
+        setMovements(sampleMovements as Movement[]);
+      } else {
+        // Fetch real data from Supabase
+        const { data, error } = await supabase
+          .from('stock_movements')
+          .select(`
+            *,
+            products (name),
+            from_location:locations!stock_movements_from_location_id_fkey (name),
+            to_location:locations!stock_movements_to_location_id_fkey (name)
+          `)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        
+        const formattedData = (data || []).map((item: any) => ({
+          id: item.id,
+          product_name: item.products?.name || 'Unknown Product',
+          from_location: item.from_location?.name || 'N/A',
+          to_location: item.to_location?.name || 'N/A',
+          quantity: item.quantity,
+          type: item.type,
+          user_name: item.created_by || 'Unknown',
+          created_at: item.created_at,
+        }));
+        setMovements(formattedData);
+      }
     } catch (error: any) {
       showToast(error.message || 'Error fetching movements', 'error');
     } finally {
