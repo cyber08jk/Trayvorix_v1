@@ -82,7 +82,7 @@ export function ForgotPassword() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  placeholder="Typing your email..."
                   required
                   autoComplete="email"
                 />
