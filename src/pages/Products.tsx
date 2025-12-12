@@ -58,7 +58,8 @@ export function Products() {
         setProducts(data || []);
       }
     } catch (error: any) {
-      showToast(error.message || 'Error fetching products', 'error');
+      console.error('Error fetching products:', error.message || error);
+      setProducts([]);
     } finally {
       setLoading(false);
     }

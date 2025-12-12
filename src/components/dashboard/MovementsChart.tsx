@@ -25,10 +25,12 @@ export function MovementsChart() {
         />
         <Tooltip 
           contentStyle={{ 
-            backgroundColor: 'rgba(255, 255, 255, 0.95)',
-            border: '1px solid #e5e7eb',
+            backgroundColor: 'var(--tooltip-bg, rgba(255, 255, 255, 0.95))',
+            border: '1px solid var(--tooltip-border, #e5e7eb)',
             borderRadius: '0.5rem',
+            color: 'var(--tooltip-text, #111827)',
           }}
+          labelStyle={{ color: 'var(--tooltip-text, #111827)' }}
         />
         <Legend />
         <Bar 

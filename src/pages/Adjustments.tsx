@@ -65,7 +65,8 @@ export function Adjustments() {
         setAdjustments(formattedData);
       }
     } catch (error: any) {
-      showToast(error.message || 'Error fetching adjustments', 'error');
+      console.error('Error fetching adjustments:', error.message || error);
+      setAdjustments([]);
     } finally {
       setLoading(false);
     }
@@ -233,7 +234,7 @@ export function Adjustments() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>

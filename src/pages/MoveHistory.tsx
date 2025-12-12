@@ -66,7 +66,8 @@ export function MoveHistory() {
         setMovements(formattedData);
       }
     } catch (error: any) {
-      showToast(error.message || 'Error fetching movements', 'error');
+      console.error('Error fetching movements:', error.message || error);
+      setMovements([]);
     } finally {
       setLoading(false);
     }
@@ -211,7 +212,7 @@ export function MoveHistory() {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             >
               <option value="all">All Types</option>
               <option value="receive">Receive</option>
@@ -222,7 +223,7 @@ export function MoveHistory() {
             <select
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             >
               <option value="today">Today</option>
               <option value="7days">Last 7 Days</option>

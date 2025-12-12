@@ -13,7 +13,7 @@ export function Loading({ size = 'md', text }: LoadingProps) {
   return (
     <div className="flex flex-col items-center justify-center">
       <div
-        className={`animate-spin rounded-full border-b-2 border-primary-600 ${sizeClasses[size]}`}
+        className={`animate-spin rounded-full border-b-2 border-indigo-600 ${sizeClasses[size]}`}
       ></div>
       {text && (
         <p className="mt-4 text-gray-600 dark:text-gray-400">{text}</p>

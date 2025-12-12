@@ -525,7 +525,7 @@ export function Profile() {
                                         <select 
                                             value={preferences.language}
                                             onChange={(e) => setPreferences(prev => ({ ...prev, language: e.target.value }))}
-                                            className="block w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition-colors"
+                                            className="block w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900 dark:bg-gray-700 dark:text-white transition-colors"
                                         >
                                             <option value="English (US)">English (US)</option>
                                             <option value="Hindi">Hindi</option>
@@ -544,7 +544,7 @@ export function Profile() {
                                         <select 
                                             value={preferences.timezone}
                                             onChange={(e) => setPreferences(prev => ({ ...prev, timezone: e.target.value }))}
-                                            className="block w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition-colors"
+                                            className="block w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900 dark:bg-gray-700 dark:text-white transition-colors"
                                         >
                                             <option value="India Standard Time (IST)">India Standard Time (IST)</option>
                                             <option value="Pacific Time (PT)">Pacific Time (PT)</option>

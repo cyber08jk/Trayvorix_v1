@@ -4,7 +4,6 @@ import { Input } from '@components/common/Input';
 import { useDemo } from '@contexts/DemoContext';
 import { sampleWarehouses } from '@data/sampleData';
 import { supabase } from '@services/supabase';
-import { useToast } from '@components/common/Toast';
 
 interface WarehouseStats {
     id: string;
@@ -18,59 +17,11 @@ interface WarehouseStats {
     humidity?: number;
 }
 
-const MOCK_WAREHOUSES: WarehouseStats[] = [
-    {
-        id: '1',
-        name: 'Mumbai Central Hub',
-        location: 'Andheri East, Mumbai, MH',
-        capacity: 50000,
-        usedCapacity: 38500,
-        manager: 'Rajesh Kumar',
-        status: 'active',
-        temperature: 24,
-        humidity: 45,
-    },
-    {
-        id: '2',
-        name: 'Delhi Distribution Center',
-        location: 'Okhla Phase III, New Delhi, DL',
-        capacity: 75000,
-        usedCapacity: 62000,
-        manager: 'Amit Singh',
-        status: 'active',
-        temperature: 22,
-        humidity: 40,
-    },
-    {
-        id: '3',
-        name: 'Bangalore Cold Chain',
-        location: 'Electronic City, Bangalore, KA',
-        capacity: 25000,
-        usedCapacity: 12000,
-        manager: 'Priya Sharma',
-        status: 'active',
-        temperature: -4,
-        humidity: 30,
-    },
-    {
-        id: '4',
-        name: 'Chennai Port Warehouse',
-        location: 'Chennai Port, Chennai, TN',
-        capacity: 100000,
-        usedCapacity: 95000,
-        manager: 'Suresh Reddy',
-        status: 'maintenance',
-        temperature: 26,
-        humidity: 60,
-    },
-];
-
 export function Warehouses() {
     const [searchTerm, setSearchTerm] = useState('');
     const [warehouses, setWarehouses] = useState<WarehouseStats[]>([]);
     const [loading, setLoading] = useState(true);
     const { isDemoMode } = useDemo();
-    const { showToast } = useToast();
 
     useEffect(() => {
         fetchWarehouses();
@@ -106,7 +57,8 @@ export function Warehouses() {
                 setWarehouses(formattedData);
             }
         } catch (error: any) {
-            showToast(error.message || 'Error fetching warehouses', 'error');
+            console.error('Error fetching warehouses:', error.message || error);
+            setWarehouses([]);
         } finally {
             setLoading(false);
         }
@@ -173,6 +125,26 @@ export function Warehouses() {
             </div>
 
             {/* Warehouses Grid */}
+            {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 animate-pulse">
+                            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+                            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-4"></div>
+                            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded w-full mb-4"></div>
+                            <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+                        </div>
+                    ))}
+                </div>
+            ) : filteredWarehouses.length === 0 ? (
+                <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-12 text-center">
+                    <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">No warehouses found</h3>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">No data available. Add a warehouse to get started.</p>
+                </div>
+            ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredWarehouses.map((warehouse) => {
                     const usagePercent = Math.round((warehouse.usedCapacity / warehouse.capacity) * 100);
@@ -262,6 +234,7 @@ export function Warehouses() {
                     );
                 })}
             </div>
+            )}
         </div>
     );
 }
