@@ -21,7 +21,6 @@ interface SecurityInfo {
     newPassword: string;
     confirmPassword: string;
 }
-
 interface Preferences {
     emailNotifications: boolean;
     desktopNotifications: boolean;
