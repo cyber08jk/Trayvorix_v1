@@ -12,6 +12,8 @@ interface PersonalInfo {
     phone: string;
     jobTitle: string;
     bio: string;
+    currency: string;
+    location: string;
 }
 
 interface SecurityInfo {
@@ -73,6 +75,8 @@ export function Profile() {
         phone: '',
         jobTitle: 'Inventory Manager',
         bio: 'Experienced inventory manager with a focus on supply chain optimization.',
+        currency: 'USD',
+        location: 'India',
     });
 
     // Security State
@@ -297,6 +301,36 @@ export function Profile() {
                                     </p>
                                 </div>
                                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                                                        {/* Currency Field */}
+                                                                        <div className="sm:col-span-2 flex items-center gap-3">
+                                                                            <Input
+                                                                                label="Currency"
+                                                                                value={personalInfo.currency}
+                                                                                onChange={(e) => setPersonalInfo(prev => ({ ...prev, currency: e.target.value }))}
+                                                                                className="flex-1"
+                                                                            />
+                                                                            <Button
+                                                                                variant="primary"
+                                                                                onClick={() => showToast('Currency changed!', 'success')}
+                                                                            >
+                                                                                Change
+                                                                            </Button>
+                                                                        </div>
+                                                                        {/* Location Field */}
+                                                                        <div className="sm:col-span-2 flex items-center gap-3">
+                                                                            <Input
+                                                                                label="Location"
+                                                                                value={personalInfo.location}
+                                                                                onChange={(e) => setPersonalInfo(prev => ({ ...prev, location: e.target.value }))}
+                                                                                className="flex-1"
+                                                                            />
+                                                                            <Button
+                                                                                variant="primary"
+                                                                                onClick={() => showToast('Location changed!', 'success')}
+                                                                            >
+                                                                                Change
+                                                                            </Button>
+                                                                        </div>
                                     <Input 
                                         label="First Name" 
                                         value={personalInfo.firstName}
@@ -349,6 +383,8 @@ export function Profile() {
                                                 phone: '',
                                                 jobTitle: 'Inventory Manager',
                                                 bio: '',
+                                                currency: 'USD',
+                                                location: 'India',
                                             });
                                             showToast('Form reset to defaults', 'info');
                                         }}
