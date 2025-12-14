@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import { fetchNotifications } from '../../services/notifications';
+import { Notification } from '../../types/database.types';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@hooks/useAuth';
 
@@ -9,6 +11,19 @@ interface NavbarProps {
 export function Navbar({ onMenuClick }: NavbarProps) {
   const { user, signOut, userRole } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loadingNotifications, setLoadingNotifications] = useState(false);
+    // Fetch notifications when dropdown opens
+    useEffect(() => {
+      if (showNotifications && user?.id) {
+        setLoadingNotifications(true);
+        fetchNotifications(user.id)
+          .then(setNotifications)
+          .catch(() => setNotifications([]))
+          .finally(() => setLoadingNotifications(false));
+      }
+    }, [showNotifications, user]);
   const [darkMode, setDarkMode] = useState(() => {
     // Check for saved theme preference or use system preference
     if (typeof window !== 'undefined') {
@@ -121,17 +136,44 @@ export function Navbar({ onMenuClick }: NavbarProps) {
               )}
             </button>
 
+
             {/* Notifications */}
-            <button 
-              className="p-2 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900"
-              aria-label="View notifications"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-              </svg>
-              <span className="sr-only">View notifications</span>
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white dark:ring-gray-900"></span>
-            </button>
+            <div className="relative">
+              <button
+                className="p-2 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900"
+                aria-label="View notifications"
+                onClick={() => setShowNotifications((v) => !v)}
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                </svg>
+                <span className="sr-only">View notifications</span>
+                {notifications.some((n) => !n.read) && (
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white dark:ring-gray-900"></span>
+                )}
+              </button>
+              {/* Dropdown */}
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+                  <div className="p-4 border-b border-gray-200 dark:border-gray-700 font-semibold text-gray-900 dark:text-white">Notifications</div>
+                  {loadingNotifications ? (
+                    <div className="p-4 text-center text-gray-500 dark:text-gray-400">Loading...</div>
+                  ) : notifications.length === 0 ? (
+                    <div className="p-4 text-center text-gray-500 dark:text-gray-400">No notifications</div>
+                  ) : (
+                    <ul>
+                      {notifications.map((notif) => (
+                        <li key={notif.id} className={`px-4 py-3 border-b border-gray-100 dark:border-gray-700 ${notif.read ? '' : 'bg-indigo-50 dark:bg-gray-900'}`}>
+                          <div className="font-medium text-gray-800 dark:text-gray-100">{notif.title}</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-300">{notif.message}</div>
+                          <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">{new Date(notif.createdAt).toLocaleString()}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* User Menu */}
             <div className="relative" ref={userMenuRef}>
