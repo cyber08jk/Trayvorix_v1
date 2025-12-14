@@ -9,6 +9,7 @@ import { useToast } from '@components/common/Toast';
 import { useDemo } from '@contexts/DemoContext';
 import { sampleProducts } from '@data/sampleData';
 
+
 interface Product {
   id: string;
   sku: string;
