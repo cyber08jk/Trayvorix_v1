@@ -320,28 +320,41 @@ export function Profile() {
                                 </div>
                                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                                                                         {/* Currency Field */}
-                                                                        <div className="sm:col-span-2 flex items-center gap-3">
-                                                                            <Input
-                                                                                label="Currency"
-                                                                                value={personalInfo.currency}
-                                                                                onChange={(e) => setPersonalInfo(prev => ({ ...prev, currency: e.target.value }))}
-                                                                                className="flex-1"
-                                                                            />
-                                                                            <Button
-                                                                                variant="primary"
-                                                                                onClick={async () => {
-                                                                                    if (!user?.id) return;
-                                                                                    try {
-                                                                                        await updateUserProfile(user.id, { currency: personalInfo.currency });
-                                                                                        showToast('Currency changed!', 'success');
-                                                                                    } catch {
-                                                                                        showToast('Failed to change currency', 'error');
-                                                                                    }
-                                                                                }}
-                                                                            >
-                                                                                Change
-                                                                            </Button>
-                                                                        </div>
+                                <div className="sm:col-span-2 flex items-center gap-3">
+                                    <div className="flex-1">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Currency</label>
+                                        <select
+                                            value={personalInfo.currency}
+                                            onChange={e => setPersonalInfo(prev => ({ ...prev, currency: e.target.value }))}
+                                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900 dark:bg-gray-700 dark:text-white transition-colors"
+                                        >
+                                            <option value="USD">USD - US Dollar</option>
+                                            <option value="EUR">EUR - Euro</option>
+                                            <option value="INR">INR - Indian Rupee</option>
+                                            <option value="GBP">GBP - British Pound</option>
+                                            <option value="JPY">JPY - Japanese Yen</option>
+                                            <option value="CNY">CNY - Chinese Yuan</option>
+                                            <option value="AUD">AUD - Australian Dollar</option>
+                                            <option value="CAD">CAD - Canadian Dollar</option>
+                                            <option value="SGD">SGD - Singapore Dollar</option>
+                                            <option value="ZAR">ZAR - South African Rand</option>
+                                        </select>
+                                    </div>
+                                    <Button
+                                        variant="primary"
+                                        onClick={async () => {
+                                            if (!user?.id) return;
+                                            try {
+                                                await updateUserProfile(user.id, { currency: personalInfo.currency });
+                                                showToast('Currency changed!', 'success');
+                                            } catch {
+                                                showToast('Failed to change currency', 'error');
+                                            }
+                                        }}
+                                    >
+                                        Change
+                                    </Button>
+                                </div>
                                                                         {/* Location Field */}
                                                                         <div className="sm:col-span-2 flex items-center gap-3">
                                                                             <Input
