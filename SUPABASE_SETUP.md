@@ -14,7 +14,7 @@ You need to create the database tables. Here's how:
 
 1. **Go to your Supabase project:**
    - Visit: https://supabase.com/dashboard/project/likixemiukqnzuevjncd
-   - Login if needed
+   - Login if needed-(admin/demo)
 
 2. **Open SQL Editor:**
    - Click "SQL Editor" in the left sidebar
