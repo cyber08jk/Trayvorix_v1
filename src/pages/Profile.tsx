@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getUserProfile, updateUserProfile } from '../services/profile';
 import { Card } from '@components/common/Card';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
@@ -76,9 +77,25 @@ export function Profile() {
         phone: '',
         jobTitle: 'Inventory Manager',
         bio: 'Experienced inventory manager with a focus on supply chain optimization.',
-        currency: 'USD',
-        location: 'India',
+        currency: '',
+        location: '',
     });
+    // Fetch currency and location from Supabase on mount
+    useEffect(() => {
+        if (user?.id) {
+            getUserProfile(user.id)
+                .then((data) => {
+                    setPersonalInfo((prev) => ({
+                        ...prev,
+                        currency: data?.currency || 'USD',
+                        location: data?.location || 'India',
+                    }));
+                })
+                .catch(() => {
+                    setPersonalInfo((prev) => ({ ...prev, currency: 'USD', location: 'India' }));
+                });
+        }
+    }, [user]);
 
     // Security State
     const [securityInfo, setSecurityInfo] = useState<SecurityInfo>({
@@ -312,7 +329,15 @@ export function Profile() {
                                                                             />
                                                                             <Button
                                                                                 variant="primary"
-                                                                                onClick={() => showToast('Currency changed!', 'success')}
+                                                                                onClick={async () => {
+                                                                                    if (!user?.id) return;
+                                                                                    try {
+                                                                                        await updateUserProfile(user.id, { currency: personalInfo.currency });
+                                                                                        showToast('Currency changed!', 'success');
+                                                                                    } catch {
+                                                                                        showToast('Failed to change currency', 'error');
+                                                                                    }
+                                                                                }}
                                                                             >
                                                                                 Change
                                                                             </Button>
@@ -327,7 +352,15 @@ export function Profile() {
                                                                             />
                                                                             <Button
                                                                                 variant="primary"
-                                                                                onClick={() => showToast('Location changed!', 'success')}
+                                                                                onClick={async () => {
+                                                                                    if (!user?.id) return;
+                                                                                    try {
+                                                                                        await updateUserProfile(user.id, { location: personalInfo.location });
+                                                                                        showToast('Location changed!', 'success');
+                                                                                    } catch {
+                                                                                        showToast('Failed to change location', 'error');
+                                                                                    }
+                                                                                }}
                                                                             >
                                                                                 Change
                                                                             </Button>
