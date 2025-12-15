@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getUserProfile, updateUserProfile } from '../services/profile';
+import { addLog } from '../services/logs';
 import { Card } from '@components/common/Card';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
 import { useAuth, useRole } from '@hooks/useAuth';
 import { useToast } from '@components/common/Toast';
+import { LogView } from '@components/common/LogView';
 
 interface PersonalInfo {
     firstName: string;
@@ -346,6 +348,7 @@ export function Profile() {
                                             if (!user?.id) return;
                                             try {
                                                 await updateUserProfile(user.id, { currency: personalInfo.currency });
+                                                await addLog(user.id, 'Currency Change', `Currency set to ${personalInfo.currency}`);
                                                 showToast('Currency changed!', 'success');
                                             } catch {
                                                 showToast('Failed to change currency', 'error');
@@ -363,20 +366,21 @@ export function Profile() {
                                                                                 onChange={(e) => setPersonalInfo(prev => ({ ...prev, location: e.target.value }))}
                                                                                 className="flex-1"
                                                                             />
-                                                                            <Button
-                                                                                variant="primary"
-                                                                                onClick={async () => {
-                                                                                    if (!user?.id) return;
-                                                                                    try {
-                                                                                        await updateUserProfile(user.id, { location: personalInfo.location });
-                                                                                        showToast('Location changed!', 'success');
-                                                                                    } catch {
-                                                                                        showToast('Failed to change location', 'error');
-                                                                                    }
-                                                                                }}
-                                                                            >
-                                                                                Change
-                                                                            </Button>
+                                    <Button
+                                        variant="primary"
+                                        onClick={async () => {
+                                            if (!user?.id) return;
+                                            try {
+                                                await updateUserProfile(user.id, { location: personalInfo.location });
+                                                await addLog(user.id, 'Location Change', `Location set to ${personalInfo.location}`);
+                                                showToast('Location changed!', 'success');
+                                            } catch {
+                                                showToast('Failed to change location', 'error');
+                                            }
+                                        }}
+                                    >
+                                        Change
+                                    </Button>
                                                                         </div>
                                     <Input 
                                         label="First Name" 
@@ -717,6 +721,7 @@ export function Profile() {
                     </Card>
                 </div>
             </div>
+            <LogView />
         </div>
     );
 }
