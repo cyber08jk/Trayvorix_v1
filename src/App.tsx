@@ -61,7 +61,7 @@ function App() {
             <ToastProvider>
               <Routes>
               {/* Public routes */}
-              <Route path="/" element={<DemoLogin />} />
+              <Route path="/" element={<Login />} />
               <Route path="/demo" element={<DemoLogin />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />

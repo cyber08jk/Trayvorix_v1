@@ -60,7 +60,7 @@ export function Login() {
         {/* Demo Mode Link */}
         <div className="text-center">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/demo')}
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
