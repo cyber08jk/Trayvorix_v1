@@ -86,6 +86,16 @@ export function DemoLogin() {
               Demo mode - No authentication required
             </p>
           </div>
+
+          {/* Real Login Link */}
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => navigate('/login')}
+              className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors"
+            >
+              Need real authentication? Go to Login →
+            </button>
+          </div>
         </div>
 
         {/* Info Card */}
