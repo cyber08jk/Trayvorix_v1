@@ -84,18 +84,34 @@ export function Profile() {
     });
     // Fetch currency and location from Supabase on mount
     useEffect(() => {
+        // Try localStorage first
+        const savedCurrency = localStorage.getItem('userCurrency');
+        const savedLocation = localStorage.getItem('userLocation');
+        
         if (user?.id) {
             getUserProfile(user.id)
                 .then((data) => {
                     setPersonalInfo((prev) => ({
                         ...prev,
-                        currency: data?.currency || 'USD',
-                        location: data?.location || 'India',
+                        currency: data?.currency || savedCurrency || 'USD',
+                        location: data?.location || savedLocation || 'India',
                     }));
                 })
                 .catch(() => {
-                    setPersonalInfo((prev) => ({ ...prev, currency: 'USD', location: 'India' }));
+                    // Fallback to localStorage or defaults
+                    setPersonalInfo((prev) => ({ 
+                        ...prev, 
+                        currency: savedCurrency || 'USD', 
+                        location: savedLocation || 'India' 
+                    }));
                 });
+        } else {
+            // Demo mode - use localStorage
+            setPersonalInfo((prev) => ({ 
+                ...prev, 
+                currency: savedCurrency || 'USD', 
+                location: savedLocation || 'India' 
+            }));
         }
     }, [user]);
 
@@ -345,13 +361,22 @@ export function Profile() {
                                     <Button
                                         variant="primary"
                                         onClick={async () => {
-                                            if (!user?.id) return;
+                                            if (!user?.id) {
+                                                // Demo mode - just save locally
+                                                localStorage.setItem('userCurrency', personalInfo.currency);
+                                                showToast('Currency changed!', 'success');
+                                                return;
+                                            }
                                             try {
                                                 await updateUserProfile(user.id, { currency: personalInfo.currency });
                                                 await addLog(user.id, 'Currency Change', `Currency set to ${personalInfo.currency}`);
+                                                localStorage.setItem('userCurrency', personalInfo.currency);
                                                 showToast('Currency changed!', 'success');
-                                            } catch {
-                                                showToast('Failed to change currency', 'error');
+                                            } catch (error: any) {
+                                                console.error('Currency update error:', error);
+                                                // Fallback to localStorage
+                                                localStorage.setItem('userCurrency', personalInfo.currency);
+                                                showToast('Currency changed locally!', 'success');
                                             }
                                         }}
                                     >
@@ -369,13 +394,22 @@ export function Profile() {
                                     <Button
                                         variant="primary"
                                         onClick={async () => {
-                                            if (!user?.id) return;
+                                            if (!user?.id) {
+                                                // Demo mode - just save locally
+                                                localStorage.setItem('userLocation', personalInfo.location);
+                                                showToast('Location changed!', 'success');
+                                                return;
+                                            }
                                             try {
                                                 await updateUserProfile(user.id, { location: personalInfo.location });
                                                 await addLog(user.id, 'Location Change', `Location set to ${personalInfo.location}`);
+                                                localStorage.setItem('userLocation', personalInfo.location);
                                                 showToast('Location changed!', 'success');
-                                            } catch {
-                                                showToast('Failed to change location', 'error');
+                                            } catch (error: any) {
+                                                console.error('Location update error:', error);
+                                                // Fallback to localStorage
+                                                localStorage.setItem('userLocation', personalInfo.location);
+                                                showToast('Location changed locally!', 'success');
                                             }
                                         }}
                                     >
