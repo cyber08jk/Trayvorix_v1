@@ -6,11 +6,14 @@ import { StockTrendChart } from '@components/dashboard/StockTrendChart';
 import { WarehouseRadarChart } from '@components/dashboard/WarehouseRadarChart';
 import { TopProductsChart } from '@components/dashboard/TopProductsChart';
 import { MonthlyComparisonChart } from '@components/dashboard/MonthlyComparisonChart';
+import { useCurrency } from '@contexts/CurrencyContext';
+import { formatCurrency } from '@utils/currency';
 
 type TimeRange = '7d' | '30d' | '90d' | '12m';
 
 export function Analytics() {
   const [timeRange, setTimeRange] = useState<TimeRange>('30d');
+  const { currency } = useCurrency();
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -52,7 +55,7 @@ export function Analytics() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-5 text-white">
           <p className="text-sm font-medium text-blue-100">Total Revenue</p>
-          <p className="mt-2 text-3xl font-bold">$847,500</p>
+          <p className="mt-2 text-3xl font-bold">{formatCurrency(847500, currency)}</p>
           <p className="mt-1 text-sm text-blue-200">↑ 12.5% from last period</p>
         </div>
         <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-5 text-white">
@@ -210,7 +213,7 @@ export function Analytics() {
                 </div>
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Avg Order Value</span>
               </div>
-              <span className="text-lg font-bold text-gray-900 dark:text-white">$127.50</span>
+              <span className="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(127.50, currency)}</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <div className="flex items-center gap-3">
