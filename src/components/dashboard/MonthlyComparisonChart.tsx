@@ -1,8 +1,9 @@
 import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useCurrency } from '@contexts/CurrencyContext';
-import { formatCurrency as formatCurrencyUtil } from '@utils/currency';
+import { formatCurrency } from '@utils/currency';
 
 // Sample data - will be replaced with real data
+// NOTE: All values are in USD (base currency) and will be converted for display
 const data = [
   { month: 'Jan', revenue: 45000, cost: 32000, profit: 13000 },
   { month: 'Feb', revenue: 52000, cost: 35000, profit: 17000 },
@@ -26,8 +27,8 @@ export function MonthlyComparisonChart({ data: propData }: MonthlyComparisonChar
   const chartData = propData || data;
   const { currency } = useCurrency();
 
-  const formatCurrency = (value: number) => {
-    return formatCurrencyUtil(value, currency, true);
+  const formatCurrencyValue = (value: number) => {
+    return formatCurrency(value, currency, true);
   };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -43,7 +44,7 @@ export function MonthlyComparisonChart({ data: propData }: MonthlyComparisonChar
               />
               <span className="text-gray-600 dark:text-gray-400">{item.name}:</span>
               <span className="font-medium text-gray-900 dark:text-white">
-                {formatCurrency(item.value)}
+                {formatCurrencyValue(item.value)}
               </span>
             </p>
           ))}

@@ -1,50 +1,59 @@
+import { formatConvertedCurrency } from './currencyConverter';
+
 /**
- * Formats a number with proper locale support based on currency.
- * Handles different numbering systems (e.g., Indian Lakhs/Crores for INR).
+ * Formats a number with proper locale support and currency conversion.
+ * Assumes input amount is in USD (base currency) and converts to target currency.
  * 
- * @param amount - The amount to format
- * @param currency - The currency code (default: 'USD')
+ * @param amountInUSD - The amount in USD (base currency)
+ * @param targetCurrency - The currency code to display (default: 'USD')
  * @param showSymbol - Whether to show the currency symbol (default: true)
- * @returns Formatted currency string
+ * @returns Formatted currency string with conversion
  */
 export const formatCurrency = (
-    amount: number,
-    currency: string = 'USD',
+    amountInUSD: number,
+    targetCurrency: string = 'USD',
     showSymbol = true
 ): string => {
-    // Determine locale based on currency
-    const locale = currency === 'INR' ? 'en-IN' : 
-                   currency === 'EUR' ? 'de-DE' :
-                   currency === 'GBP' ? 'en-GB' :
-                   currency === 'JPY' ? 'ja-JP' :
-                   currency === 'CNY' ? 'zh-CN' :
-                   'en-US';
-    
-    const formatter = new Intl.NumberFormat(locale, {
-        style: showSymbol ? 'currency' : 'decimal',
-        currency,
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 0,
-    });
-    return formatter.format(amount);
+    return formatConvertedCurrency(amountInUSD, targetCurrency, showSymbol);
 };
+
+import { convertFromUSD, CURRENCY_INFO } from './currencyConverter';
 
 /**
  * Formats a large number into a compact string with suffix (e.g., 1.5L, 2.5Cr).
  * Useful for charts or small spaces.
+ * @param amountInUSD - Amount in USD (base currency)
+ * @param targetCurrency - Target currency to display
  */
 export const formatCompactCurrency = (
-    amount: number,
-    currency: string = 'INR'
+    amountInUSD: number,
+    targetCurrency: string = 'USD'
 ): string => {
-    if (amount >= 10000000 && currency === 'INR') {
-        return `₹${(amount / 10000000).toFixed(2)}Cr`;
+    const convertedAmount = convertFromUSD(amountInUSD, targetCurrency);
+    const symbol = CURRENCY_INFO[targetCurrency]?.symbol || '$';
+    
+    if (targetCurrency === 'INR') {
+        if (convertedAmount >= 10000000) {
+            return `${symbol}${(convertedAmount / 10000000).toFixed(2)}Cr`;
+        }
+        if (convertedAmount >= 100000) {
+            return `${symbol}${(convertedAmount / 100000).toFixed(2)}L`;
+        }
+        if (convertedAmount >= 1000) {
+            return `${symbol}${(convertedAmount / 1000).toFixed(1)}k`;
+        }
+    } else {
+        // For other currencies, use K, M, B notation
+        if (convertedAmount >= 1000000000) {
+            return `${symbol}${(convertedAmount / 1000000000).toFixed(2)}B`;
+        }
+        if (convertedAmount >= 1000000) {
+            return `${symbol}${(convertedAmount / 1000000).toFixed(2)}M`;
+        }
+        if (convertedAmount >= 1000) {
+            return `${symbol}${(convertedAmount / 1000).toFixed(1)}K`;
+        }
     }
-    if (amount >= 100000 && currency === 'INR') {
-        return `₹${(amount / 100000).toFixed(2)}L`;
-    }
-    if (amount >= 1000 && currency === 'INR') {
-        return `₹${(amount / 1000).toFixed(1)}k`;
-    }
-    return formatCurrency(amount, currency);
+    
+    return formatCurrency(amountInUSD, targetCurrency);
 };
