@@ -1,4 +1,6 @@
 import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useCurrency } from '@contexts/CurrencyContext';
+import { formatCurrency as formatCurrencyUtil } from '@utils/currency';
 
 // Sample data - will be replaced with real data
 const data = [
@@ -18,19 +20,14 @@ const data = [
 
 interface MonthlyComparisonChartProps {
   data?: { month: string; revenue: number; cost: number; profit: number }[];
-  currency?: string;
 }
 
-export function MonthlyComparisonChart({ data: propData, currency = 'USD' }: MonthlyComparisonChartProps) {
+export function MonthlyComparisonChart({ data: propData }: MonthlyComparisonChartProps) {
   const chartData = propData || data;
+  const { currency } = useCurrency();
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
+    return formatCurrencyUtil(value, currency, true);
   };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
