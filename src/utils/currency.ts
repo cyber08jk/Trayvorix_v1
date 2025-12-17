@@ -3,11 +3,14 @@
  * Handles the Indian numbering system (Lakhs/Crores).
  * 
  * @param amount - The amount to format
- * @param currency - The currency code (e.g., 'INR', 'USD', 'EUR'). Defaults to 'INR'.
  * @param showSymbol - Whether to show the currency symbol (default: true)
  * @returns Formatted currency string
  */
-export const formatCurrency = (amount: number, currency: string = 'INR', showSymbol = true): string => {
+export const formatCurrency = (
+    amount: number,
+    currency: string = 'INR',
+    showSymbol = true
+): string => {
     const formatter = new Intl.NumberFormat('en-IN', {
         style: showSymbol ? 'currency' : 'decimal',
         currency,
@@ -21,24 +24,18 @@ export const formatCurrency = (amount: number, currency: string = 'INR', showSym
  * Formats a large number into a compact string with suffix (e.g., 1.5L, 2.5Cr).
  * Useful for charts or small spaces.
  */
-export const formatCompactCurrency = (amount: number, currency: string = 'INR'): string => {
-    if (amount >= 10000000) {
-        return `${getCurrencySymbol(currency)}${(amount / 10000000).toFixed(2)}Cr`;
+export const formatCompactCurrency = (
+    amount: number,
+    currency: string = 'INR'
+): string => {
+    if (amount >= 10000000 && currency === 'INR') {
+        return `₹${(amount / 10000000).toFixed(2)}Cr`;
     }
-    if (amount >= 100000) {
-        return `${getCurrencySymbol(currency)}${(amount / 100000).toFixed(2)}L`;
+    if (amount >= 100000 && currency === 'INR') {
+        return `₹${(amount / 100000).toFixed(2)}L`;
     }
-    if (amount >= 1000) {
-        return `${getCurrencySymbol(currency)}${(amount / 1000).toFixed(1)}k`;
+    if (amount >= 1000 && currency === 'INR') {
+        return `₹${(amount / 1000).toFixed(1)}k`;
     }
     return formatCurrency(amount, currency);
 };
-
-// Helper to get currency symbol from code
-export function getCurrencySymbol(currency: string): string {
-    try {
-        return (0).toLocaleString('en', { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim();
-    } catch {
-        return '₹'; // fallback
-    }
-}

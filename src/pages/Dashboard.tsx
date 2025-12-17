@@ -24,6 +24,8 @@ export function Dashboard() {
   });
   const [_loading, setLoading] = useState(true);
   const { isDemoMode } = useDemo();
+  // TODO: Replace with context or prop from user profile
+  const [currency, setCurrency] = useState('USD');
 
   useEffect(() => {
     fetchDashboardData();
@@ -106,7 +108,7 @@ export function Dashboard() {
                 Inventory Value
               </p>
               <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                {formatCurrency(kpiData.totalInventoryValue)}
+                {formatCurrency(kpiData.totalInventoryValue, currency)}
               </p>
               <p className="mt-2 text-sm text-green-600 dark:text-green-400">
                 ↑ 8% from last month
