@@ -18,15 +18,16 @@ const data = [
 
 interface MonthlyComparisonChartProps {
   data?: { month: string; revenue: number; cost: number; profit: number }[];
+  currency?: string;
 }
 
-export function MonthlyComparisonChart({ data: propData }: MonthlyComparisonChartProps) {
+export function MonthlyComparisonChart({ data: propData, currency = 'USD' }: MonthlyComparisonChartProps) {
   const chartData = propData || data;
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD',
+      currency,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value);
