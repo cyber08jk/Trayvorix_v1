@@ -1,6 +1,4 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useAuth } from '@hooks/useAuth';
-import { getUserProfile } from '@services/profile';
 
 interface CurrencyContextType {
   currency: string;
@@ -10,20 +8,20 @@ interface CurrencyContextType {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrencyState] = useState<string>('USD');
 
   useEffect(() => {
-    if (user?.id) {
-      getUserProfile(user.id)
-        .then((data) => {
-          setCurrency(data?.currency || 'USD');
-        })
-        .catch(() => {
-          setCurrency('USD');
-        });
+    // Load currency from localStorage on mount
+    const savedCurrency = localStorage.getItem('userCurrency');
+    if (savedCurrency) {
+      setCurrencyState(savedCurrency);
     }
-  }, [user]);
+  }, []);
+
+  const setCurrency = (newCurrency: string) => {
+    setCurrencyState(newCurrency);
+    localStorage.setItem('userCurrency', newCurrency);
+  };
 
   return (
     <CurrencyContext.Provider value={{ currency, setCurrency }}>

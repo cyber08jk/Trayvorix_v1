@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@contexts/AuthContext';
 import { DemoProvider } from '@contexts/DemoContext';
+import { CurrencyProvider } from '@contexts/CurrencyContext';
 import { ToastProvider } from '@components/common/Toast';
 import { ProtectedRoute } from '@components/auth/ProtectedRoute';
 import { Layout } from '@components/layout/Layout';
@@ -58,8 +59,9 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <DemoProvider>
-            <ToastProvider>
-              <Routes>
+            <CurrencyProvider>
+              <ToastProvider>
+                <Routes>
               {/* Public routes */}
               <Route path="/" element={<Login />} />
               <Route path="/demo" element={<DemoLogin />} />
@@ -253,8 +255,9 @@ function App() {
                   </div>
                 }
               />
-            </Routes>
-          </ToastProvider>
+              </Routes>
+            </ToastProvider>
+            </CurrencyProvider>
           </DemoProvider>
         </AuthProvider>
       </BrowserRouter>

@@ -6,6 +6,7 @@ import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
 import { useAuth, useRole } from '@hooks/useAuth';
 import { useToast } from '@components/common/Toast';
+import { useCurrency } from '@contexts/CurrencyContext';
 import { LogView } from '@components/common/LogView';
 
 interface PersonalInfo {
@@ -37,6 +38,7 @@ export function Profile() {
     const { user, updatePassword } = useAuth();
     const { role } = useRole();
     const toast = useToast();
+    const { setCurrency: setGlobalCurrency } = useCurrency();
     const [activeTab, setActiveTab] = useState<'personal' | 'security' | 'preferences'>('personal');
     const [saving, setSaving] = useState(false);
     const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
@@ -363,19 +365,19 @@ export function Profile() {
                                         onClick={async () => {
                                             if (!user?.id) {
                                                 // Demo mode - just save locally
-                                                localStorage.setItem('userCurrency', personalInfo.currency);
+                                                setGlobalCurrency(personalInfo.currency);
                                                 showToast('Currency changed!', 'success');
                                                 return;
                                             }
                                             try {
                                                 await updateUserProfile(user.id, { currency: personalInfo.currency });
                                                 await addLog(user.id, 'Currency Change', `Currency set to ${personalInfo.currency}`);
-                                                localStorage.setItem('userCurrency', personalInfo.currency);
+                                                setGlobalCurrency(personalInfo.currency);
                                                 showToast('Currency changed!', 'success');
                                             } catch (error: any) {
                                                 console.error('Currency update error:', error);
                                                 // Fallback to localStorage
-                                                localStorage.setItem('userCurrency', personalInfo.currency);
+                                                setGlobalCurrency(personalInfo.currency);
                                                 showToast('Currency changed locally!', 'success');
                                             }
                                         }}

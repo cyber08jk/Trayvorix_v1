@@ -5,6 +5,7 @@ import { MovementsChart } from '@components/dashboard/MovementsChart';
 import { CategoryPieChart } from '@components/dashboard/CategoryPieChart';
 import { StockTrendChart } from '@components/dashboard/StockTrendChart';
 import { useDemo } from '@contexts/DemoContext';
+import { useCurrency } from '@contexts/CurrencyContext';
 import { sampleDashboardKPI } from '@data/sampleData';
 import { supabase } from '@services/supabase';
 
@@ -24,6 +25,7 @@ export function Dashboard() {
   });
   const [_loading, setLoading] = useState(true);
   const { isDemoMode } = useDemo();
+  const { currency } = useCurrency();
   // TODO: Replace with context or prop from user profile
   const [currency, setCurrency] = useState('USD');
 

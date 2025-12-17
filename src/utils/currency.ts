@@ -1,17 +1,26 @@
 /**
- * Formats a number as Indian Rupee (INR) with proper locale support.
- * Handles the Indian numbering system (Lakhs/Crores).
+ * Formats a number with proper locale support based on currency.
+ * Handles different numbering systems (e.g., Indian Lakhs/Crores for INR).
  * 
  * @param amount - The amount to format
+ * @param currency - The currency code (default: 'USD')
  * @param showSymbol - Whether to show the currency symbol (default: true)
  * @returns Formatted currency string
  */
 export const formatCurrency = (
     amount: number,
-    currency: string = 'INR',
+    currency: string = 'USD',
     showSymbol = true
 ): string => {
-    const formatter = new Intl.NumberFormat('en-IN', {
+    // Determine locale based on currency
+    const locale = currency === 'INR' ? 'en-IN' : 
+                   currency === 'EUR' ? 'de-DE' :
+                   currency === 'GBP' ? 'en-GB' :
+                   currency === 'JPY' ? 'ja-JP' :
+                   currency === 'CNY' ? 'zh-CN' :
+                   'en-US';
+    
+    const formatter = new Intl.NumberFormat(locale, {
         style: showSymbol ? 'currency' : 'decimal',
         currency,
         maximumFractionDigits: 2,
