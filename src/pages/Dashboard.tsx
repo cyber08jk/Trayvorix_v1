@@ -26,8 +26,6 @@ export function Dashboard() {
   const [_loading, setLoading] = useState(true);
   const { isDemoMode } = useDemo();
   const { currency } = useCurrency();
-  // TODO: Replace with context or prop from user profile
-  const [currency, setCurrency] = useState('USD');
 
   useEffect(() => {
     fetchDashboardData();
