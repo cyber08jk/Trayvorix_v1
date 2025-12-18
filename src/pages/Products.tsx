@@ -8,6 +8,7 @@ import { TableSkeleton } from '@components/common/Loading';
 import { useToast } from '@components/common/Toast';
 import { useDemo } from '@contexts/DemoContext';
 import { sampleProducts } from '@data/sampleData';
+import { AddProductModal } from '@components/products/AddProductModal';
 
 
 interface Product {
@@ -29,6 +30,7 @@ export function Products() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
+  const [showAddModal, setShowAddModal] = useState(false);
   const { showToast } = useToast();
   const { isDemoMode } = useDemo();
 
@@ -178,7 +180,7 @@ export function Products() {
             Manage your product catalog
           </p>
         </div>
-        <Button variant="primary">
+        <Button variant="primary" onClick={() => setShowAddModal(true)}>
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
@@ -278,6 +280,13 @@ export function Products() {
           </div>
         </div>
       )}
+
+      {/* Add Product Modal */}
+      <AddProductModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSuccess={fetchProducts}
+      />
     </div>
   );
 }
