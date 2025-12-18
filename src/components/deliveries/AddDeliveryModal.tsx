@@ -50,7 +50,7 @@ export function AddDeliveryModal({ isOpen, onClose, onSuccess }: AddDeliveryModa
     }
   };
 
-  const resetForm() => {
+  const resetForm = () => {
     setFormData({
       customerName: '',
       orderNumber: '',
