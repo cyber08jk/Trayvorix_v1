@@ -20,7 +20,6 @@ interface AccessRequest {
   created_at: string;
 }
 
-
 export function AccessRequests() {
   const [requests, setRequests] = useState<AccessRequest[]>([]);
   const [loading, setLoading] = useState(true);
