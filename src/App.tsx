@@ -15,6 +15,8 @@ import { DemoLogin } from '@pages/DemoLogin';
 import { Warehouses } from '@pages/Warehouses';
 import { Profile } from '@pages/Profile';
 import { Analytics } from '@pages/Analytics';
+import { RequestAccess } from '@pages/RequestAccess';
+import { AccessRequests } from '@pages/AccessRequests';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -69,6 +71,7 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/test-connection" element={<TestConnection />} />
+              <Route path="/request-access" element={<RequestAccess />} />
 
               {/* Protected routes with layout */}
               <Route
@@ -180,6 +183,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Layout><Settings /></Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/access-requests"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <Layout><AccessRequests /></Layout>
                   </ProtectedRoute>
                 }
               />
