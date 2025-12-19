@@ -57,7 +57,7 @@ export function Login() {
           </div>
         </div>
 
-        {/* Demo Mode and Request Access Links */}
+        {/* Demo Mode and Request Access Buttons */}
         <div className="space-y-3">
           <div className="text-center">
             <button
@@ -72,15 +72,15 @@ export function Login() {
             </button>
           </div>
           <div className="text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Don't have an account?{' '}
-              <button
-                onClick={() => navigate('/request-access')}
-                className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium"
-              >
-                Request Access
-              </button>
-            </p>
+            <button
+              onClick={() => navigate('/request-access')}
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-white dark:bg-gray-800 border-2 border-indigo-600 dark:border-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all shadow-md hover:shadow-lg"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+              Request Access (New User)
+            </button>
           </div>
         </div>
 
