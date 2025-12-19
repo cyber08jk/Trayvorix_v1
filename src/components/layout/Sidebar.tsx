@@ -213,6 +213,42 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               {navItems.map((item) => renderNavItem(item))}
             </ul>
 
+            {/* Admin Section - Only visible for admin users */}
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
+              <p className="px-3 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Admin
+              </p>
+              <NavLink
+                to="/access-requests"
+                className={({ isActive }) =>
+                  `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${isActive
+                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`
+                }
+                onClick={onClose}
+              >
+                {({ isActive }) => (
+                  <>
+                    <svg
+                      className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
+                          ? 'text-indigo-600 dark:text-indigo-400'
+                          : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
+                        }`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                    </svg>
+                    <span className="font-medium">Access Management</span>
+                    {isActive && (
+                      <span className="absolute right-4 w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full" aria-hidden="true" />
+                    )}
+                  </>
+                )}
+              </NavLink>
+            </div>
+
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
               <NavLink
                 to={isDemoMode ? '/demo-profile' : '/profile'}
