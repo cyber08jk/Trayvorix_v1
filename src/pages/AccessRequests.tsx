@@ -37,24 +37,33 @@ export function AccessRequests() {
     try {
       setLoading(true);
       
+      // Always check localStorage first
+      const localRequests = JSON.parse(localStorage.getItem('accessRequests') || '[]');
+      
       // Try to fetch from Supabase
-      const { data, error } = await supabase
-        .from('access_requests')
-        .select('*')
-        .order('created_at', { ascending: false });
+      try {
+        const { data, error } = await supabase
+          .from('access_requests')
+          .select('*')
+          .order('created_at', { ascending: false });
 
-      if (error) {
-        // Fallback to localStorage
-        const localRequests = JSON.parse(localStorage.getItem('accessRequests') || '[]');
+        if (!error && data && data.length > 0) {
+          // Merge database and localStorage requests (database takes priority)
+          const mergedRequests = [...data, ...localRequests.filter((lr: AccessRequest) => 
+            !data.some(dr => dr.email === lr.email && dr.created_at === lr.created_at)
+          )];
+          setRequests(mergedRequests);
+        } else {
+          // Use localStorage if database is empty or has error
+          setRequests(localRequests);
+        }
+      } catch (dbError) {
+        console.log('Database not available, using localStorage');
         setRequests(localRequests);
-      } else {
-        setRequests(data || []);
       }
     } catch (error: any) {
       console.error('Error fetching requests:', error);
-      // Fallback to localStorage
-      const localRequests = JSON.parse(localStorage.getItem('accessRequests') || '[]');
-      setRequests(localRequests);
+      setRequests([]);
     } finally {
       setLoading(false);
     }

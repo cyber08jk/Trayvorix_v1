@@ -30,31 +30,31 @@ export function RequestAccess() {
     setSubmitting(true);
     
     try {
-      // Save access request to database
-      const { error } = await supabase
-        .from('access_requests')
-        .insert([
-          {
-            full_name: formData.fullName,
-            email: formData.email,
-            phone: formData.phone,
-            company: formData.company,
-            requested_role: formData.role,
-            reason: formData.reason,
-            status: 'pending',
-          }
-        ]);
+      // Prepare request data
+      const requestData = {
+        id: Date.now().toString(),
+        full_name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        requested_role: formData.role,
+        reason: formData.reason,
+        status: 'pending',
+        created_at: new Date().toISOString(),
+      };
 
-      if (error) {
-        // If table doesn't exist, save to localStorage for demo
-        const requests = JSON.parse(localStorage.getItem('accessRequests') || '[]');
-        requests.push({
-          id: Date.now().toString(),
-          ...formData,
-          status: 'pending',
-          created_at: new Date().toISOString(),
-        });
-        localStorage.setItem('accessRequests', JSON.stringify(requests));
+      // Always save to localStorage first (for demo mode and backup)
+      const requests = JSON.parse(localStorage.getItem('accessRequests') || '[]');
+      requests.push(requestData);
+      localStorage.setItem('accessRequests', JSON.stringify(requests));
+
+      // Try to save to database (if available)
+      try {
+        await supabase
+          .from('access_requests')
+          .insert([requestData]);
+      } catch (dbError) {
+        console.log('Database not available, using localStorage only');
       }
       
       showToast('Access request submitted successfully! Admin will review your request.', 'success');
