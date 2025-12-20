@@ -103,6 +103,7 @@ export function KPICard({ title, value, icon, trend, color = 'blue', loading }: 
           </div>
         </div>
         
+        
         {/* Bottom Accent Line */}
         <div className={`h-1 w-0 group-hover:w-full bg-gradient-to-r ${gradientClasses[color]} rounded-full transition-all duration-500`}></div>
       </div>
