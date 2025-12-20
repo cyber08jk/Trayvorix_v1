@@ -72,4 +72,5 @@ export function Table<T extends Record<string, any>>({
       </table>
     </div>
   );
+  
 }
