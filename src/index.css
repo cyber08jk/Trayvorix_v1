@@ -5,6 +5,7 @@
 /* Enable class-based dark mode in Tailwind v4 */
 @variant dark (&:where(.dark, .dark *));
 
+
 /* CSS Variables for theme-aware components */
 :root {
   --tooltip-bg: rgba(255, 255, 255, 0.98);
