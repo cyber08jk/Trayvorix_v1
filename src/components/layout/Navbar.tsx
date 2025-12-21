@@ -165,7 +165,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
                         <li key={notif.id} className={`px-4 py-3 border-b border-gray-100 dark:border-gray-700 ${notif.read ? '' : 'bg-indigo-50 dark:bg-gray-900'}`}>
                           <div className="font-medium text-gray-800 dark:text-gray-100">{notif.title}</div>
                           <div className="text-sm text-gray-600 dark:text-gray-300">{notif.message}</div>
-                          <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">{new Date(notif.createdAt).toLocaleString()}</div>
+                          <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">{new Date(notif.created_at).toLocaleString()}</div>
                         </li>
                       ))}
                     </ul>
