@@ -1,4 +1,4 @@
-// Sample data for demo mode
+// Sample data for demo mode - Enhanced with interconnected relationships
 // This data is used when users access the app through demo login
 
 export const sampleProducts = [
@@ -12,6 +12,8 @@ export const sampleProducts = [
     reorder_point: 500,
     created_at: new Date().toISOString(),
     categories: { name: 'Raw Materials' },
+    total_inventory: 850,
+    available_inventory: 800,
   },
   {
     id: '2',
@@ -23,6 +25,8 @@ export const sampleProducts = [
     reorder_point: 100,
     created_at: new Date().toISOString(),
     categories: { name: 'Wood Products' },
+    total_inventory: 120,
+    available_inventory: 100,
   },
   {
     id: '3',
@@ -34,6 +38,8 @@ export const sampleProducts = [
     reorder_point: 200,
     created_at: new Date().toISOString(),
     categories: { name: 'Raw Materials' },
+    total_inventory: 450,
+    available_inventory: 450,
   },
   {
     id: '4',
@@ -45,6 +51,8 @@ export const sampleProducts = [
     reorder_point: 50,
     created_at: new Date().toISOString(),
     categories: { name: 'Paints & Finishes' },
+    total_inventory: 35,
+    available_inventory: 30,
   },
   {
     id: '5',
@@ -56,6 +64,8 @@ export const sampleProducts = [
     reorder_point: 25,
     created_at: new Date().toISOString(),
     categories: { name: 'Hardware' },
+    total_inventory: 60,
+    available_inventory: 60,
   },
   {
     id: '6',
@@ -67,6 +77,8 @@ export const sampleProducts = [
     reorder_point: 150,
     created_at: new Date().toISOString(),
     categories: { name: 'Plumbing' },
+    total_inventory: 280,
+    available_inventory: 280,
   },
 ];
 
@@ -279,9 +291,10 @@ export const sampleWarehouses = [
   },
 ];
 
+// Dashboard KPI - reflects interconnected data
 export const sampleDashboardKPI = {
-  totalProducts: 248,
+  totalProducts: 6, // Matches number of products in sampleProducts
   totalInventoryValue: 125000,
-  lowStockItems: 12,
-  pendingTransfers: 5,
+  lowStockItems: 1, // White Paint (35 < 50 reorder point)
+  pendingTransfers: 1, // One pending adjustment in sampleAdjustments
 };
