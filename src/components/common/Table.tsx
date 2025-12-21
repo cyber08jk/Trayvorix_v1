@@ -6,7 +6,6 @@ interface Column<T> {
   render?: (item: T) => ReactNode;
   sortable?: boolean;
 }
-
 interface TableProps<T> {
   data: T[];
   columns: Column<T>[];
@@ -72,5 +71,5 @@ export function Table<T extends Record<string, any>>({
       </table>
     </div>
   );
-  
+
 }
