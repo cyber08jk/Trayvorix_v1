@@ -4,6 +4,7 @@ import { Input } from '@components/common/Input';
 import { Button } from '@components/common/Button';
 import { useToast } from '@components/common/Toast';
 import { useDemo } from '@contexts/DemoContext';
+import { supabase } from '@services/supabase';
 
 interface AddReceiptModalProps {
   isOpen: boolean;
@@ -15,7 +16,7 @@ export function AddReceiptModal({ isOpen, onClose, onSuccess }: AddReceiptModalP
   const { showToast } = useToast();
   const { isDemoMode } = useDemo();
   const [saving, setSaving] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     supplierName: '',
     referenceNumber: '',
@@ -26,18 +27,39 @@ export function AddReceiptModal({ isOpen, onClose, onSuccess }: AddReceiptModalP
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.supplierName) {
       showToast('Please enter supplier name', 'error');
       return;
     }
 
     setSaving(true);
-    
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 800));
-      showToast('Receipt created successfully!', 'success');
-      
+      if (isDemoMode) {
+        // Demo mode: just show message
+        await new Promise(resolve => setTimeout(resolve, 500));
+        showToast('Receipt created! (Demo mode - not saved)', 'info');
+      } else {
+        // Real mode: insert into Supabase
+        const { data: { user } } = await supabase.auth.getUser();
+
+        const { error } = await supabase
+          .from('receipts')
+          .insert({
+            supplier_name: formData.supplierName,
+            reference_number: formData.referenceNumber || null,
+            expected_date: formData.expectedDate,
+            notes: formData.notes || null,
+            status: formData.status,
+            total_items: 0,
+            created_by: user?.id || null,
+          });
+
+        if (error) throw error;
+        showToast('Receipt created successfully!', 'success');
+      }
+
       onSuccess();
       onClose();
       resetForm();

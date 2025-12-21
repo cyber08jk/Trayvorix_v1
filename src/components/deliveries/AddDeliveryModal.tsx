@@ -4,6 +4,7 @@ import { Input } from '@components/common/Input';
 import { Button } from '@components/common/Button';
 import { useToast } from '@components/common/Toast';
 import { useDemo } from '@contexts/DemoContext';
+import { supabase } from '@services/supabase';
 
 interface AddDeliveryModalProps {
   isOpen: boolean;
@@ -15,7 +16,7 @@ export function AddDeliveryModal({ isOpen, onClose, onSuccess }: AddDeliveryModa
   const { showToast } = useToast();
   const { isDemoMode } = useDemo();
   const [saving, setSaving] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     customerName: '',
     orderNumber: '',
@@ -28,18 +29,41 @@ export function AddDeliveryModal({ isOpen, onClose, onSuccess }: AddDeliveryModa
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.customerName) {
       showToast('Please enter customer name', 'error');
       return;
     }
 
     setSaving(true);
-    
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 800));
-      showToast('Delivery created successfully!', 'success');
-      
+      if (isDemoMode) {
+        // Demo mode: just show message
+        await new Promise(resolve => setTimeout(resolve, 500));
+        showToast('Delivery created! (Demo mode - not saved)', 'info');
+      } else {
+        // Real mode: insert into Supabase
+        const { data: { user } } = await supabase.auth.getUser();
+
+        const { error } = await supabase
+          .from('deliveries')
+          .insert({
+            customer_name: formData.customerName,
+            order_number: formData.orderNumber || null,
+            delivery_date: formData.deliveryDate,
+            delivery_address: formData.address || null,
+            phone: formData.phone || null,
+            notes: formData.notes || null,
+            status: formData.status,
+            total_items: 0,
+            created_by: user?.id || null,
+          });
+
+        if (error) throw error;
+        showToast('Delivery created successfully!', 'success');
+      }
+
       onSuccess();
       onClose();
       resetForm();
