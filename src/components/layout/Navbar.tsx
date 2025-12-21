@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchNotifications } from '../../services/notifications';
+import { getNotifications } from '../../services/notifications';
 import { Notification } from '../../types/database.types';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@hooks/useAuth';
@@ -14,16 +14,16 @@ export function Navbar({ onMenuClick }: NavbarProps) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loadingNotifications, setLoadingNotifications] = useState(false);
-    // Fetch notifications when dropdown opens
-    useEffect(() => {
-      if (showNotifications && user?.id) {
-        setLoadingNotifications(true);
-        fetchNotifications(user.id)
-          .then(setNotifications)
-          .catch(() => setNotifications([]))
-          .finally(() => setLoadingNotifications(false));
-      }
-    }, [showNotifications, user]);
+  // Fetch notifications when dropdown opens
+  useEffect(() => {
+    if (showNotifications && user?.id) {
+      setLoadingNotifications(true);
+      getNotifications(user.id)
+        .then(setNotifications)
+        .catch(() => setNotifications([]))
+        .finally(() => setLoadingNotifications(false));
+    }
+  }, [showNotifications, user]);
   const [darkMode, setDarkMode] = useState(() => {
     // Check for saved theme preference or use system preference
     if (typeof window !== 'undefined') {
@@ -55,7 +55,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-    
+
     if (newDarkMode) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
@@ -81,7 +81,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
   };
 
   return (
-    <nav 
+    <nav
       className="fixed top-0 z-50 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 transition-colors duration-200"
       aria-label="Main navigation"
     >
@@ -100,8 +100,8 @@ export function Navbar({ onMenuClick }: NavbarProps) {
               </svg>
             </button>
 
-            <Link 
-              to="/dashboard" 
+            <Link
+              to="/dashboard"
               className="flex items-center ml-2 lg:ml-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900 rounded-md"
               aria-label="Trayvorix Home"
             >
@@ -192,10 +192,9 @@ export function Navbar({ onMenuClick }: NavbarProps) {
               </button>
 
               {/* User Dropdown Menu */}
-              <div 
-                className={`absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 transform origin-top-right ${
-                  showUserMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
-                }`}
+              <div
+                className={`absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 transform origin-top-right ${showUserMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                  }`}
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="user-menu-button"
