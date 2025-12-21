@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { getNotifications } from '../../services/notifications';
-import { Notification } from '../../types/database.types';
+import { getNotifications, Notification } from '../../services/notifications';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@hooks/useAuth';
 
