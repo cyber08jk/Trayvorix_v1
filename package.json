@@ -25,6 +25,8 @@
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/react-query": "^5.90.10",
     "axios": "^1.13.2",
+    "jspdf": "^3.0.4",
+    "jspdf-autotable": "^5.0.2",
     "react-router-dom": "^7.9.6",
     "recharts": "^3.4.1",
     "zod": "^4.1.12"
