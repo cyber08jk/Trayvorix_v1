@@ -52,7 +52,7 @@ export function Profile() {
             console.log(`[${type}] ${message}`);
         }
     };
-    
+
 
     // Initialize theme from localStorage on mount
     useEffect(() => {
@@ -153,6 +153,7 @@ export function Profile() {
             }
         }
 
+        
         // Update email from user if available
         if (user?.email) {
             setPersonalInfo(prev => ({ ...prev, email: user.email || '' }));
