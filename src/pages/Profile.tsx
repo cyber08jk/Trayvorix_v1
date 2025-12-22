@@ -52,6 +52,7 @@ export function Profile() {
             console.log(`[${type}] ${message}`);
         }
     };
+    
 
     // Initialize theme from localStorage on mount
     useEffect(() => {
