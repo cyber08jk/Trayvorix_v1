@@ -14,7 +14,6 @@ type TimeRange = '7d' | '30d' | '90d' | '12m';
 export function Analytics() {
   const [timeRange, setTimeRange] = useState<TimeRange>('30d');
   const { currency } = useCurrency();
-
   
   return (
     <div className="space-y-6 animate-fade-in">
