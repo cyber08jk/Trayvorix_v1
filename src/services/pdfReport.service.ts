@@ -20,6 +20,13 @@ interface ReportData {
     generatedBy: string;
 }
 
+// Helper to safe format currency for PDF (avoiding unicode symbols that break jsPDF)
+const formatCurrencyForPdf = (amount: number, currency: string): string => {
+    // Format without symbol first
+    const formattedAmount = formatCurrency(amount, currency, false);
+    return `${currency} ${formattedAmount}`;
+};
+
 export const generateAnalyticsReport = (data: ReportData) => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
@@ -76,7 +83,7 @@ export const generateAnalyticsReport = (data: ReportData) => {
         doc.text(subtext, x + 5, y + 25);
     };
 
-    drawKpiCard(margin, yPos, 'Total Revenue', formatCurrency(data.kpis.revenue, data.currency), '↑ 12.5% from last period');
+    drawKpiCard(margin, yPos, 'Total Revenue', formatCurrencyForPdf(data.kpis.revenue, data.currency), '↑ 12.5% from last period');
     drawKpiCard(margin + kpiWidth, yPos, 'Items Sold', data.kpis.itemsSold.toLocaleString(), '↑ 8.3% from last period');
 
     yPos += 35;
@@ -91,7 +98,7 @@ export const generateAnalyticsReport = (data: ReportData) => {
 
     yPos += 5;
 
-    const formattedAvgOrderValue = formatCurrency(data.quickStats.avgOrderValue, data.currency);
+    const formattedAvgOrderValue = formatCurrencyForPdf(data.quickStats.avgOrderValue, data.currency);
 
     autoTable(doc, {
         startY: yPos,
