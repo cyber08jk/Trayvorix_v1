@@ -13,11 +13,12 @@ interface NavItem {
   children?: NavItem[];
 }
 
+
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const location = useLocation();
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['Operations']);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  
+
   // Check if we're in demo mode
   const isDemoMode = location.pathname.startsWith('/demo');
 
@@ -127,8 +128,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <button
             onClick={(e) => toggleMenu(item.name, e)}
             className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg transition-colors ${isExpanded
-                ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
-                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             aria-expanded={isExpanded}
             aria-controls={`submenu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
@@ -232,8 +233,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   <>
                     <svg
                       className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
-                          ? 'text-indigo-600 dark:text-indigo-400'
-                          : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
+                        ? 'text-indigo-600 dark:text-indigo-400'
+                        : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
                         }`}
                       fill="currentColor"
                       viewBox="0 0 20 20"
@@ -264,8 +265,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   <>
                     <svg
                       className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
-                          ? 'text-indigo-600 dark:text-indigo-400'
-                          : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
+                        ? 'text-indigo-600 dark:text-indigo-400'
+                        : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
                         }`}
                       fill="currentColor"
                       viewBox="0 0 20 20"
