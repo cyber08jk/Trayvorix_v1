@@ -108,7 +108,8 @@ export function Profile() {
                         location: savedLocation || 'India' 
                     }));
                 });
-        } else {
+        } else 
+            {
             // Demo mode - use localStorage
             setPersonalInfo((prev) => ({ 
                 ...prev, 
@@ -118,7 +119,7 @@ export function Profile() {
         }
     }, [user]);
 
-    
+
     // Security State
     const [securityInfo, setSecurityInfo] = useState<SecurityInfo>({
         currentPassword: '',
