@@ -109,6 +109,7 @@ export function Profile() {
                     }));
                 });
         } else 
+            
             {
             // Demo mode - use localStorage
             setPersonalInfo((prev) => ({ 
