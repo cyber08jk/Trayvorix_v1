@@ -118,6 +118,7 @@ export function Profile() {
         }
     }, [user]);
 
+    
     // Security State
     const [securityInfo, setSecurityInfo] = useState<SecurityInfo>({
         currentPassword: '',
