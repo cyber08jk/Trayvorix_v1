@@ -169,7 +169,7 @@ export const sampleDeliveries = [
     total_items: 10,
     created_at: new Date().toISOString(),
   },
-  
+
   {
     id: '2',
     customer_name: 'BuildRight Developers',
@@ -177,6 +177,7 @@ export const sampleDeliveries = [
     total_items: 25,
     created_at: new Date().toISOString(),
   },
+  
   {
     id: '3',
     customer_name: 'Prime Builders Ltd',
