@@ -113,6 +113,7 @@ export const sampleAdjustments = [
     created_at: new Date(Date.now() - 86400000).toISOString(),
     created_by: 'demo@trayvorix.com',
   },
+  
   {
     id: '4',
     product_name: 'White Paint',
@@ -168,6 +169,7 @@ export const sampleDeliveries = [
     total_items: 10,
     created_at: new Date().toISOString(),
   },
+  
   {
     id: '2',
     customer_name: 'BuildRight Developers',
