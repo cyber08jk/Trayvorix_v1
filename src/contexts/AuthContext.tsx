@@ -39,12 +39,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Get initial session
     supabase.auth.getSession()
-      .then(async ({ data: { session } }) => {
+      .then(({ data: { session } }) => {
         setSession(session);
         setUser(session?.user ?? null);
         setUserRole(session?.user?.user_metadata?.role ?? 'operator');
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          fetchProfile(session.user.id);
         }
         setLoading(false);
       })
@@ -56,13 +56,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setUserRole(session?.user?.user_metadata?.role ?? 'operator');
 
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        fetchProfile(session.user.id);
       } else {
         setProfile(null);
       }
@@ -90,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(data.user);
         setSession(data.session);
         setUserRole(data.user.user_metadata?.role ?? 'operator');
-        await fetchProfile(data.user.id);
+        fetchProfile(data.user.id);
       }
 
       return { error };
