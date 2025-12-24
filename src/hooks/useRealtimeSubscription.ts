@@ -30,7 +30,7 @@ export function useRealtimeSubscription(
                     schema: 'public',
                     table,
                     filter,
-                },
+                } as any,
                 callback
             )
             .subscribe();
