@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { getUserProfile, updateUserProfile } from '../services/profile';
+import { useState, useEffect, useRef } from 'react';
+import { getUserProfile, updateUserProfile, uploadAvatar } from '../services/profile';
 import { addLog } from '../services/logs';
 import { Card } from '@components/common/Card';
 import { Button } from '@components/common/Button';
@@ -18,6 +18,7 @@ interface PersonalInfo {
     bio: string;
     currency: string;
     location: string;
+    avatar_url?: string;
 }
 
 
@@ -41,8 +42,10 @@ export function Profile() {
     const { setCurrency: setGlobalCurrency } = useCurrency();
     const [activeTab, setActiveTab] = useState<'personal' | 'security' | 'preferences'>('personal');
     const [saving, setSaving] = useState(false);
+    const [uploadingAvatar, setUploadingAvatar] = useState(false);
     const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
     const [currentTheme, setCurrentTheme] = useState<'light' | 'dark' | 'system'>('system');
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Helper function for toast
     const showToast = (message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info') => {
@@ -84,13 +87,14 @@ export function Profile() {
         bio: 'Experienced inventory manager with a focus on supply chain optimization.',
         currency: '',
         location: '',
+        avatar_url: '',
     });
     // Fetch currency and location from Supabase on mount
     useEffect(() => {
         // Try localStorage first
         const savedCurrency = localStorage.getItem('userCurrency');
         const savedLocation = localStorage.getItem('userLocation');
-        
+
         if (user?.id) {
             getUserProfile(user.id)
                 .then((data) => {
@@ -98,24 +102,23 @@ export function Profile() {
                         ...prev,
                         currency: data?.currency || savedCurrency || 'USD',
                         location: data?.location || savedLocation || 'India',
+                        avatar_url: data?.avatar_url || '',
                     }));
                 })
                 .catch(() => {
                     // Fallback to localStorage or defaults
-                    setPersonalInfo((prev) => ({ 
-                        ...prev, 
-                        currency: savedCurrency || 'USD', 
-                        location: savedLocation || 'India' 
+                    setPersonalInfo((prev) => ({
+                        ...prev,
+                        currency: savedCurrency || 'USD',
+                        location: savedLocation || 'India'
                     }));
                 });
-        } else 
-            
-            {
+        } else {
             // Demo mode - use localStorage
-            setPersonalInfo((prev) => ({ 
-                ...prev, 
-                currency: savedCurrency || 'USD', 
-                location: savedLocation || 'India' 
+            setPersonalInfo((prev) => ({
+                ...prev,
+                currency: savedCurrency || 'USD',
+                location: savedLocation || 'India'
             }));
         }
     }, [user]);
@@ -140,7 +143,7 @@ export function Profile() {
     useEffect(() => {
         const savedProfile = localStorage.getItem('userProfile');
         const savedPreferences = localStorage.getItem('userPreferences');
-        
+
         if (savedProfile) {
             try {
                 setPersonalInfo(prev => ({ ...prev, ...JSON.parse(savedProfile) }));
@@ -156,7 +159,7 @@ export function Profile() {
             }
         }
 
-        
+
         // Update email from user if available
         if (user?.email) {
             setPersonalInfo(prev => ({ ...prev, email: user.email || '' }));
@@ -168,12 +171,59 @@ export function Profile() {
         setSaving(true);
         try {
             await new Promise(resolve => setTimeout(resolve, 800));
+            // In a real app we would save to Supabase here if not handled by individual field updates
+            // But preserving existing demo logic:
             localStorage.setItem('userProfile', JSON.stringify(personalInfo));
+
+            // Also update Supabase if user exists (except currency/location which are handled inline)
+            if (user?.id) {
+                // For now just basic fields if we wanted to sync them
+            }
+
             showToast('Personal information updated successfully!', 'success');
         } catch {
             showToast('Failed to update personal information', 'error');
         } finally {
             setSaving(false);
+        }
+    };
+
+    // Handle Avatar Upload
+    const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            return;
+        }
+
+        const file = event.target.files[0];
+        if (file.size > 2 * 1024 * 1024) { // 2MB limit
+            showToast('Image size must be less than 2MB', 'error');
+            return;
+        }
+
+        if (!user?.id) {
+            showToast('Cannot upload avatar in demo mode', 'info');
+            return;
+        }
+
+        setUploadingAvatar(true);
+        try {
+            // Upload to storage
+            const publicUrl = await uploadAvatar(user.id, file);
+
+            // Update profile record
+            await updateUserProfile(user.id, { avatar_url: publicUrl });
+
+            // Update state
+            setPersonalInfo(prev => ({ ...prev, avatar_url: publicUrl }));
+
+            showToast('Profile picture updated!', 'success');
+        } catch (error: any) {
+            console.error('Avatar upload error:', error);
+            showToast(error.message || 'Failed to upload image', 'error');
+        } finally {
+            setUploadingAvatar(false);
+            // Reset input
+            if (fileInputRef.current) fileInputRef.current.value = '';
         }
     };
 
@@ -241,7 +291,7 @@ export function Profile() {
     // Handle Theme Change
     const handleThemeChange = (theme: 'light' | 'dark' | 'system') => {
         setCurrentTheme(theme);
-        
+
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
             localStorage.setItem('theme', 'dark');
@@ -276,10 +326,43 @@ export function Profile() {
                 <div className="w-full lg:w-64 flex-shrink-0">
                     <Card>
                         <div className="flex flex-col items-center p-4 border-b border-gray-200 dark:border-gray-700">
-                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold mb-4 shadow-lg">
-                                {personalInfo.firstName?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+                            <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={handleAvatarUpload}
+                                />
+                                {personalInfo.avatar_url ? (
+                                    <img
+                                        src={personalInfo.avatar_url}
+                                        alt="Profile"
+                                        className="w-24 h-24 rounded-full object-cover shadow-lg border-2 border-transparent group-hover:border-indigo-500 transition-all"
+                                    />
+                                ) : (
+                                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold mb-4 shadow-lg group-hover:shadow-xl transition-all">
+                                        {personalInfo.firstName?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+                                    </div>
+                                )}
+
+                                {/* Overlay for hover */}
+                                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity mb-4"> // mb-4 to match the margin of the div
+                                    {uploadingAvatar ? (
+                                        <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    ) : (
+                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    )}
+                                </div>
                             </div>
-                            <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+
+                            <h2 className="text-lg font-bold text-gray-900 dark:text-white mt-2">
                                 {personalInfo.firstName} {personalInfo.lastName}
                             </h2>
                             <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">
@@ -344,109 +427,109 @@ export function Profile() {
                                     </p>
                                 </div>
                                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                                                                        {/* Currency Field */}
-                                <div className="sm:col-span-2 flex items-center gap-3">
-                                    <div className="flex-1">
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Currency</label>
-                                        <select
-                                            value={personalInfo.currency}
-                                            onChange={e => setPersonalInfo(prev => ({ ...prev, currency: e.target.value }))}
-                                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900 dark:bg-gray-700 dark:text-white transition-colors"
+                                    {/* Currency Field */}
+                                    <div className="sm:col-span-2 flex items-center gap-3">
+                                        <div className="flex-1">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Currency</label>
+                                            <select
+                                                value={personalInfo.currency}
+                                                onChange={e => setPersonalInfo(prev => ({ ...prev, currency: e.target.value }))}
+                                                className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900 dark:bg-gray-700 dark:text-white transition-colors"
+                                            >
+                                                <option value="USD">USD - US Dollar</option>
+                                                <option value="EUR">EUR - Euro</option>
+                                                <option value="INR">INR - Indian Rupee</option>
+                                                <option value="GBP">GBP - British Pound</option>
+                                                <option value="JPY">JPY - Japanese Yen</option>
+                                                <option value="CNY">CNY - Chinese Yuan</option>
+                                                <option value="AUD">AUD - Australian Dollar</option>
+                                                <option value="CAD">CAD - Canadian Dollar</option>
+                                                <option value="SGD">SGD - Singapore Dollar</option>
+                                                <option value="ZAR">ZAR - South African Rand</option>
+                                            </select>
+                                        </div>
+                                        <Button
+                                            variant="primary"
+                                            onClick={async () => {
+                                                if (!user?.id) {
+                                                    // Demo mode - just save locally
+                                                    setGlobalCurrency(personalInfo.currency);
+                                                    showToast('Currency changed!', 'success');
+                                                    return;
+                                                }
+                                                try {
+                                                    await updateUserProfile(user.id, { currency: personalInfo.currency });
+                                                    await addLog(user.id, 'Currency Change', `Currency set to ${personalInfo.currency}`);
+                                                    setGlobalCurrency(personalInfo.currency);
+                                                    showToast('Currency changed!', 'success');
+                                                } catch (error: any) {
+                                                    console.error('Currency update error:', error);
+                                                    // Fallback to localStorage
+                                                    setGlobalCurrency(personalInfo.currency);
+                                                    showToast('Currency changed locally!', 'success');
+                                                }
+                                            }}
                                         >
-                                            <option value="USD">USD - US Dollar</option>
-                                            <option value="EUR">EUR - Euro</option>
-                                            <option value="INR">INR - Indian Rupee</option>
-                                            <option value="GBP">GBP - British Pound</option>
-                                            <option value="JPY">JPY - Japanese Yen</option>
-                                            <option value="CNY">CNY - Chinese Yuan</option>
-                                            <option value="AUD">AUD - Australian Dollar</option>
-                                            <option value="CAD">CAD - Canadian Dollar</option>
-                                            <option value="SGD">SGD - Singapore Dollar</option>
-                                            <option value="ZAR">ZAR - South African Rand</option>
-                                        </select>
+                                            Change
+                                        </Button>
                                     </div>
-                                    <Button
-                                        variant="primary"
-                                        onClick={async () => {
-                                            if (!user?.id) {
-                                                // Demo mode - just save locally
-                                                setGlobalCurrency(personalInfo.currency);
-                                                showToast('Currency changed!', 'success');
-                                                return;
-                                            }
-                                            try {
-                                                await updateUserProfile(user.id, { currency: personalInfo.currency });
-                                                await addLog(user.id, 'Currency Change', `Currency set to ${personalInfo.currency}`);
-                                                setGlobalCurrency(personalInfo.currency);
-                                                showToast('Currency changed!', 'success');
-                                            } catch (error: any) {
-                                                console.error('Currency update error:', error);
-                                                // Fallback to localStorage
-                                                setGlobalCurrency(personalInfo.currency);
-                                                showToast('Currency changed locally!', 'success');
-                                            }
-                                        }}
-                                    >
-                                        Change
-                                    </Button>
-                                </div>
-                                                                        {/* Location Field */}
-                                                                        <div className="sm:col-span-2 flex items-center gap-3">
-                                                                            <Input
-                                                                                label="Location"
-                                                                                value={personalInfo.location}
-                                                                                onChange={(e) => setPersonalInfo(prev => ({ ...prev, location: e.target.value }))}
-                                                                                className="flex-1"
-                                                                            />
-                                    <Button
-                                        variant="primary"
-                                        onClick={async () => {
-                                            if (!user?.id) {
-                                                // Demo mode - just save locally
-                                                localStorage.setItem('userLocation', personalInfo.location);
-                                                showToast('Location changed!', 'success');
-                                                return;
-                                            }
-                                            try {
-                                                await updateUserProfile(user.id, { location: personalInfo.location });
-                                                await addLog(user.id, 'Location Change', `Location set to ${personalInfo.location}`);
-                                                localStorage.setItem('userLocation', personalInfo.location);
-                                                showToast('Location changed!', 'success');
-                                            } catch (error: any) {
-                                                console.error('Location update error:', error);
-                                                // Fallback to localStorage
-                                                localStorage.setItem('userLocation', personalInfo.location);
-                                                showToast('Location changed locally!', 'success');
-                                            }
-                                        }}
-                                    >
-                                        Change
-                                    </Button>
-                                                                        </div>
-                                    <Input 
-                                        label="First Name" 
+                                    {/* Location Field */}
+                                    <div className="sm:col-span-2 flex items-center gap-3">
+                                        <Input
+                                            label="Location"
+                                            value={personalInfo.location}
+                                            onChange={(e) => setPersonalInfo(prev => ({ ...prev, location: e.target.value }))}
+                                            className="flex-1"
+                                        />
+                                        <Button
+                                            variant="primary"
+                                            onClick={async () => {
+                                                if (!user?.id) {
+                                                    // Demo mode - just save locally
+                                                    localStorage.setItem('userLocation', personalInfo.location);
+                                                    showToast('Location changed!', 'success');
+                                                    return;
+                                                }
+                                                try {
+                                                    await updateUserProfile(user.id, { location: personalInfo.location });
+                                                    await addLog(user.id, 'Location Change', `Location set to ${personalInfo.location}`);
+                                                    localStorage.setItem('userLocation', personalInfo.location);
+                                                    showToast('Location changed!', 'success');
+                                                } catch (error: any) {
+                                                    console.error('Location update error:', error);
+                                                    // Fallback to localStorage
+                                                    localStorage.setItem('userLocation', personalInfo.location);
+                                                    showToast('Location changed locally!', 'success');
+                                                }
+                                            }}
+                                        >
+                                            Change
+                                        </Button>
+                                    </div>
+                                    <Input
+                                        label="First Name"
                                         value={personalInfo.firstName}
                                         onChange={(e) => setPersonalInfo(prev => ({ ...prev, firstName: e.target.value }))}
                                     />
-                                    <Input 
-                                        label="Last Name" 
+                                    <Input
+                                        label="Last Name"
                                         value={personalInfo.lastName}
                                         onChange={(e) => setPersonalInfo(prev => ({ ...prev, lastName: e.target.value }))}
                                     />
-                                    <Input 
-                                        label="Email Address" 
-                                        value={personalInfo.email} 
-                                        disabled 
+                                    <Input
+                                        label="Email Address"
+                                        value={personalInfo.email}
+                                        disabled
                                     />
-                                    <Input 
-                                        label="Phone Number" 
+                                    <Input
+                                        label="Phone Number"
                                         value={personalInfo.phone}
                                         onChange={(e) => setPersonalInfo(prev => ({ ...prev, phone: e.target.value }))}
                                         placeholder="+91 98765 43210"
                                     />
                                     <div className="sm:col-span-2">
-                                        <Input 
-                                            label="Job Title" 
+                                        <Input
+                                            label="Job Title"
                                             value={personalInfo.jobTitle}
                                             onChange={(e) => setPersonalInfo(prev => ({ ...prev, jobTitle: e.target.value }))}
                                         />
@@ -465,7 +548,7 @@ export function Profile() {
                                     </div>
                                 </div>
                                 <div className="flex justify-end gap-3">
-                                    <Button 
+                                    <Button
                                         variant="secondary"
                                         onClick={() => {
                                             setPersonalInfo({
@@ -477,14 +560,15 @@ export function Profile() {
                                                 bio: '',
                                                 currency: 'USD',
                                                 location: 'India',
+                                                avatar_url: '',
                                             });
                                             showToast('Form reset to defaults', 'info');
                                         }}
                                     >
                                         Reset
                                     </Button>
-                                    <Button 
-                                        variant="primary" 
+                                    <Button
+                                        variant="primary"
                                         onClick={handleSavePersonalInfo}
                                         disabled={saving}
                                     >
@@ -504,36 +588,36 @@ export function Profile() {
                                     </p>
                                 </div>
                                 <div className="space-y-4">
-                                    <Input 
-                                        label="Current Password" 
+                                    <Input
+                                        label="Current Password"
                                         type="password"
                                         value={securityInfo.currentPassword}
                                         onChange={(e) => setSecurityInfo(prev => ({ ...prev, currentPassword: e.target.value }))}
                                         placeholder="Enter current password"
                                     />
-                                    <Input 
-                                        label="New Password" 
+                                    <Input
+                                        label="New Password"
                                         type="password"
                                         value={securityInfo.newPassword}
                                         onChange={(e) => setSecurityInfo(prev => ({ ...prev, newPassword: e.target.value }))}
                                         placeholder="Enter new password (min 6 characters)"
                                     />
-                                    <Input 
-                                        label="Confirm New Password" 
+                                    <Input
+                                        label="Confirm New Password"
                                         type="password"
                                         value={securityInfo.confirmPassword}
                                         onChange={(e) => setSecurityInfo(prev => ({ ...prev, confirmPassword: e.target.value }))}
                                         placeholder="Confirm new password"
                                     />
-                                    {securityInfo.newPassword && securityInfo.confirmPassword && 
-                                     securityInfo.newPassword !== securityInfo.confirmPassword && (
-                                        <p className="text-sm text-red-500 flex items-center gap-1">
-                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                            </svg>
-                                            Passwords do not match
-                                        </p>
-                                    )}
+                                    {securityInfo.newPassword && securityInfo.confirmPassword &&
+                                        securityInfo.newPassword !== securityInfo.confirmPassword && (
+                                            <p className="text-sm text-red-500 flex items-center gap-1">
+                                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                                </svg>
+                                                Passwords do not match
+                                            </p>
+                                        )}
                                     {securityInfo.newPassword && securityInfo.newPassword.length < 6 && (
                                         <p className="text-sm text-amber-500 flex items-center gap-1">
                                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -554,7 +638,7 @@ export function Profile() {
                                                 {twoFactorEnabled ? '✓ Currently enabled' : '○ Currently disabled'}
                                             </p>
                                         </div>
-                                        <Button 
+                                        <Button
                                             variant={twoFactorEnabled ? "danger" : "secondary"}
                                             onClick={handleToggle2FA}
                                         >
@@ -584,8 +668,8 @@ export function Profile() {
                                     </div>
                                 </div>
                                 <div className="flex justify-end">
-                                    <Button 
-                                        variant="primary" 
+                                    <Button
+                                        variant="primary"
                                         onClick={handleUpdatePassword}
                                         disabled={saving || !securityInfo.currentPassword || !securityInfo.newPassword || securityInfo.newPassword !== securityInfo.confirmPassword}
                                     >
@@ -613,14 +697,12 @@ export function Profile() {
                                         </div>
                                         <button
                                             onClick={() => setPreferences(prev => ({ ...prev, emailNotifications: !prev.emailNotifications }))}
-                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                                                preferences.emailNotifications ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600'
-                                            }`}
+                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${preferences.emailNotifications ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600'
+                                                }`}
                                         >
                                             <span
-                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow ${
-                                                    preferences.emailNotifications ? 'translate-x-6' : 'translate-x-1'
-                                                }`}
+                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow ${preferences.emailNotifications ? 'translate-x-6' : 'translate-x-1'
+                                                    }`}
                                             />
                                         </button>
                                     </div>
@@ -633,14 +715,12 @@ export function Profile() {
                                         </div>
                                         <button
                                             onClick={() => setPreferences(prev => ({ ...prev, desktopNotifications: !prev.desktopNotifications }))}
-                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                                                preferences.desktopNotifications ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600'
-                                            }`}
+                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${preferences.desktopNotifications ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600'
+                                                }`}
                                         >
                                             <span
-                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow ${
-                                                    preferences.desktopNotifications ? 'translate-x-6' : 'translate-x-1'
-                                                }`}
+                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow ${preferences.desktopNotifications ? 'translate-x-6' : 'translate-x-1'
+                                                    }`}
                                             />
                                         </button>
                                     </div>
@@ -650,7 +730,7 @@ export function Profile() {
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Language
                                         </label>
-                                        <select 
+                                        <select
                                             value={preferences.language}
                                             onChange={(e) => setPreferences(prev => ({ ...prev, language: e.target.value }))}
                                             className="block w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900 dark:bg-gray-700 dark:text-white transition-colors"
@@ -669,7 +749,7 @@ export function Profile() {
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Timezone
                                         </label>
-                                        <select 
+                                        <select
                                             value={preferences.timezone}
                                             onChange={(e) => setPreferences(prev => ({ ...prev, timezone: e.target.value }))}
                                             className="block w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900 dark:bg-gray-700 dark:text-white transition-colors"
@@ -689,12 +769,11 @@ export function Profile() {
                                             Theme
                                         </label>
                                         <div className="grid grid-cols-3 gap-3">
-                                            <button 
-                                                className={`p-4 border-2 rounded-lg text-center transition-all ${
-                                                    currentTheme === 'light' 
-                                                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500 ring-offset-2' 
+                                            <button
+                                                className={`p-4 border-2 rounded-lg text-center transition-all ${currentTheme === 'light'
+                                                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500 ring-offset-2'
                                                         : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 bg-white dark:bg-gray-800'
-                                                }`}
+                                                    }`}
                                                 onClick={() => handleThemeChange('light')}
                                             >
                                                 <svg className="w-6 h-6 mx-auto text-yellow-500 mb-2" fill="currentColor" viewBox="0 0 20 20">
@@ -702,12 +781,11 @@ export function Profile() {
                                                 </svg>
                                                 <span className={`text-sm font-medium ${currentTheme === 'light' ? 'text-indigo-600' : 'text-gray-700 dark:text-gray-300'}`}>Light</span>
                                             </button>
-                                            <button 
-                                                className={`p-4 border-2 rounded-lg text-center transition-all ${
-                                                    currentTheme === 'dark' 
-                                                        ? 'border-indigo-500 bg-gray-800 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900' 
+                                            <button
+                                                className={`p-4 border-2 rounded-lg text-center transition-all ${currentTheme === 'dark'
+                                                        ? 'border-indigo-500 bg-gray-800 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900'
                                                         : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 bg-gray-800'
-                                                }`}
+                                                    }`}
                                                 onClick={() => handleThemeChange('dark')}
                                             >
                                                 <svg className="w-6 h-6 mx-auto text-indigo-400 mb-2" fill="currentColor" viewBox="0 0 20 20">
@@ -715,12 +793,11 @@ export function Profile() {
                                                 </svg>
                                                 <span className={`text-sm font-medium ${currentTheme === 'dark' ? 'text-indigo-400' : 'text-gray-300'}`}>Dark</span>
                                             </button>
-                                            <button 
-                                                className={`p-4 border-2 rounded-lg text-center transition-all ${
-                                                    currentTheme === 'system' 
-                                                        ? 'border-indigo-500 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900' 
+                                            <button
+                                                className={`p-4 border-2 rounded-lg text-center transition-all ${currentTheme === 'system'
+                                                        ? 'border-indigo-500 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900'
                                                         : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400'
-                                                } bg-gradient-to-r from-white to-gray-700`}
+                                                    } bg-gradient-to-r from-white to-gray-700`}
                                                 onClick={() => handleThemeChange('system')}
                                             >
                                                 <svg className="w-6 h-6 mx-auto text-gray-500 mb-2" fill="currentColor" viewBox="0 0 20 20">
@@ -735,7 +812,7 @@ export function Profile() {
                                     </div>
                                 </div>
                                 <div className="flex justify-end gap-3">
-                                    <Button 
+                                    <Button
                                         variant="secondary"
                                         onClick={() => {
                                             setPreferences({
@@ -749,8 +826,8 @@ export function Profile() {
                                     >
                                         Reset to Default
                                     </Button>
-                                    <Button 
-                                        variant="primary" 
+                                    <Button
+                                        variant="primary"
                                         onClick={handleSavePreferences}
                                         disabled={saving}
                                     >
