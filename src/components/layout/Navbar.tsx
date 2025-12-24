@@ -8,7 +8,7 @@ interface NavbarProps {
 }
 
 export function Navbar({ onMenuClick }: NavbarProps) {
-  const { user, signOut, userRole } = useAuth();
+  const { user, signOut, userRole, profile } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -184,9 +184,18 @@ export function Navbar({ onMenuClick }: NavbarProps) {
                 aria-haspopup="true"
                 id="user-menu-button"
               >
-                <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm">
-                  {user?.email?.charAt(0).toUpperCase() || 'D'}
-                </div>
+                {/* User Avatar */}
+                {profile?.avatar_url ? (
+                  <img
+                    src={profile.avatar_url}
+                    alt="User avatar"
+                    className="w-8 h-8 rounded-full object-cover shadow-sm ring-2 ring-gray-100 dark:ring-gray-700"
+                  />
+                ) : (
+                  <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm">
+                    {user?.email?.charAt(0).toUpperCase() || 'D'}
+                  </div>
+                )}
                 <span className="sr-only">Open user menu</span>
               </button>
 

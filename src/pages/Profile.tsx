@@ -36,7 +36,7 @@ interface Preferences {
 }
 
 export function Profile() {
-    const { user, updatePassword } = useAuth();
+    const { user, updatePassword, refreshProfile } = useAuth();
     const { role } = useRole();
     const toast = useToast();
     const { setCurrency: setGlobalCurrency } = useCurrency();
@@ -215,6 +215,9 @@ export function Profile() {
 
             // Update state
             setPersonalInfo(prev => ({ ...prev, avatar_url: publicUrl }));
+
+            // Refresh global profile context
+            await refreshProfile();
 
             showToast('Profile picture updated!', 'success');
         } catch (error: any) {
