@@ -10,7 +10,7 @@ export interface Profile {
 export async function getUserProfile(userId: string) {
   const { data, error } = await supabase
     .from('profiles')
-    .select('currency, location, avatar_url')
+    .select('id, currency, location, avatar_url')
     .eq('id', userId)
     .single();
   if (error) throw error;
