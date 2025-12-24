@@ -6,12 +6,20 @@ BEGIN
     END IF;
 END $$;
 
+-- Enable RLS on storage.objects if not already enabled (optional but good practice)
+-- ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+
 -- Create storage bucket for avatars if it doesn't exist
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('avatars', 'avatars', true)
 ON CONFLICT (id) DO NOTHING;
 
 -- Storage Policies
+-- Drop existing policies to ensure idempotency and avoid errors on re-run
+DROP POLICY IF EXISTS "Avatar images are publicly accessible" ON storage.objects;
+DROP POLICY IF EXISTS "Users can upload their own avatar" ON storage.objects;
+DROP POLICY IF EXISTS "Users can update their own avatar" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete their own avatar" ON storage.objects;
 
 -- Allow public read access to avatars
 CREATE POLICY "Avatar images are publicly accessible"
@@ -19,8 +27,6 @@ CREATE POLICY "Avatar images are publicly accessible"
   USING ( bucket_id = 'avatars' );
 
 -- Allow authenticated users to upload their own avatar
--- Note: We use a folder structure typically like {user_id}/{filename} or just {filename} if using unique names
--- For simplicity and security, we restrict uploads based on auth
 CREATE POLICY "Users can upload their own avatar"
   ON storage.objects FOR INSERT
   WITH CHECK (

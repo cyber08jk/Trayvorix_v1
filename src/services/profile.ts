@@ -20,8 +20,7 @@ export async function getUserProfile(userId: string) {
 export async function updateUserProfile(userId: string, updates: Partial<Profile>) {
   const { data, error } = await supabase
     .from('profiles')
-    .update(updates)
-    .eq('id', userId)
+    .upsert({ id: userId, ...updates })
     .select()
     .single();
   if (error) throw error;
