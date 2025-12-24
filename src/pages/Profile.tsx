@@ -347,7 +347,7 @@ export function Profile() {
                                 )}
 
                                 {/* Overlay for hover */}
-                                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity mb-4"> // mb-4 to match the margin of the div
+                                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity mb-4">
                                     {uploadingAvatar ? (
                                         <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -771,8 +771,8 @@ export function Profile() {
                                         <div className="grid grid-cols-3 gap-3">
                                             <button
                                                 className={`p-4 border-2 rounded-lg text-center transition-all ${currentTheme === 'light'
-                                                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500 ring-offset-2'
-                                                        : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 bg-white dark:bg-gray-800'
+                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500 ring-offset-2'
+                                                    : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 bg-white dark:bg-gray-800'
                                                     }`}
                                                 onClick={() => handleThemeChange('light')}
                                             >
@@ -783,8 +783,8 @@ export function Profile() {
                                             </button>
                                             <button
                                                 className={`p-4 border-2 rounded-lg text-center transition-all ${currentTheme === 'dark'
-                                                        ? 'border-indigo-500 bg-gray-800 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900'
-                                                        : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 bg-gray-800'
+                                                    ? 'border-indigo-500 bg-gray-800 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900'
+                                                    : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 bg-gray-800'
                                                     }`}
                                                 onClick={() => handleThemeChange('dark')}
                                             >
@@ -795,8 +795,8 @@ export function Profile() {
                                             </button>
                                             <button
                                                 className={`p-4 border-2 rounded-lg text-center transition-all ${currentTheme === 'system'
-                                                        ? 'border-indigo-500 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900'
-                                                        : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400'
+                                                    ? 'border-indigo-500 ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900'
+                                                    : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400'
                                                     } bg-gradient-to-r from-white to-gray-700`}
                                                 onClick={() => handleThemeChange('system')}
                                             >
