@@ -11,7 +11,6 @@ interface AddReceiptModalProps {
   onClose: () => void;
   onSuccess: () => void;
 }
-
 export function AddReceiptModal({ isOpen, onClose, onSuccess }: AddReceiptModalProps) {
   const { showToast } = useToast();
   const { isDemoMode } = useDemo();
