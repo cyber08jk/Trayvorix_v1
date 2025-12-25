@@ -14,6 +14,7 @@ import { useToast } from '@components/common/Toast';
 
 type TimeRange = '7d' | '30d' | '90d' | '12m';
 
+
 export function Analytics() {
   const [timeRange, setTimeRange] = useState<TimeRange>('30d');
   const [isExporting, setIsExporting] = useState(false);
