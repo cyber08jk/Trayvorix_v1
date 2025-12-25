@@ -22,6 +22,7 @@ export function Analytics() {
   const { showToast } = useToast();
 
   const handleExportPdf = async () => {
+
     try {
       setIsExporting(true);
 
@@ -80,8 +81,8 @@ export function Analytics() {
               key={option.value}
               onClick={() => setTimeRange(option.value as TimeRange)}
               className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${timeRange === option.value
-                  ? 'bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
             >
               {option.label}
