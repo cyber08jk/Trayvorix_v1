@@ -47,6 +47,7 @@ export function Analytics() {
         generatedBy: user?.email || 'System User',
       };
 
+
       await generateAnalyticsReport(reportData);
       showToast('Report generated successfully', 'success');
     } catch (error) {
