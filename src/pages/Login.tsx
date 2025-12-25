@@ -13,6 +13,7 @@ export function Login() {
     }
   }, [user, navigate]);
 
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Request Access Button - Top Right Corner */}
@@ -63,7 +64,7 @@ export function Login() {
         {/* Demo Credentials */}
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
           <p className="text-sm font-medium text-blue-900 dark:text-blue-300 mb-2">
-           Credentials:
+            Credentials:
           </p>
           <div className="text-xs text-blue-700 dark:text-blue-400 space-y-1">
             <p><strong>Admin:</strong> admin@trayvorix.com / admin123</p>
