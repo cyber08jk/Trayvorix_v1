@@ -20,6 +20,7 @@ interface AccessRequest {
   created_at: string;
 }
 
+
 export function AccessRequests() {
   const [requests, setRequests] = useState<AccessRequest[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,10 +37,10 @@ export function AccessRequests() {
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      
+
       // Always check localStorage first
       const localRequests = JSON.parse(localStorage.getItem('accessRequests') || '[]');
-      
+
       // Try to fetch from Supabase
       try {
         const { data, error } = await supabase
@@ -49,7 +50,7 @@ export function AccessRequests() {
 
         if (!error && data && data.length > 0) {
           // Merge database and localStorage requests (database takes priority)
-          const mergedRequests = [...data, ...localRequests.filter((lr: AccessRequest) => 
+          const mergedRequests = [...data, ...localRequests.filter((lr: AccessRequest) =>
             !data.some(dr => dr.email === lr.email && dr.created_at === lr.created_at)
           )];
           setRequests(mergedRequests);
@@ -148,7 +149,7 @@ export function AccessRequests() {
   };
 
   const filteredRequests = requests.filter(request => {
-    const matchesSearch = 
+    const matchesSearch =
       request.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       request.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       request.company.toLowerCase().includes(searchTerm.toLowerCase());
