@@ -12,6 +12,7 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+
       <Navbar onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -21,6 +22,6 @@ export function Layout({ children }: LayoutProps) {
         </div>
       </main>
     </div>
-    
+
   );
 }
