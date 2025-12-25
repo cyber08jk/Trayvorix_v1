@@ -16,6 +16,7 @@ export function useRealtimeSubscription(
 ) {
     const channelRef = useRef<RealtimeChannel | null>(null);
 
+
     useEffect(() => {
         // Create a unique channel name
         const channelName = `${table}_${event}_${Date.now()}`;
