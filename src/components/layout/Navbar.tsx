@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { getNotifications, Notification } from '../../services/notifications';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@hooks/useAuth';
+import { useTheme } from '@contexts/ThemeContext';
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -23,6 +24,12 @@ export function Navbar({ onMenuClick }: NavbarProps) {
         .finally(() => setLoadingNotifications(false));
     }
   }, [showNotifications, user]);
+  /* replaced with useTheme */
+  const { theme, toggleTheme } = useTheme();
+  const darkMode = theme === 'dark';
+  const toggleDarkMode = toggleTheme;
+
+  /*
   const [darkMode, setDarkMode] = useState(() => {
     // Check for saved theme preference or use system preference
     if (typeof window !== 'undefined') {
@@ -30,6 +37,8 @@ export function Navbar({ onMenuClick }: NavbarProps) {
     }
     return false;
   });
+  */
+
   const userMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -51,6 +60,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
   }, [location]);
 
   // Handle dark mode toggle
+  /*
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
@@ -63,6 +73,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
       localStorage.setItem('theme', 'light');
     }
   };
+  */
 
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent, action: () => void) => {
