@@ -83,7 +83,8 @@ export function Login() {
             </svg>
             Try Demo Mode (No Login Required)
           </button>
-        </div>
+        </div>\
+
 
         {/* Footer */}
         <div className="text-center space-y-2">
