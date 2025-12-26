@@ -36,8 +36,8 @@ import { Deliveries } from '@pages/Deliveries';
 import { Adjustments } from '@pages/Adjustments';
 import { MoveHistory } from '@pages/MoveHistory';
 import { Inventory } from '@pages/Inventory';
-
-// Placeholder pages
+import { Settings } from '@pages/Settings';
+import { AuditLogs } from '@pages/AuditLogs';
 
 
 
