@@ -41,17 +41,7 @@ import { AuditLogs } from '@pages/AuditLogs';
 
 
 
-function Audit() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Audit Logs</h1></div>;
-}
 
-function Tasks() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Tasks</h1></div>;
-}
-
-function Settings() {
-  return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1></div>;
-}
 
 
 
@@ -167,7 +157,7 @@ function App() {
                       path="/audit"
                       element={
                         <ProtectedRoute allowedRoles={['admin', 'auditor']}>
-                          <Layout><Audit /></Layout>
+                          <Layout><AuditLogs /></Layout>
                         </ProtectedRoute>
                       }
                     />
