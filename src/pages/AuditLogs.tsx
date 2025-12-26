@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card } from '@components/common/Card';
 import { Table } from '@components/common/Table';
 import { TableSkeleton } from '@components/common/Loading';
-import { Modal } from '@components/common/Modal'; // Use common/Modal if available or I'll check imports
+
 import { fetchAuditLogs } from '@services/audit.service';
 import { AuditLog } from '../types/database.types';
 
