@@ -103,7 +103,7 @@ const AIAssistant: React.FC = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`group relative flex items-center justify-center w-14 h-14 rounded-full shadow-lg shadow-indigo-500/30 transition-all duration-300 hover:scale-105 active:scale-95 ${isOpen ? 'bg-gray-800 rotate-90' : 'bg-indigo-600 hover:bg-indigo-700'
+                className={`group relative flex items-center justify-center w-14 h-14 rounded-full shadow-lg shadow-indigo-500/30 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden ${isOpen ? 'bg-gray-800 rotate-90' : 'bg-white hover:bg-gray-50'
                     }`}
             >
                 <div className={`absolute inset-0 rounded-full transition-opacity duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}>
@@ -114,7 +114,11 @@ const AIAssistant: React.FC = () => {
                 {isOpen ? (
                     <X size={24} className="text-white relative z-10" />
                 ) : (
-                    <MessageSquare size={24} className="text-white relative z-10" />
+                    <img
+                        src={botImg}
+                        alt="AI Assistant"
+                        className="w-full h-full object-cover relative z-10"
+                    />
                 )}
             </button>
         </div>
