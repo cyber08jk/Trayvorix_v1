@@ -15,18 +15,21 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
 
     return (
         <div className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
-            <div className={`flex max-w-[80%] ${isUser ? 'flex-row-reverse' : 'flex-row'} items-start gap-2`}>
-                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isUser ? 'bg-indigo-100 text-indigo-600' : 'bg-emerald-100 text-emerald-600'}`}>
-                    {isUser ? <User size={16} /> : <Bot size={16} />}
-                </div>
+            <div className={`flex max-w-[85%] ${isUser ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}>
+                {!isUser && (
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-gray-700 text-gray-300">
+                        <Bot size={16} />
+                    </div>
+                )}
+
                 <div
-                    className={`p-3 rounded-2xl text-sm ${isUser
-                            ? 'bg-indigo-600 text-white rounded-tr-none'
-                            : 'bg-white border border-gray-100 text-gray-800 rounded-tl-none shadow-sm'
+                    className={`p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${isUser
+                            ? 'bg-[#2b9381] text-white rounded-br-sm'
+                            : 'bg-[#3a3a3c] text-gray-200 rounded-bl-sm border border-gray-700/50'
                         }`}
                 >
                     <p className="whitespace-pre-wrap">{message.content}</p>
-                    <span className={`text-[10px] mt-1 block opacity-70 ${isUser ? 'text-indigo-200' : 'text-gray-400'}`}>
+                    <span className={`text-[10px] mt-2 block ${isUser ? 'text-white/70' : 'text-gray-500'} text-right`}>
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                 </div>

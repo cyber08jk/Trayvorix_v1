@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Paperclip } from 'lucide-react';
+import { Send, Paperclip, Mic } from 'lucide-react';
 
 interface ChatInputProps {
     onSendMessage: (message: string) => void;
@@ -36,12 +36,12 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false 
     }, [message]);
 
     return (
-        <div className="p-4 border-t border-gray-100 bg-white rounded-b-2xl">
+        <div className="p-4 bg-[#1c1c1e] border-t border-gray-800 rounded-b-2xl">
             <form onSubmit={handleSubmit} className="relative">
-                <div className="relative flex items-end gap-2 bg-gray-50 p-2 rounded-xl border border-gray-200 focus-within:border-indigo-300 focus-within:ring-1 focus-within:ring-indigo-100 transition-all">
+                <div className="relative flex items-end gap-2 bg-[#2c2c2e] p-2 rounded-full border border-gray-700/50 focus-within:border-[#2b9381] transition-all">
                     <button
                         type="button"
-                        className="p-2 text-gray-400 hover:text-gray-600 transition-colors rounded-lg hover:bg-gray-200"
+                        className="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/10"
                         title="Attach file"
                     >
                         <Paperclip size={18} />
@@ -52,28 +52,31 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false 
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Ask anything..."
-                        className="flex-1 max-h-[120px] bg-transparent border-none focus:ring-0 p-2 text-sm text-gray-800 placeholder:text-gray-400 resize-none overflow-y-auto"
+                        placeholder="Write a Question..."
+                        className="flex-1 max-h-[120px] bg-transparent border-none focus:ring-0 p-2 text-sm text-white placeholder:text-gray-500 resize-none overflow-y-auto"
                         rows={1}
                         disabled={isLoading}
                     />
 
                     <button
+                        type="button"
+                        className="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/10"
+                        title="Voice input"
+                    >
+                        <Mic size={18} />
+                    </button>
+
+                    <button
                         type="submit"
                         disabled={!message.trim() || isLoading}
-                        className={`p-2 rounded-lg transition-all duration-200 ${message.trim() && !isLoading
-                            ? 'bg-indigo-600 text-white shadow-md hover:bg-indigo-700 hover:scale-105 active:scale-95'
-                            : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        className={`p-2 rounded-full transition-all duration-200 ${message.trim() && !isLoading
+                                ? 'bg-[#2b9381] text-white shadow-md hover:bg-[#248070] hover:scale-105 active:scale-95'
+                                : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                             }`}
                     >
                         <Send size={18} />
                     </button>
                 </div>
-                {isLoading && (
-                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-xs text-gray-500 bg-white/80 px-2 py-1 rounded-full backdrop-blur-sm border border-gray-100">
-                        AI is thinking...
-                    </div>
-                )}
             </form>
         </div>
     );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, X, Minimize2 } from 'lucide-react';
+import { MessageSquare, X, ChevronLeft } from 'lucide-react';
 import botImg from '../../../asserts/bot_img.png';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -17,7 +17,7 @@ const AIAssistant: React.FC = () => {
         {
             id: '1',
             role: 'assistant',
-            content: 'Hello! I am your Trayvorix AI assistant. How can I help you manage your inventory today?',
+            content: 'Hi! How can I help you today?',
             timestamp: new Date(),
         },
     ]);
@@ -48,7 +48,7 @@ const AIAssistant: React.FC = () => {
             const aiResponse: Message = {
                 id: (Date.now() + 1).toString(),
                 role: 'assistant',
-                content: `I'm a demo AI. I received your message: "${content}". In the future, I will be connected to a real AI backend to assist you with inventory tasks, analytics, and more.`,
+                content: `I am a demo. You said: "${content}"`,
                 timestamp: new Date(),
             };
             setMessages((prev) => [...prev, aiResponse]);
@@ -60,41 +60,44 @@ const AIAssistant: React.FC = () => {
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
             {/* Chat Window */}
             <div
-                className={`bg-white rounded-2xl shadow-2xl border border-gray-100 w-80 sm:w-96 flex flex-col transition-all duration-300 origin-bottom-right overflow-hidden ${isOpen
-                    ? 'opacity-100 scale-100 mb-4 h-[500px]'
-                    : 'opacity-0 scale-95 h-0 mb-0 pointer-events-none'
+                className={`bg-[#1c1c1e] rounded-[32px] shadow-2xl border border-gray-800 w-80 sm:w-96 flex flex-col transition-all duration-300 origin-bottom-right overflow-hidden ${isOpen
+                        ? 'opacity-100 scale-100 mb-4 h-[600px]'
+                        : 'opacity-0 scale-95 h-0 mb-0 pointer-events-none'
                     }`}
             >
                 {/* Header */}
-                <div className="bg-gradient-to-r from-indigo-600 to-violet-600 p-4 shrink-0 flex items-center justify-between text-white">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                            <MessageSquare size={18} className="text-white" />
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-sm">Trayvorix Assistant</h3>
-                            <p className="text-[10px] text-indigo-100 flex items-center gap-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                                Online
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-1">
+                <div className="bg-[#1c1c1e] p-4 shrink-0 flex items-center justify-between text-white border-b border-gray-800">
+                    <div className="flex items-center gap-4">
                         <button
                             onClick={() => setIsOpen(false)}
-                            className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
+                            className="w-10 h-10 rounded-full bg-[#2c2c2e] flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
                         >
-                            <Minimize2 size={16} />
+                            <ChevronLeft size={20} />
                         </button>
+                        <h3 className="font-semibold text-lg">Ask Question</h3>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                     </div>
                 </div>
 
                 {/* Messages Area */}
-                <div className="flex-1 overflow-y-auto p-4 bg-gray-50/50 space-y-4 min-h-0">
+                <div className="flex-1 overflow-y-auto p-4 bg-[#1c1c1e] space-y-6 min-h-0 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
                     {messages.map((msg) => (
                         <ChatMessage key={msg.id} message={msg} />
                     ))}
                     <div ref={messagesEndRef} />
+                </div>
+
+                {/* Action Tabs (Visual only for now based on image) */}
+                <div className="px-4 py-2 bg-[#1c1c1e] flex items-center gap-2 overflow-x-auto">
+                    <button className="px-4 py-2 rounded-xl bg-[#2b9381] text-white text-xs font-medium whitespace-nowrap">
+                        Mathematical QnA
+                    </button>
+                    <button className="px-4 py-2 rounded-xl bg-[#2c2c2e] text-gray-400 text-xs font-medium whitespace-nowrap hover:bg-gray-700 hover:text-white transition-colors">
+                        History
+                    </button>
                 </div>
 
                 {/* Input Area */}
@@ -104,16 +107,17 @@ const AIAssistant: React.FC = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`group relative flex items-center justify-center w-14 h-14 rounded-full shadow-lg shadow-indigo-500/30 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden ${isOpen ? 'bg-gray-800 rotate-90' : 'bg-white hover:bg-gray-50'
+                className={`group relative flex items-center justify-center w-16 h-16 rounded-full shadow-2xl shadow-black/50 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden ${isOpen ? 'bg-[#2c2c2e] rotate-90' : 'bg-[#1c1c1e]'
                     }`}
             >
                 <div className={`absolute inset-0 rounded-full transition-opacity duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}>
                     {/* Ping animation ring */}
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75 animate-ping" />
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#2b9381] opacity-20 animate-ping" />
+                    <span className="absolute inline-flex h-full w-full rounded-full border border-[#2b9381]/50" />
                 </div>
 
                 {isOpen ? (
-                    <X size={24} className="text-white relative z-10" />
+                    <X size={28} className="text-white relative z-10" />
                 ) : (
                     <img
                         src={botImg}
