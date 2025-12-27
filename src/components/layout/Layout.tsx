@@ -1,6 +1,7 @@
 import { useState, ReactNode } from 'react';
 import { Navbar } from './Navbar';
 import { Sidebar } from './Sidebar';
+import AIAssistant from '../ai/AIAssistant';
 
 interface LayoutProps {
   children: ReactNode;
@@ -21,6 +22,8 @@ export function Layout({ children }: LayoutProps) {
           {children}
         </div>
       </main>
+
+      <AIAssistant />
     </div>
 
   );
