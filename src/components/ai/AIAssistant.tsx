@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Minimize2 } from 'lucide-react';
+import botImg from '../../../../asserts/bot_img.png';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
 
