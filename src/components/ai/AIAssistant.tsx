@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, X, Minimize2, Maximize2 } from 'lucide-react';
+import { MessageSquare, X, Minimize2 } from 'lucide-react';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
 
@@ -60,8 +60,8 @@ const AIAssistant: React.FC = () => {
             {/* Chat Window */}
             <div
                 className={`bg-white rounded-2xl shadow-2xl border border-gray-100 w-80 sm:w-96 flex flex-col transition-all duration-300 origin-bottom-right overflow-hidden ${isOpen
-                        ? 'opacity-100 scale-100 mb-4 h-[500px]'
-                        : 'opacity-0 scale-95 h-0 mb-0 pointer-events-none'
+                    ? 'opacity-100 scale-100 mb-4 h-[500px]'
+                    : 'opacity-0 scale-95 h-0 mb-0 pointer-events-none'
                     }`}
             >
                 {/* Header */}

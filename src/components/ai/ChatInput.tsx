@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Paperclip, X } from 'lucide-react';
+import { Send, Paperclip } from 'lucide-react';
 
 interface ChatInputProps {
     onSendMessage: (message: string) => void;
@@ -62,8 +62,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false 
                         type="submit"
                         disabled={!message.trim() || isLoading}
                         className={`p-2 rounded-lg transition-all duration-200 ${message.trim() && !isLoading
-                                ? 'bg-indigo-600 text-white shadow-md hover:bg-indigo-700 hover:scale-105 active:scale-95'
-                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            ? 'bg-indigo-600 text-white shadow-md hover:bg-indigo-700 hover:scale-105 active:scale-95'
+                            : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                             }`}
                     >
                         <Send size={18} />
