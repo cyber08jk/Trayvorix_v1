@@ -1,0 +1,1 @@
+src/components/adjustments/AddAdjustmentModal.tsx(6,1): error TS6133: 'useDemo' is declared but its value is never read.

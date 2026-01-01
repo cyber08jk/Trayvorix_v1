@@ -1,0 +1,2 @@
+src/components/adjustments/AddAdjustmentModal.tsx(16,9): error TS6133: 'isDemoMode' is declared but its value is never read.
+src/components/ai/ChatMessage.tsx(2,15): error TS6133: 'User' is declared but its value is never read.
