@@ -2,17 +2,31 @@ import { supabase } from './supabase';
 
 export interface Profile {
   id: string;
+  email?: string;
+  full_name?: string;
+  role?: string;
   currency: string;
   location: string;
   avatar_url?: string;
+  created_at?: string;
 }
 
 export async function getUserProfile(userId: string) {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, currency, location, avatar_url')
+    .select('id, full_name, role, currency, location, avatar_url')
     .eq('id', userId)
     .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function getAllProfiles() {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, full_name, role, currency, location, avatar_url, created_at')
+    .order('created_at', { ascending: false });
+
   if (error) throw error;
   return data;
 }
