@@ -27,6 +27,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
                         ? 'bg-[#2b9381] text-white rounded-br-sm'
                         : 'bg-[#3a3a3c] text-gray-200 rounded-bl-sm border border-gray-700/50'
                         }`}
+
                 >
                     <p className="whitespace-pre-wrap">{message.content}</p>
                     <span className={`text-[10px] mt-2 block ${isUser ? 'text-white/70' : 'text-gray-500'} text-right`}>
