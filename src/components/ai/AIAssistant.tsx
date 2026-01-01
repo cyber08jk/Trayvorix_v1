@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, ChevronLeft } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import botImg from '../../../asserts/bot_img.png';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -147,6 +147,58 @@ const AIAssistant: React.FC = () => {
         return contextMessages[context] || `You said: "${userMessage}"\n\nI'm still learning! Try asking about:\n• Creating invoices\n• Managing products\n• Tracking inventory\n• Understanding receipts and deliveries\n• Warehouse organization`;
     };
 
+    const navigate = useNavigate();
+
+    // ... existing code ...
+
+    // Generate context-aware AI responses AND actions
+    const processUserMessage = (userMessage: string, context: string): { text: string, action?: () => void } => {
+        const lowerMessage = userMessage.toLowerCase();
+
+        // 1. Navigation & Actions
+        if (lowerMessage.includes('create') || lowerMessage.includes('new') || lowerMessage.includes('add')) {
+            if (lowerMessage.includes('receipt')) {
+                return {
+                    text: "I'm taking you to create a new receipt now.",
+                    action: () => navigate('/receipts?action=new')
+                };
+            }
+            if (lowerMessage.includes('delivery')) {
+                return {
+                    text: "I'm taking you to create a new delivery now.",
+                    action: () => navigate('/deliveries?action=new')
+                };
+            }
+            if (lowerMessage.includes('invoice')) {
+                return {
+                    text: "I'm taking you to create a new invoice now.",
+                    action: () => navigate('/invoices?action=new')
+                };
+            }
+            if (lowerMessage.includes('product')) {
+                return {
+                    text: "I'm taking you to create a new product.",
+                    action: () => navigate('/products?action=new')
+                };
+            }
+        }
+
+        if (lowerMessage.includes('go to') || lowerMessage.includes('open') || lowerMessage.includes('show')) {
+            if (lowerMessage.includes('dashboard')) return { text: "Opening Dashboard.", action: () => navigate('/dashboard') };
+            if (lowerMessage.includes('inventory')) return { text: "Opening Inventory.", action: () => navigate('/inventory') };
+            if (lowerMessage.includes('products')) return { text: "Opening Products.", action: () => navigate('/products') };
+            if (lowerMessage.includes('receipts')) return { text: "Opening Receipts.", action: () => navigate('/receipts') };
+            if (lowerMessage.includes('deliveries')) return { text: "Opening Deliveries.", action: () => navigate('/deliveries') };
+            if (lowerMessage.includes('invoices')) return { text: "Opening Invoices.", action: () => navigate('/invoices') };
+            if (lowerMessage.includes('warehouses')) return { text: "Opening Warehouses.", action: () => navigate('/warehouses') };
+            if (lowerMessage.includes('settings')) return { text: "Opening Settings.", action: () => navigate('/settings') };
+            if (lowerMessage.includes('profile')) return { text: "Opening Profile.", action: () => navigate('/profile') };
+        }
+
+        // ... existing response logic ...
+        return { text: generateAIResponse(userMessage, context) };
+    };
+
     const handleSendMessage = async (content: string) => {
         const newMessage: Message = {
             id: Date.now().toString(),
@@ -161,16 +213,23 @@ const AIAssistant: React.FC = () => {
         // Get current page context
         const context = getPageContext();
 
-        // Simulate AI response with context awareness
+        // Process message for response and actions
         setTimeout(() => {
+            const { text, action } = processUserMessage(content, context);
+
             const aiResponse: Message = {
                 id: (Date.now() + 1).toString(),
                 role: 'assistant',
-                content: generateAIResponse(content, context),
+                content: text,
                 timestamp: new Date(),
             };
             setMessages((prev) => [...prev, aiResponse]);
             setIsLoading(false);
+
+            // Execute action if present
+            if (action) {
+                setTimeout(action, 500); // Small delay for UX
+            }
         }, 800);
     };
 
