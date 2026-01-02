@@ -51,16 +51,9 @@ export function Reports() {
                     break;
 
                 case 'low-stock':
-                    const { data: lowStock, error: lowStockError } = await supabase
-                        .from('products')
-                        .select('*')
-                        .lte('quantity', supabase.rpc('reorder_point')) // This might be tricky if reorder_point is a column, we can filter in JS
-                        // Simpler approach: fetch all and filter
-                        .order('quantity');
-
-                    if (lowStockError) throw lowStockError; // Actually let's fetch all and filter to be safe
-
-                    const { data: allProducts } = await supabase.from('products').select('*');
+                    // Fetch all products and filter in JS for simplicity with reorder_point logic
+                    const { data: allProducts, error: prodError } = await supabase.from('products').select('*');
+                    if (prodError) throw prodError;
                     if (!allProducts) throw new Error("No products found");
 
                     const lowStockItems = allProducts
@@ -132,7 +125,7 @@ export function Reports() {
 
                 <div className="mt-auto flex gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
                     <Button
-                        variant="outline"
+                        variant="secondary"
                         className="flex-1 text-xs"
                         onClick={() => handleExport(type, 'pdf')}
                         disabled={!!downloading}
@@ -140,7 +133,7 @@ export function Reports() {
                         {downloading === `${type}-pdf` ? 'Generating...' : 'Export PDF'}
                     </Button>
                     <Button
-                        variant="outline"
+                        variant="secondary"
                         className="flex-1 text-xs"
                         onClick={() => handleExport(type, 'csv')}
                         disabled={!!downloading}
