@@ -19,6 +19,7 @@ import { Analytics } from '@pages/Analytics';
 import { RequestAccess } from '@pages/RequestAccess';
 import { AccessRequests } from '@pages/AccessRequests';
 import { Users } from '@pages/Users';
+import { Reports } from '@pages/Reports';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -204,6 +205,14 @@ function App() {
                       element={
                         <ProtectedRoute allowedRoles={['admin']}>
                           <Layout><Users /></Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/reports"
+                      element={
+                        <ProtectedRoute>
+                          <Layout><Reports /></Layout>
                         </ProtectedRoute>
                       }
                     />

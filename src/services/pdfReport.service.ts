@@ -129,6 +129,102 @@ export const generateAnalyticsReport = (data: ReportData) => {
     }
 
     // Save the PDF
-    const filename = `trayvorix_report_${new Date().toISOString().split('T')[0]}.pdf`;
+    const filename = `trayvorix_analytics_${new Date().toISOString().split('T')[0]}.pdf`;
     doc.save(filename);
+};
+
+export const generateInventoryReport = (products: any[]) => {
+    const doc = new jsPDF();
+    const margin = 20;
+
+    // Header
+    doc.setFontSize(22);
+    doc.text('Inventory Status Report', margin, margin);
+    doc.setFontSize(10);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, margin, margin + 6);
+
+    const tableData = products.map(p => [
+        p.name,
+        p.sku,
+        p.category,
+        p.quantity.toString(),
+        formatCurrency(p.price, 'USD'), // Using default currency for now
+        formatCurrency(p.price * p.quantity, 'USD'),
+        p.status
+    ]);
+
+    autoTable(doc, {
+        startY: margin + 15,
+        head: [['Product', 'SKU', 'Category', 'Qty', 'Unit Price', 'Total Value', 'Status']],
+        body: tableData,
+        theme: 'grid',
+        headStyles: { fillColor: [41, 128, 185] },
+        styles: { fontSize: 8 },
+        columnStyles: {
+            3: { halign: 'right' },
+            4: { halign: 'right' },
+            5: { halign: 'right' },
+        }
+    });
+
+    doc.save(`inventory_report_${new Date().toISOString().split('T')[0]}.pdf`);
+};
+
+export const generateLowStockReport = (products: any[]) => {
+    const doc = new jsPDF();
+    const margin = 20;
+
+    doc.setFontSize(22);
+    doc.setTextColor(231, 76, 60); // Red color for urgency
+    doc.text('Low Stock Alert Report', margin, margin);
+    doc.setTextColor(0);
+    doc.setFontSize(10);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, margin, margin + 6);
+
+    const tableData = products.map(p => [
+        p.name,
+        p.sku,
+        p.quantity.toString(),
+        p.reorder_point?.toString() || '0',
+        (p.quantity <= 0 ? 'Out of Stock' : 'Low Stock')
+    ]);
+
+    autoTable(doc, {
+        startY: margin + 15,
+        head: [['Product', 'SKU', 'Current Qty', 'Reorder Point', 'Status']],
+        body: tableData,
+        theme: 'striped',
+        headStyles: { fillColor: [231, 76, 60] }, // Red header
+        styles: { fontSize: 10 },
+    });
+
+    doc.save(`low_stock_report_${new Date().toISOString().split('T')[0]}.pdf`);
+};
+
+export const generateStockMovementsReport = (movements: any[]) => {
+    const doc = new jsPDF();
+    const margin = 20;
+
+    doc.setFontSize(22);
+    doc.text('Stock Movements Report', margin, margin);
+    doc.setFontSize(10);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, margin, margin + 6);
+
+    const tableData = movements.map(m => [
+        new Date(m.created_at).toLocaleDateString(),
+        m.type.toUpperCase(),
+        m.product?.name || 'Unknown Product',
+        m.quantity.toString(),
+        m.reference || '-'
+    ]);
+
+    autoTable(doc, {
+        startY: margin + 15,
+        head: [['Date', 'Type', 'Product', 'Quantity', 'Reference']],
+        body: tableData,
+        theme: 'grid',
+        styles: { fontSize: 9 },
+    });
+
+    doc.save(`stock_movements_${new Date().toISOString().split('T')[0]}.pdf`);
 };
