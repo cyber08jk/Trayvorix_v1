@@ -21,7 +21,7 @@ export function Reports() {
             let data: any[] = [];
 
             switch (reportType) {
-                case 'inventory':
+                case 'inventory': {
                     const { data: products, error: prodError } = await supabase
                         .from('products')
                         .select('*')
@@ -49,8 +49,9 @@ export function Reports() {
                         exportToCSV(csvData, 'inventory_report');
                     }
                     break;
+                }
 
-                case 'low-stock':
+                case 'low-stock': {
                     // Fetch all products and filter in JS for simplicity with reorder_point logic
                     const { data: allProducts, error: prodError } = await supabase.from('products').select('*');
                     if (prodError) throw prodError;
@@ -76,8 +77,9 @@ export function Reports() {
                         exportToCSV(csvData, 'low_stock_report');
                     }
                     break;
+                }
 
-                case 'movements':
+                case 'movements': {
                     const { data: movements, error: movError } = await supabase
                         .from('stock_movements')
                         .select('*, product:products(name)')
@@ -99,6 +101,7 @@ export function Reports() {
                         exportToCSV(csvData, 'stock_movements_report');
                     }
                     break;
+                }
             }
 
             showToast('Report generated successfully', 'success');
