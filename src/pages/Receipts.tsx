@@ -1,23 +1,5 @@
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-// ... existing code ...
-
-const [searchParams, setSearchParams] = useSearchParams();
-
-useEffect(() => {
-  fetchReceipts();
-}, [isDemoMode]);
-
-useEffect(() => {
-  if (searchParams.get('action') === 'new') {
-    setShowAddModal(true);
-    // Clean up URL
-    setSearchParams(params => {
-      params.delete('action');
-      return params;
-    });
-  }
-}, [searchParams]);
 import { Card } from '@components/common/Card';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
@@ -39,6 +21,7 @@ interface Receipt {
 }
 
 export function Receipts() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [receipts, setReceipts] = useState<Receipt[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,6 +33,17 @@ export function Receipts() {
   useEffect(() => {
     fetchReceipts();
   }, [isDemoMode]);
+
+  useEffect(() => {
+    if (searchParams.get('action') === 'new') {
+      setShowAddModal(true);
+      // Clean up URL
+      setSearchParams(params => {
+        params.delete('action');
+        return params;
+      });
+    }
+  }, [searchParams]);
 
   const fetchReceipts = async () => {
     try {

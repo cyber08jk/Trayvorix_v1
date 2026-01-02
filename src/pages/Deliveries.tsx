@@ -1,23 +1,5 @@
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-// ... existing code ...
-
-const [searchParams, setSearchParams] = useSearchParams();
-
-useEffect(() => {
-  fetchDeliveries();
-}, [isDemoMode]);
-
-useEffect(() => {
-  if (searchParams.get('action') === 'new') {
-    setShowAddModal(true);
-    // Clean up URL
-    setSearchParams(params => {
-      params.delete('action');
-      return params;
-    });
-  }
-}, [searchParams]);
 import { Card } from '@components/common/Card';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
@@ -38,6 +20,7 @@ interface Delivery {
 }
 
 export function Deliveries() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,6 +32,17 @@ export function Deliveries() {
   useEffect(() => {
     fetchDeliveries();
   }, [isDemoMode]);
+
+  useEffect(() => {
+    if (searchParams.get('action') === 'new') {
+      setShowAddModal(true);
+      // Clean up URL
+      setSearchParams(params => {
+        params.delete('action');
+        return params;
+      });
+    }
+  }, [searchParams]);
 
   const fetchDeliveries = async () => {
     try {
