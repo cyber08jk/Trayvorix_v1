@@ -13,6 +13,7 @@ interface TableProps<T> {
   emptyMessage?: string;
 }
 
+
 export function Table<T extends Record<string, any>>({
   data,
   columns,
@@ -55,9 +56,8 @@ export function Table<T extends Record<string, any>>({
               <tr
                 key={index}
                 onClick={() => onRowClick?.(item)}
-                className={`bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 ${
-                  onRowClick ? 'hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer' : ''
-                }`}
+                className={`bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 ${onRowClick ? 'hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer' : ''
+                  }`}
               >
                 {columns.map((column) => (
                   <td key={column.key} className="px-6 py-4 text-gray-700 dark:text-gray-300">
