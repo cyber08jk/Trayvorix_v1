@@ -1,9 +1,10 @@
 interface LoadingProps {
   size?: 'sm' | 'md' | 'lg';
   text?: string;
+  className?: string; // Add className prop
 }
 
-export function Loading({ size = 'md', text }: LoadingProps) {
+export function Loading({ size = 'md', text, className = '' }: LoadingProps) {
   const sizeClasses = {
     sm: 'h-6 w-6',
     md: 'h-12 w-12',
@@ -11,7 +12,7 @@ export function Loading({ size = 'md', text }: LoadingProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className={`flex flex-col items-center justify-center ${className}`}>
       <div
         className={`animate-spin rounded-full border-b-2 border-indigo-600 ${sizeClasses[size]}`}
       ></div>
