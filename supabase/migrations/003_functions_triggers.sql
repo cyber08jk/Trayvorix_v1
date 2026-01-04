@@ -11,7 +11,7 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-
+--sql to create
 
 -- Apply updated_at trigger to relevant tables
 CREATE TRIGGER update_warehouses_updated_at
