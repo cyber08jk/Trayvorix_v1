@@ -47,6 +47,7 @@ CREATE TRIGGER update_tasks_updated_at
 
 -- =====================================================
 -- FUNCTION: Create audit log entry
+
 -- =====================================================
 CREATE OR REPLACE FUNCTION create_audit_log()
 RETURNS TRIGGER AS $$
