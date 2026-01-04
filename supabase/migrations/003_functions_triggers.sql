@@ -91,6 +91,7 @@ CREATE TRIGGER audit_adjustments
 
 -- =====================================================
 -- FUNCTION: Check inventory availability
+
 -- =====================================================
 CREATE OR REPLACE FUNCTION check_inventory_availability(
     p_product_id UUID,
