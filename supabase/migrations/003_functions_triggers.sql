@@ -12,6 +12,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 -- Apply updated_at trigger to relevant tables
 CREATE TRIGGER update_warehouses_updated_at
     BEFORE UPDATE ON warehouses
