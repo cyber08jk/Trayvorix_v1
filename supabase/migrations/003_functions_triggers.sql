@@ -114,6 +114,7 @@ $$ LANGUAGE plpgsql;
 
 -- =====================================================
 -- FUNCTION: Update inventory on stock movement
+
 -- =====================================================
 CREATE OR REPLACE FUNCTION update_inventory_on_movement()
 RETURNS TRIGGER AS $$
