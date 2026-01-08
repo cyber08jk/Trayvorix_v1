@@ -61,7 +61,7 @@ export function Deliveries() {
         if (error) throw error;
         setDeliveries(data || []);
       }
-      
+
     } catch (error: any) {
       console.error('Error fetching deliveries:', error.message || error);
       setDeliveries([]);
@@ -70,6 +70,7 @@ export function Deliveries() {
     }
   };
 
+  
   const getStatusBadge = (status: string) => {
     const statusColors = {
       draft: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
