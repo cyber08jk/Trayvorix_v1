@@ -61,6 +61,7 @@ export function Deliveries() {
         if (error) throw error;
         setDeliveries(data || []);
       }
+      
     } catch (error: any) {
       console.error('Error fetching deliveries:', error.message || error);
       setDeliveries([]);
