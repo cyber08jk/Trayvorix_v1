@@ -11,6 +11,8 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+--sql to create 
+--functional changed 
 
 -- Apply updated_at trigger to relevant tables
 CREATE TRIGGER update_warehouses_updated_at
@@ -45,6 +47,7 @@ CREATE TRIGGER update_tasks_updated_at
 
 -- =====================================================
 -- FUNCTION: Create audit log entry
+
 -- =====================================================
 CREATE OR REPLACE FUNCTION create_audit_log()
 RETURNS TRIGGER AS $$
@@ -89,6 +92,7 @@ CREATE TRIGGER audit_adjustments
 
 -- =====================================================
 -- FUNCTION: Check inventory availability
+
 -- =====================================================
 CREATE OR REPLACE FUNCTION check_inventory_availability(
     p_product_id UUID,
