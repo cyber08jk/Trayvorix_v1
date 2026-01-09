@@ -21,6 +21,7 @@ import { AccessRequests } from '@pages/AccessRequests';
 import { Users } from '@pages/Users';
 import { Reports } from '@pages/Reports';
 
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
