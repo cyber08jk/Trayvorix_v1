@@ -21,6 +21,7 @@ import { AccessRequests } from '@pages/AccessRequests';
 import { Users } from '@pages/Users';
 import { Reports } from '@pages/Reports';
 
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,6 +47,7 @@ function Tasks() {
   return <div><h1 className="text-2xl font-bold text-gray-900 dark:text-white">Tasks</h1></div>;
 }
 
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -65,6 +67,7 @@ function App() {
                     <Route path="/test-connection" element={<TestConnection />} />
                     <Route path="/request-access" element={<RequestAccess />} />
 
+                    
                     {/* Protected routes with layout */}
                     <Route
                       path="/dashboard"
