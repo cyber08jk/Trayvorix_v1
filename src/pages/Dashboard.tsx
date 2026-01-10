@@ -39,6 +39,10 @@ export function Dashboard() {
     fetchDashboardData();
   }, [isDemoMode]);
 
+  useEffect(() => {
+    window.dashboardKPI = kpiData;
+  }, [kpiData]);
+
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
