@@ -114,7 +114,23 @@ const AIAssistant: React.FC = () => {
 
         // Dashboard queries
         if (context === 'dashboard' || lowerMessage.includes('dashboard') || lowerMessage.includes('overview')) {
-            return "The Dashboard shows:\n• Total Products count\n• Total Inventory Value\n• Low Stock Items (below reorder point)\n• Pending Transfers\n• Recent Activity Timeline\n• Stock Trends and Charts\n\nIt's your command center for inventory management!";
+            // Try to access window.dashboardKPI if available (for demo)
+            let kpiText = '';
+            if (window && window.dashboardKPI) {
+                const kpi = window.dashboardKPI;
+                kpiText = `Here's your current dashboard:\n\n` +
+                    `• Total Products: ${kpi.totalProducts}\n` +
+                    `• Inventory Value: ${kpi.totalInventoryValue}\n` +
+                    `• Low Stock Items: ${kpi.lowStockItems}\n` +
+                    `• Pending Transfers: ${kpi.pendingTransfers}\n`;
+            } else {
+                kpiText = `Here's your current dashboard:\n\n` +
+                    `• Total Products: (dynamic count)\n` +
+                    `• Inventory Value: (dynamic value)\n` +
+                    `• Low Stock Items: (dynamic count)\n` +
+                    `• Pending Transfers: (dynamic count)\n`;
+            }
+            return kpiText + "\nRecent activity and trends are shown in charts below. Let me know if you want details on any metric!";
         }
 
         // Analytics queries
