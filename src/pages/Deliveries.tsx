@@ -10,6 +10,7 @@ import { useDemo } from '@contexts/DemoContext';
 import { sampleDeliveries } from '@data/sampleData';
 import { supabase } from '@services/supabase';
 import { AddDeliveryModal } from '@components/deliveries/AddDeliveryModal';
+import AIAssistant from '@components/ai/AIAssistant';
 
 interface Delivery {
   id: string;
@@ -26,6 +27,7 @@ export function Deliveries() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showChatbot, setShowChatbot] = useState(false);
   const { showToast } = useToast();
   const { isDemoMode } = useDemo();
 
@@ -161,7 +163,7 @@ export function Deliveries() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -180,6 +182,24 @@ export function Deliveries() {
         </Button>
       </div>
 
+      {/* Floating Chatbot Button */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <button
+          onClick={() => setShowChatbot((prev) => !prev)}
+          className="w-16 h-16 rounded-full bg-[#1c1c1e] shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
+        >
+          <img src={require('../../asserts/bot_img.png')} alt="Chatbot" className="w-10 h-10" />
+        </button>
+      </div>
+
+      {/* Chatbot Modal */}
+      {showChatbot && (
+        <div className="fixed inset-0 z-50 flex items-end justify-end p-8 pointer-events-none">
+          <div className="pointer-events-auto">
+            <AIAssistant />
+          </div>
+        </div>
+      )}
       {/* Filters */}
       <Card>
         <div className="flex flex-col sm:flex-row gap-4">
