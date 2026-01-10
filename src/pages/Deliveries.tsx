@@ -81,6 +81,7 @@ export function Deliveries() {
       canceled: 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400',
     };
 
+    
     return (
       <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusColors[status as keyof typeof statusColors]}`}>
         {status.charAt(0).toUpperCase() + status.slice(1)}
