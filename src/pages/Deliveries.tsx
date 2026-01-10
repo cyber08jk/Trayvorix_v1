@@ -11,6 +11,7 @@ import { sampleDeliveries } from '@data/sampleData';
 import { supabase } from '@services/supabase';
 import { AddDeliveryModal } from '@components/deliveries/AddDeliveryModal';
 import AIAssistant from '@components/ai/AIAssistant';
+import botImg from '../../asserts/bot_img.png';
 
 interface Delivery {
   id: string;
@@ -188,7 +189,7 @@ export function Deliveries() {
           onClick={() => setShowChatbot((prev) => !prev)}
           className="w-16 h-16 rounded-full bg-[#1c1c1e] shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
         >
-          <img src={require('../../asserts/bot_img.png')} alt="Chatbot" className="w-10 h-10" />
+          <img src={botImg} alt="Chatbot" className="w-10 h-10" />
         </button>
       </div>
 
