@@ -14,6 +14,7 @@ interface TableProps<T> {
 }
 
 
+
 export function Table<T extends Record<string, any>>({
   data,
   columns,
