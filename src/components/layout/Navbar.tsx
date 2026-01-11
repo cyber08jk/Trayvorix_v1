@@ -112,7 +112,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
 
             <Link
               to="/dashboard"
-              className="flex items-center ml-2 lg:ml-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900 rounded-md"
+              className="flex items-center ml-2 lg:ml-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-gray-900 rounded-md"
               aria-label="Trayvorix Home"
             >
               <div className="flex items-center justify-center transition-all duration-300">
@@ -130,7 +130,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
             <button
               onClick={toggleDarkMode}
               onKeyDown={(e) => handleKeyDown(e, toggleDarkMode)}
-              className="p-2 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900"
+              className="p-2 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-gray-900"
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {darkMode ? (
@@ -148,7 +148,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
             {/* Notifications */}
             <div className="relative">
               <button
-                className="p-2 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900"
+                className="p-2 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-gray-900"
                 aria-label="View notifications"
                 onClick={() => setShowNotifications((v) => !v)}
               >
@@ -171,7 +171,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
                   ) : (
                     <ul>
                       {notifications.map((notif) => (
-                        <li key={notif.id} className={`px-4 py-3 border-b border-gray-100 dark:border-gray-700 ${notif.read ? '' : 'bg-indigo-50 dark:bg-gray-900'}`}>
+                        <li key={notif.id} className={`px-4 py-3 border-b border-gray-100 dark:border-gray-700 ${notif.read ? '' : 'bg-primary-50 dark:bg-gray-900'}`}>
                           <div className="font-medium text-gray-800 dark:text-gray-100">{notif.title}</div>
                           <div className="text-sm text-gray-600 dark:text-gray-300">{notif.message}</div>
                           <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">{new Date(notif.created_at).toLocaleString()}</div>
@@ -188,7 +188,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
                 onKeyDown={(e) => handleKeyDown(e, () => setShowUserMenu(!showUserMenu))}
-                className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900"
+                className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-gray-900"
                 aria-expanded={showUserMenu}
                 aria-haspopup="true"
                 id="user-menu-button"
@@ -201,7 +201,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
                     className="w-8 h-8 rounded-full object-cover shadow-sm ring-2 ring-gray-100 dark:ring-gray-700"
                   />
                 ) : (
-                  <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm">
+                  <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-primary-700 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm">
                     {user?.email?.charAt(0).toUpperCase() || 'D'}
                   </div>
                 )}
@@ -228,7 +228,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
                         className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-100 dark:ring-gray-700"
                       />
                     ) : (
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-inner">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-inner">
                         {user?.email?.charAt(0).toUpperCase() || 'U'}
                       </div>
                     )}
@@ -240,7 +240,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
                       <p className="text-xs text-gray-500 dark:text-gray-400 truncate font-medium">
                         {user?.email || 'demo@trayvorix.com'}
                       </p>
-                      <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded text-xs font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 capitalize border border-indigo-100 dark:border-indigo-800">
+                      <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded text-xs font-medium bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 capitalize border border-primary-100 dark:border-primary-800">
                         {userRole || 'Demo User'}
                       </span>
                     </div>
@@ -257,7 +257,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
                     tabIndex={-1}
                   >
                     <div className="p-1.5 bg-gray-100 dark:bg-gray-700 rounded-md group-hover:bg-white dark:group-hover:bg-gray-600 transition-colors shadow-sm">
-                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>

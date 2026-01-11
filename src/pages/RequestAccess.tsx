@@ -72,7 +72,7 @@ export function RequestAccess() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-primary-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-4">
       <div className="w-full max-w-2xl animate-slide-in">
         {/* Logo Section */}
         <div className="text-center mb-8">
@@ -130,7 +130,7 @@ export function RequestAccess() {
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
                 required
               >
                 <option value="operator">Operator - Daily operations</option>
@@ -152,7 +152,7 @@ export function RequestAccess() {
                 placeholder="Please explain why you need access to this system..."
                 rows={4}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
               />
             </div>
 
@@ -204,7 +204,7 @@ export function RequestAccess() {
             Already have an account?{' '}
             <button
               onClick={() => navigate('/login')}
-              className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium"
+              className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium"
             >
               Sign in here
             </button>

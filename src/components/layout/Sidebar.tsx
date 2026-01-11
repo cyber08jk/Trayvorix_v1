@@ -134,20 +134,20 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <button
             onClick={(e) => toggleMenu(item.name, e)}
             className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg transition-colors ${isExpanded
-              ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+              ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
               : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             aria-expanded={isExpanded}
             aria-controls={`submenu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
           >
             <div className="flex items-center space-x-3">
-              <span className={`transition-colors ${isExpanded ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400'}`}>
+              <span className={`transition-colors ${isExpanded ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400'}`}>
                 {item.icon}
               </span>
               <span className="text-sm font-medium">{item.name}</span>
             </div>
             <svg
-              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180 text-indigo-600 dark:text-indigo-400' : 'text-gray-400'}`}
+              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180 text-primary-600 dark:text-primary-400' : 'text-gray-400'}`}
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -177,7 +177,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           className={({ isActive }) =>
             `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${isChild ? 'text-sm' : ''
             } ${isActive
-              ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+              ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
               : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
             }`
           }
@@ -185,12 +185,12 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         >
           {({ isActive }) => (
             <>
-              <span className={`transition-colors ${isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'}`}>
+              <span className={`transition-colors ${isActive ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'}`}>
                 {item.icon}
               </span>
               <span className="font-medium">{item.name}</span>
               {isActive && (
-                <span className="absolute right-4 w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full" aria-hidden="true" />
+                <span className="absolute right-4 w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full" aria-hidden="true" />
               )}
             </>
           )}
@@ -229,7 +229,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 to="/access-requests"
                 className={({ isActive }) =>
                   `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${isActive
-                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+                    ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`
                 }
@@ -239,7 +239,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   <>
                     <svg
                       className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
-                        ? 'text-indigo-600 dark:text-indigo-400'
+                        ? 'text-primary-600 dark:text-primary-400'
                         : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
                         }`}
                       fill="currentColor"
@@ -249,7 +249,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     </svg>
                     <span className="font-medium">Access Management</span>
                     {isActive && (
-                      <span className="absolute right-4 w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full" aria-hidden="true" />
+                      <span className="absolute right-4 w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full" aria-hidden="true" />
                     )}
                   </>
                 )}
