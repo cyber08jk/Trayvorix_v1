@@ -72,17 +72,19 @@ export function RequestAccess() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-primary-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-4">
-      <div className="w-full max-w-2xl animate-slide-in">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4" style={{ backgroundImage: "url('/login-bg.png')" }}>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/30 pointer-events-none z-0"></div>
+      <div className="w-full max-w-2xl animate-slide-in relative z-10">
         {/* Logo Section */}
         <div className="text-center mb-8">
           <div className="mb-4">
             <img src="/logo.png" alt="Trayvorix Logo" className="w-20 h-20 mx-auto" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
             Request Access
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-100 drop-shadow-md">
             Submit your information and admin will review your request
           </p>
         </div>
@@ -200,11 +202,11 @@ export function RequestAccess() {
 
         {/* Back to Login */}
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-100 drop-shadow-md">
             Already have an account?{' '}
             <button
               onClick={() => navigate('/login')}
-              className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium"
+              className="text-white hover:text-gray-200 font-bold underline decoration-white/50 hover:decoration-white transition-all ml-1"
             >
               Sign in here
             </button>
@@ -212,5 +214,6 @@ export function RequestAccess() {
         </div>
       </div>
     </div>
+
   );
 }

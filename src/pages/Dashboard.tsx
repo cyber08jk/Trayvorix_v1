@@ -89,6 +89,17 @@ export function Dashboard() {
           Welcome back! Here's what's happening with your inventory today.
         </p>
       </div>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
+        <div className="flex space-x-2">
+          <button className="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            Last 30 Days
+          </button>
+          <button className="px-4 py-2 bg-primary-600 text-white rounded-lg shadow-md text-sm font-medium hover:bg-primary-700 transition-colors">
+            Download Report
+          </button>
+        </div>
+      </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

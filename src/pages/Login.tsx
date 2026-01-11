@@ -15,7 +15,7 @@ export function Login() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style={{ backgroundImage: "url('/login-bg.png')" }}>
       {/* Request Access Button - Top Right Corner */}
       <div className="absolute top-6 right-6 z-20">
         <button
@@ -30,11 +30,8 @@ export function Login() {
       </div>
 
       {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-300 dark:bg-primary-900 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-20 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-300 dark:bg-blue-900 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-300 dark:bg-cyan-900 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
-      </div>
+      {/* Animated background elements - Removed for image background */}
+      <div className="absolute inset-0 bg-black/30 pointer-events-none"></div>
       <div className="max-w-md w-full space-y-8 relative z-10">
         {/* Logo and Header */}
         <div className="text-center">
@@ -43,10 +40,10 @@ export function Login() {
               <img src="/logo.png" alt="Trayvorix Logo" className="w-24 h-24 transform hover:scale-110 transition-transform duration-300" />
             </div>
           </div>
-          <h2 className="text-4xl font-extrabold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-extrabold text-white drop-shadow-lg custom-text-shadow">
             Welcome Back
           </h2>
-          <p className="mt-3 text-base text-gray-600 dark:text-gray-400 font-medium">
+          <p className="mt-3 text-base text-gray-100 drop-shadow-md font-medium">
             Sign in to manage your inventory
           </p>
         </div>
@@ -83,11 +80,11 @@ export function Login() {
 
         {/* Footer */}
         <div className="text-center space-y-2">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-gray-200 drop-shadow-sm">
             Built for efficient warehouse management
           </p>
           <p className="text-xs">
-            <a href="/test-connection" className="text-primary-600 hover:text-primary-500">
+            <a href="/test-connection" className="text-white hover:text-gray-200 drop-shadow-sm underline decoration-white/50 hover:decoration-white">
               Having connection issues? Test your setup →
             </a>
           </p>

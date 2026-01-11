@@ -19,17 +19,18 @@ export function DemoLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style={{ backgroundImage: "url('/login-bg.png')" }}>
+      <div className="absolute inset-0 bg-black/30 pointer-events-none"></div>
       <div className="w-full max-w-md animate-slide-in">
         {/* Logo Section */}
         <div className="text-center mb-8">
           <div className="mb-4">
             <img src="/logo.png" alt="Trayvorix Logo" className="w-20 h-20 mx-auto" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
             Trayvorix
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-100 drop-shadow-md">
             Inventory Management System
           </p>
         </div>

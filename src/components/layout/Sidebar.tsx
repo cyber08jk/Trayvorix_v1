@@ -4,6 +4,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  isMinimized: boolean;
+  toggleMinimize: () => void;
 }
 
 interface NavItem {
@@ -13,9 +15,7 @@ interface NavItem {
   children?: NavItem[];
 }
 
-
-
-export function Sidebar({ isOpen, onClose }: SidebarProps) {
+export function Sidebar({ isOpen, onClose, isMinimized, toggleMinimize }: SidebarProps) {
   const location = useLocation();
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['Operations']);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -45,6 +45,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const toggleMenu = (menuName: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isMinimized) return; // Don't toggle menus when minimized
     setExpandedMenus(prev =>
       prev.includes(menuName)
         ? prev.filter(m => m !== menuName)
@@ -127,44 +128,63 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   ];
 
   const renderNavItem = (item: NavItem, isChild = false, depth = 0) => {
+    // If minimized and it's a child item, don't render it (parent handles click)
+    // Actually, simpler approach: if minimized, don't show children at all in the list
+    if (isMinimized && isChild) return null;
+
     if (item.children) {
       const isExpanded = expandedMenus.includes(item.name);
+      // If minimized, we only show the parent icon
+      if (isMinimized) {
+        // When minimized, clicking parents with children could perhaps open a tooltip or do nothing
+        // For now, let's just show the icon. 
+        // A better UX for minimized sidebar is usually: hover opens a floating menu.
+        // Given the complexity constraints, let's just show the icon. width will clip text.
+      }
+
       return (
         <li key={item.name} className="relative">
           <button
             onClick={(e) => toggleMenu(item.name, e)}
-            className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg transition-colors ${isExpanded
+            className={`flex items-center ${isMinimized ? 'justify-center' : 'justify-between'} w-full px-3 py-2.5 rounded-lg transition-colors ${isExpanded && !isMinimized
               ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
               : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             aria-expanded={isExpanded}
             aria-controls={`submenu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+            title={isMinimized ? item.name : undefined}
           >
-            <div className="flex items-center space-x-3">
-              <span className={`transition-colors ${isExpanded ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400'}`}>
+            <div className={`flex items-center space-x-3 ${isMinimized ? 'justify-center w-full' : ''}`}>
+              <span className={`transition-colors flex-shrink-0 ${isExpanded && !isMinimized ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400'}`}>
                 {item.icon}
               </span>
-              <span className="text-sm font-medium">{item.name}</span>
+              {!isMinimized && <span className="text-sm font-medium whitespace-nowrap">{item.name}</span>}
             </div>
-            <svg
-              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180 text-primary-600 dark:text-primary-400' : 'text-gray-400'}`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
+            {!isMinimized && (
+              <svg
+                className={`w-4 h-4 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180 text-primary-600 dark:text-primary-400' : 'text-gray-400'}`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            )}
           </button>
-          <div
-            id={`submenu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-            className={`transition-all duration-200 overflow-hidden ${isExpanded ? 'max-h-96' : 'max-h-0'}`}
-            role="region"
-            aria-label={`${item.name} submenu`}
-          >
-            <ul className="mt-1 ml-4 pl-3 space-y-1 border-l-2 border-gray-200 dark:border-gray-700">
-              {item.children.map((child) => renderNavItem(child, true, depth + 1))}
-            </ul>
-          </div>
+
+          {/* Submenu - Only show if not minimized */}
+          {!isMinimized && (
+            <div
+              id={`submenu-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+              className={`transition-all duration-200 overflow-hidden ${isExpanded ? 'max-h-96' : 'max-h-0'}`}
+              role="region"
+              aria-label={`${item.name} submenu`}
+            >
+              <ul className="mt-1 ml-4 pl-3 space-y-1 border-l-2 border-gray-200 dark:border-gray-700">
+                {item.children.map((child) => renderNavItem(child, true, depth + 1))}
+              </ul>
+            </div>
+          )}
         </li>
       );
     }
@@ -173,23 +193,24 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       <li key={item.path}>
         <NavLink
           to={item.path!}
-          onClick={onClose}
+          onClick={isMobile ? onClose : undefined}
           className={({ isActive }) =>
-            `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${isChild ? 'text-sm' : ''
+            `group flex items-center ${isMinimized ? 'justify-center' : 'space-x-3'} px-3 py-2.5 rounded-lg transition-colors ${isChild ? 'text-sm' : ''
             } ${isActive
               ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
               : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
             }`
           }
           aria-current={location.pathname === item.path ? 'page' : undefined}
+          title={isMinimized ? item.name : undefined}
         >
           {({ isActive }) => (
             <>
-              <span className={`transition-colors ${isActive ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'}`}>
+              <span className={`transition-colors flex-shrink-0 ${isActive ? 'text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'}`}>
                 {item.icon}
               </span>
-              <span className="font-medium">{item.name}</span>
-              {isActive && (
+              {!isMinimized && <span className="font-medium whitespace-nowrap">{item.name}</span>}
+              {isActive && !isMinimized && (
                 <span className="absolute right-4 w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full" aria-hidden="true" />
               )}
             </>
@@ -210,84 +231,109 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       />
 
       <aside
-        className={`fixed top-0 left-0 z-40 w-72 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
-          } lg:translate-x-0 lg:top-16 lg:h-[calc(100vh-4rem)]`}
+        className={`fixed top-0 left-0 z-40 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
+          } lg:translate-x-0 lg:top-16 lg:h-[calc(100vh-4rem)] ${isMinimized ? 'w-20' : 'w-72'}`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-4 py-4 overflow-y-auto">
-          <nav>
-            <ul className="space-y-1.5">
-              {navItems.map((item) => renderNavItem(item))}
-            </ul>
+        <div className="h-full flex flex-col">
+          {/* Scrollable Nav Items */}
+          <div className="flex-1 px-4 py-4 overflow-y-auto overflow-x-hidden">
+            <nav>
+              <ul className="space-y-1.5">
+                {navItems.map((item) => renderNavItem(item))}
+              </ul>
 
-            {/* Admin Section - Only visible for admin users */}
-            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
-              <p className="px-3 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Admin
-              </p>
-              <NavLink
-                to="/access-requests"
-                className={({ isActive }) =>
-                  `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${isActive
-                    ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-                  }`
-                }
-                onClick={onClose}
-              >
-                {({ isActive }) => (
-                  <>
-                    <svg
-                      className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
-                        ? 'text-primary-600 dark:text-primary-400'
-                        : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
-                        }`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                    </svg>
-                    <span className="font-medium">Access Management</span>
-                    {isActive && (
-                      <span className="absolute right-4 w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full" aria-hidden="true" />
-                    )}
-                  </>
+              {/* Admin Section - Only visible for admin users */}
+              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
+                {!isMinimized && (
+                  <p className="px-3 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">
+                    Admin
+                  </p>
                 )}
-              </NavLink>
-            </div>
+                <NavLink
+                  to="/access-requests"
+                  className={({ isActive }) =>
+                    `group flex items-center ${isMinimized ? 'justify-center' : 'space-x-3'} px-3 py-2.5 rounded-lg transition-colors ${isActive
+                      ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`
+                  }
+                  onClick={isMobile ? onClose : undefined}
+                  title={isMinimized ? 'Access Management' : undefined}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <svg
+                        className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
+                          ? 'text-primary-600 dark:text-primary-400'
+                          : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
+                          }`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                      </svg>
+                      {!isMinimized && <span className="font-medium whitespace-nowrap">Access Management</span>}
+                      {isActive && !isMinimized && (
+                        <span className="absolute right-4 w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full" aria-hidden="true" />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
-              <NavLink
-                to={isDemoMode ? '/demo-profile' : '/profile'}
-                className={({ isActive }) =>
-                  `group flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${isActive
-                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-                  }`
-                }
-                onClick={onClose}
+              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
+                <NavLink
+                  to={isDemoMode ? '/demo-profile' : '/profile'}
+                  className={({ isActive }) =>
+                    `group flex items-center ${isMinimized ? 'justify-center' : 'space-x-3'} px-3 py-2.5 rounded-lg transition-colors ${isActive
+                      ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`
+                  }
+                  onClick={isMobile ? onClose : undefined}
+                  title={isMinimized ? 'My Profile' : undefined}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <svg
+                        className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
+                          ? 'text-primary-600 dark:text-primary-400'
+                          : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
+                          }`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                      </svg>
+                      {!isMinimized && <span className="font-medium whitespace-nowrap">My Profile</span>}
+                      {isActive && !isMinimized && (
+                        <span className="absolute right-4 w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full" aria-hidden="true" />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              </div>
+            </nav>
+          </div>
+
+          {/* Toggle Button - Footer */}
+          <div className="p-4 border-t border-gray-200 dark:border-gray-800 flex justify-end">
+            <button
+              onClick={toggleMinimize}
+              className={`p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 transition-colors ${isMinimized ? 'mx-auto' : ''}`}
+              aria-label={isMinimized ? "Expand sidebar" : "Minimize sidebar"}
+            >
+              <svg
+                className={`w-5 h-5 transition-transform duration-300 ${isMinimized ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                {({ isActive }) => (
-                  <>
-                    <svg
-                      className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive
-                        ? 'text-indigo-600 dark:text-indigo-400'
-                        : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
-                        }`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                    </svg>
-                    <span className="font-medium">My Profile</span>
-                    {isActive && (
-                      <span className="absolute right-4 w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full" aria-hidden="true" />
-                    )}
-                  </>
-                )}
-              </NavLink>
-            </div>
-          </nav>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+              </svg>
+            </button>
+          </div>
         </div>
       </aside>
     </>
