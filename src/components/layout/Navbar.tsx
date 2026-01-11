@@ -116,9 +116,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
               aria-label="Trayvorix Home"
             >
               <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 dark:from-indigo-500 dark:to-purple-500 rounded-xl flex items-center justify-center shadow-sm shadow-indigo-500/20 dark:shadow-indigo-900/40 transition-all duration-300">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
+                <img src="/logo.png" alt="Trayvorix Logo" className="w-6 h-6" />
               </div>
               <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">
                 Trayvorix
