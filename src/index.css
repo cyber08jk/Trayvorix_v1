@@ -25,6 +25,20 @@
   --card-border: #374151;
 }
 
+@theme {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+}
+
 @layer base {
   * {
     @apply scroll-smooth;
@@ -46,6 +60,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -56,6 +71,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -65,6 +81,7 @@
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
@@ -94,11 +111,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-indigo-600 rounded;
+  @apply bg-primary-600 rounded;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-indigo-700;
+  @apply bg-primary-700;
 }
 
 /* Gradient Text */

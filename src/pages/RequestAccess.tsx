@@ -76,8 +76,8 @@ export function RequestAccess() {
       <div className="w-full max-w-2xl animate-slide-in">
         {/* Logo Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl mb-4 shadow-lg">
-            <img src="/logo.png" alt="Trayvorix Logo" className="w-10 h-10" />
+          <div className="mb-4">
+            <img src="/logo.png" alt="Trayvorix Logo" className="w-20 h-20 mx-auto" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Request Access

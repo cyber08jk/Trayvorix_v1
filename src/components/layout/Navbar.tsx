@@ -115,8 +115,8 @@ export function Navbar({ onMenuClick }: NavbarProps) {
               className="flex items-center ml-2 lg:ml-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900 rounded-md"
               aria-label="Trayvorix Home"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 dark:from-indigo-500 dark:to-purple-500 rounded-xl flex items-center justify-center shadow-sm shadow-indigo-500/20 dark:shadow-indigo-900/40 transition-all duration-300">
-                <img src="/logo.png" alt="Trayvorix Logo" className="w-6 h-6" />
+              <div className="flex items-center justify-center transition-all duration-300">
+                <img src="/logo.png" alt="Trayvorix Logo" className="w-10 h-10" />
               </div>
               <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">
                 Trayvorix
