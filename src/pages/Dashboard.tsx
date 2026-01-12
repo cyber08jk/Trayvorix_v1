@@ -12,6 +12,7 @@ import { supabase } from '@services/supabase';
 import { AddReceiptModal } from '@components/receipts/AddReceiptModal';
 import { AddDeliveryModal } from '@components/deliveries/AddDeliveryModal';
 import { AddAdjustmentModal } from '@components/adjustments/AddAdjustmentModal';
+import { generateDashboardReport } from '@services/pdfReport.service';
 
 interface KPIData {
   totalProducts: number;
@@ -84,6 +85,13 @@ export function Dashboard() {
     }
   };
 
+  const handleDownloadReport = () => {
+    generateDashboardReport({
+      ...kpiData,
+      currency
+    });
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Header */}
@@ -101,7 +109,10 @@ export function Dashboard() {
           <button className="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
             Last 30 Days
           </button>
-          <button className="px-4 py-2 bg-primary-600 text-white rounded-lg shadow-md text-sm font-medium hover:bg-primary-700 transition-colors">
+          <button
+            onClick={handleDownloadReport}
+            className="px-4 py-2 bg-primary-600 text-white rounded-lg shadow-md text-sm font-medium hover:bg-primary-700 transition-colors"
+          >
             Download Report
           </button>
         </div>
