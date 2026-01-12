@@ -228,3 +228,56 @@ export const generateStockMovementsReport = (movements: any[]) => {
 
     doc.save(`stock_movements_${new Date().toISOString().split('T')[0]}.pdf`);
 };
+
+export interface DashboardReportData {
+    totalProducts: number;
+    totalInventoryValue: number;
+    lowStockItems: number;
+    pendingTransfers: number;
+    currency: string;
+}
+
+export const generateDashboardReport = (data: DashboardReportData) => {
+    const doc = new jsPDF();
+    const margin = 20;
+
+    // Header
+    doc.setFontSize(22);
+    doc.text('Trayvorix', margin, margin);
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text('Inventory Management System', margin, margin + 6);
+
+    doc.setFontSize(16);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Dashboard Overview Report', margin, margin + 20);
+
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, margin, margin + 28);
+
+    // KPI Cards Section (Simplified list for now)
+    let yPos = margin + 45;
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Key Performance Indicators', margin, yPos);
+    yPos += 10;
+
+    const kpiData = [
+        ['Total Products', data.totalProducts.toString()],
+        ['Inventory Value', formatCurrencyForPdf(data.totalInventoryValue, data.currency)],
+        ['Low Stock Items', data.lowStockItems.toString()],
+        ['Pending Transfers', data.pendingTransfers.toString()]
+    ];
+
+    autoTable(doc, {
+        startY: yPos,
+        head: [['Metric', 'Value']],
+        body: kpiData,
+        theme: 'grid',
+        headStyles: { fillColor: [63, 81, 181] }, // Indigo
+        styles: { fontSize: 12, cellPadding: 3 },
+    });
+
+    doc.save(`dashboard_report_${new Date().toISOString().split('T')[0]}.pdf`);
+};
