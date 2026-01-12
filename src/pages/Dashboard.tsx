@@ -137,6 +137,7 @@ export function Dashboard() {
                 ↑ 8% from last month
               </p>
 
+
             </div>
             <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
