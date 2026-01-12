@@ -20,6 +20,12 @@ interface KPIData {
   pendingTransfers: number;
 }
 
+declare global {
+  interface Window {
+    dashboardKPI: KPIData;
+  }
+}
+
 export function Dashboard() {
   const [kpiData, setKpiData] = useState<KPIData>({
     totalProducts: 0,
