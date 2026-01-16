@@ -17,9 +17,9 @@ export function SessionTimeoutHandler() {
 
     // Refs to store timer IDs and last activity timestamp
     const lastActivityRef = useRef<number>(Date.now());
-    const warningTimerRef = useRef<NodeJS.Timeout | null>(null);
-    const logoutTimerRef = useRef<NodeJS.Timeout | null>(null);
-    const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+    const warningTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const logoutTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const countdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     // Reset timers on activity
     const resetTimers = () => {
@@ -124,7 +124,7 @@ export function SessionTimeoutHandler() {
             footer={
                 <div className="flex w-full justify-end gap-2">
                     <Button
-                        variant="outline"
+                        variant="secondary" // Changed from outline to secondary based on Button.tsx
                         onClick={handleLogout}
                     >
                         Logout Now
