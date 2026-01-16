@@ -6,6 +6,7 @@ import { DemoProvider } from '@contexts/DemoContext';
 import { CurrencyProvider } from '@contexts/CurrencyContext';
 import { ToastProvider } from '@components/common/Toast';
 import { ProtectedRoute } from '@components/auth/ProtectedRoute';
+import { SessionTimeoutHandler } from '@components/auth/SessionTimeoutHandler';
 import { Layout } from '@components/layout/Layout';
 import { Login } from '@pages/Login';
 import { ForgotPassword } from '@pages/ForgotPassword';
@@ -53,6 +54,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
+          <SessionTimeoutHandler />
           <ThemeProvider>
             <DemoProvider>
               <CurrencyProvider>
@@ -67,7 +69,7 @@ function App() {
                     <Route path="/test-connection" element={<TestConnection />} />
                     <Route path="/request-access" element={<RequestAccess />} />
 
-                    
+
                     {/* Protected routes with layout */}
                     <Route
                       path="/dashboard"
