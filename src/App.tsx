@@ -166,6 +166,7 @@ function App() {
                           <Layout><Analytics /></Layout>
                         </ProtectedRoute>
                       }
+
                       
                     />
                     <Route
