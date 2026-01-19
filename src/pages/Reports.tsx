@@ -19,7 +19,6 @@ export function Reports() {
             setDownloading(`${reportType}-${format}`);
 
             let data: any[] = [];
-            let data1: any[] = [];
 
             switch (reportType) {
                 case 'inventory': {
