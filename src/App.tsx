@@ -103,6 +103,7 @@ function App() {
                           <Layout><Warehouses /></Layout>
                         </ProtectedRoute>
                       }
+
                     />
                     <Route
                       path="/receipts"
