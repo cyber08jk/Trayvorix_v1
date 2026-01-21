@@ -94,6 +94,7 @@ function App() {
                           <Layout><Inventory /></Layout>
                         </ProtectedRoute>
                       }
+
                     />
                     <Route
                       path="/warehouses"
@@ -167,7 +168,7 @@ function App() {
                         </ProtectedRoute>
                       }
 
-                      
+
                     />
                     <Route
                       path="/audit"
