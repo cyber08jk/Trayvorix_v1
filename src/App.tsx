@@ -154,6 +154,7 @@ function App() {
                           <Layout><Profile /></Layout>
                         </ProtectedRoute>
                       }
+
                     />
                     <Route
                       path="/reports"
