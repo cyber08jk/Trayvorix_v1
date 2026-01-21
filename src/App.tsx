@@ -145,6 +145,7 @@ function App() {
                           <Layout><Adjustments /></Layout>
                         </ProtectedRoute>
                       }
+
                     />
                     <Route
                       path="/profile"
