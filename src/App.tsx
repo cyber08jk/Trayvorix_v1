@@ -95,6 +95,7 @@ function App() {
                         </ProtectedRoute>
                       }
                     />
+
                     <Route
                       path="/warehouses"
                       element={
