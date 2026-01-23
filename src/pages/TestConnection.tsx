@@ -11,12 +11,14 @@ export function TestConnection() {
   const testConnection = async () => {
     setLoading(true);
     setStatus('Testing...');
-    
+
+
+
     try {
       // Test 1: Check if Supabase client is configured
       const url = import.meta.env.VITE_SUPABASE_URL;
       const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
-      
+
       if (!url || !key) {
         setStatus('❌ Environment variables not configured');
         setDetails({ url, keyLength: key?.length });
@@ -66,8 +68,8 @@ export function TestConnection() {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Click the button below to test your Supabase connection and database setup.
               </p>
-              <Button 
-                onClick={testConnection} 
+              <Button
+                onClick={testConnection}
                 isLoading={loading}
                 variant="primary"
               >
@@ -111,8 +113,8 @@ export function TestConnection() {
             </div>
 
             <div className="mt-6">
-              <a 
-                href="/login" 
+              <a
+                href="/login"
                 className="text-primary-600 hover:text-primary-700 text-sm font-medium"
               >
                 ← Back to Login
