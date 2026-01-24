@@ -57,7 +57,6 @@ export async function uploadAvatar(userId: string, file: File) {
     throw uploadError;
   }
   
-
   const { data } = supabase.storage
     .from('avatars')
     .getPublicUrl(filePath);
