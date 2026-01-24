@@ -22,8 +22,6 @@ export async function getUserProfile(userId: string) {
   return data;
 }
 
-
-
 export async function getAllProfiles() {
   const { data, error } = await supabase
     .from('profiles')
@@ -33,6 +31,26 @@ export async function getAllProfiles() {
   if (error) throw error;
   return data;
 }
+export async function getAllProfiles() {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, full_name, role, currency, location, avatar_url, created_at')
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
+export async function getAllProfiles() {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, full_name, role, currency, location, avatar_url, created_at')
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
+
+
 
 export async function updateUserProfile(userId: string, updates: Partial<Profile>) {
   const { data, error } = await supabase
