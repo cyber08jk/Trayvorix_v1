@@ -22,11 +22,6 @@ export async function getUserProfile(userId: string) {
   return data;
 }
 
-export async function getUserProfile(userId: string) {
-  const { data, error } = await supabase
-  if (error) throw error;
-  return data;
-}
 
 export async function getAllProfiles() {
   const { data, error } = await supabase
