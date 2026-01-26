@@ -18,6 +18,7 @@ export function TestConnection() {
       const url = import.meta.env.VITE_SUPABASE_URL;
       const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+
       if (!url || !key) {
         setStatus('❌ Environment variables not configured');
         setDetails({ url, keyLength: key?.length });
