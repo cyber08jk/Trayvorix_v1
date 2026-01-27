@@ -12,7 +12,6 @@ export function TestConnection() {
     setLoading(true);
     setStatus('Testing...');
 
-
     try {
       // Test 1: Check if Supabase client is configured
       const url = import.meta.env.VITE_SUPABASE_URL;
