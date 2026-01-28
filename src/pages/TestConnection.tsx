@@ -25,6 +25,7 @@ export function TestConnection() {
         return;
       }
 
+
       // Test 2: Try to query a table
       const { data, error } = await supabase
         .from('products')
