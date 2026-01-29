@@ -70,7 +70,6 @@ function App() {
                     <Route path="/request-access" element={<RequestAccess />} />
 
 
-
                     {/* Protected routes with layout */}
                     <Route
                       path="/dashboard"
