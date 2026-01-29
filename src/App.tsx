@@ -34,6 +34,7 @@ const queryClient = new QueryClient({
   },
 });
 
+
 import { Products } from '@pages/Products';
 import { Receipts } from '@pages/Receipts';
 import { Deliveries } from '@pages/Deliveries';
