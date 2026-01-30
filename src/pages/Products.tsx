@@ -9,6 +9,7 @@ import { useToast } from '@components/common/Toast';
 import { useDemo } from '@contexts/DemoContext';
 import { sampleProducts } from '@data/sampleData';
 import { AddProductModal } from '@components/products/AddProductModal';
+import { EditProductModal } from '@components/products/EditProductModal';
 
 
 interface Product {
@@ -31,6 +32,8 @@ export function Products() {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { showToast } = useToast();
   const { isDemoMode } = useDemo();
 
@@ -141,8 +144,9 @@ export function Products() {
     },
   ];
 
-  const handleEdit = (_product: Product) => {
-    showToast('Edit functionality coming soon', 'info');
+  const handleEdit = (product: Product) => {
+    setSelectedProduct(product);
+    setShowEditModal(true);
   };
 
   const handleDelete = async (product: Product) => {
@@ -286,6 +290,17 @@ export function Products() {
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         onSuccess={fetchProducts}
+
+      {/* Edit Product Modal */}
+      <EditProductModal
+        isOpen={showEditModal}
+        onClose={() => {
+          setShowEditModal(false);
+          setSelectedProduct(null);
+        }}
+        onSuccess={fetchProducts}
+        product={selectedProduct}
+      />
       />
     </div>
   );
