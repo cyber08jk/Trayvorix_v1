@@ -290,6 +290,7 @@ export function Products() {
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         onSuccess={fetchProducts}
+      />
 
       {/* Edit Product Modal */}
       <EditProductModal
@@ -300,7 +301,6 @@ export function Products() {
         }}
         onSuccess={fetchProducts}
         product={selectedProduct}
-      />
       />
     </div>
   );
