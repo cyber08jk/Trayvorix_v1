@@ -10,6 +10,7 @@ import { useDemo } from '@contexts/DemoContext';
 import { sampleReceipts } from '@data/sampleData';
 import { supabase } from '@services/supabase';
 import { AddReceiptModal } from '@components/receipts/AddReceiptModal';
+import { ReceiptPDFModal } from '@components/receipts/ReceiptPDFModal';
 
 interface Receipt {
   id: string;
@@ -26,6 +27,8 @@ export function Receipts() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showPDFModal, setShowPDFModal] = useState(false);
+  const [selectedReceipt, setSelectedReceipt] = useState<Receipt | null>(null);
   const { showToast } = useToast();
   const { isDemoMode } = useDemo();
 
@@ -134,7 +137,12 @@ export function Receipts() {
         <div className="flex gap-2">
           <button
             className="text-primary-600 hover:text-primary-700 dark:text-primary-400"
-            onClick={() => showToast('View receipt details', 'info')}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedReceipt(receipt);
+              setShowPDFModal(true);
+            }}
+            title="View PDF"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -144,7 +152,10 @@ export function Receipts() {
           {receipt.status === 'draft' && (
             <button
               className="text-blue-600 hover:text-blue-700 dark:text-blue-400"
-              onClick={() => showToast('Edit receipt', 'info')}
+              onClick={(e) => {
+                e.stopPropagation();
+                showToast('Edit receipt', 'info');
+              }}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -230,6 +241,16 @@ export function Receipts() {
             <strong>Example:</strong> Receive 50 units of "Steel Rods" → stock +50
           </p>
         </div>
+
+      {/* Receipt PDF Modal */}
+      <ReceiptPDFModal
+        isOpen={showPDFModal}
+        onClose={() => {
+          setShowPDFModal(false);
+          setSelectedReceipt(null);
+        }}
+        receipt={selectedReceipt}
+      />
       </Card>
 
       {/* Add Receipt Modal */}
