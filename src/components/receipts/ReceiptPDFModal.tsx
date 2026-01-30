@@ -121,25 +121,25 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
                   line-height: 1.6;
                 }
                 .header { 
-                  margin-bottom: 30px;
-                  padding-bottom: 20px;
+                  margin-bottom: 20px;
+                  padding-bottom: 15px;
                   border-bottom: 3px solid #333;
                 }
                 .header h2 {
-                  font-size: 28px;
+                  font-size: 24px;
                   font-weight: bold;
-                  margin-bottom: 8px;
+                  margin-bottom: 6px;
                   color: #000;
                 }
                 .header p {
-                  font-size: 13px;
+                  font-size: 12px;
                   color: #555;
                 }
                 .status-badge { 
                   display: inline-block; 
-                  padding: 6px 16px; 
+                  padding: 5px 14px; 
                   border-radius: 4px; 
-                  font-size: 11px; 
+                  font-size: 10px; 
                   font-weight: bold;
                   text-transform: uppercase;
                   letter-spacing: 0.5px;
@@ -152,26 +152,26 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
                 .info-grid {
                   display: grid;
                   grid-template-columns: 1fr 1fr;
-                  gap: 30px;
-                  margin: 25px 0;
+                  gap: 20px;
+                  margin: 15px 0;
                 }
                 .info-section h3 {
-                  font-size: 12px;
+                  font-size: 11px;
                   font-weight: 600;
                   text-transform: uppercase;
                   color: #666;
-                  margin-bottom: 8px;
+                  margin-bottom: 6px;
                   letter-spacing: 0.5px;
                 }
                 .info-section p {
-                  font-size: 15px;
+                  font-size: 14px;
                   font-weight: 600;
                   color: #000;
                 }
                 table { 
                   width: 100%; 
                   border-collapse: collapse; 
-                  margin: 25px 0;
+                  margin: 15px 0;
                   border: 2px solid #000;
                 }
                 thead {
@@ -179,9 +179,9 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
                 }
                 th { 
                   border: 1px solid #333;
-                  padding: 12px;
+                  padding: 8px 10px;
                   text-align: left;
-                  font-size: 12px;
+                  font-size: 11px;
                   font-weight: 700;
                   text-transform: uppercase;
                   color: #000;
@@ -189,37 +189,37 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
                 }
                 td { 
                   border: 1px solid #666;
-                  padding: 10px 12px;
-                  font-size: 13px;
+                  padding: 7px 10px;
+                  font-size: 12px;
                   color: #000;
                 }
                 tbody tr:nth-child(even) {
                   background-color: #f9f9f9;
                 }
                 .notes-section {
-                  margin-top: 30px;
-                  padding-top: 20px;
+                  margin-top: 20px;
+                  padding-top: 15px;
                   border-top: 2px solid #ddd;
                 }
                 .notes-section h3 {
-                  font-size: 13px;
+                  font-size: 12px;
                   font-weight: 600;
-                  margin-bottom: 10px;
+                  margin-bottom: 8px;
                   color: #000;
                 }
                 .notes-section p {
-                  font-size: 13px;
+                  font-size: 12px;
                   color: #333;
-                  line-height: 1.8;
+                  line-height: 1.6;
                 }
                 .footer {
-                  margin-top: 40px;
-                  padding-top: 20px;
+                  margin-top: 25px;
+                  padding-top: 15px;
                   border-top: 2px solid #ddd;
                   text-align: center;
                 }
                 .footer p {
-                  font-size: 11px;
+                  font-size: 10px;
                   color: #666;
                 }
                 .text-right {
@@ -229,13 +229,39 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
                   font-weight: 600;
                 }
                 @media print {
+                  @page {
+                    size: A4;
+                    margin: 15mm;
+                  }
                   body { 
-                    padding: 20px;
+                    padding: 0;
+                    margin: 0;
                     -webkit-print-color-adjust: exact;
                     print-color-adjust: exact;
                   }
-                  table { page-break-inside: avoid; }
-                  tr { page-break-inside: avoid; }
+                  .header {
+                    page-break-after: avoid;
+                  }
+                  .info-grid {
+                    page-break-inside: avoid;
+                    page-break-after: avoid;
+                  }
+                  table { 
+                    page-break-inside: auto;
+                  }
+                  thead {
+                    display: table-header-group;
+                  }
+                  tr { 
+                    page-break-inside: avoid;
+                    page-break-after: auto;
+                  }
+                  .notes-section {
+                    page-break-inside: avoid;
+                  }
+                  .footer {
+                    page-break-before: avoid;
+                  }
                 }
               </style>
             </head>
