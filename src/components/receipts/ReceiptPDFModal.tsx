@@ -264,7 +264,7 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Receipt Details" size="large">
+    <Modal isOpen={isOpen} onClose={onClose} title="Receipt Details" size="xl">
       <div className="space-y-4">
         {/* PDF Preview Content */}
         <div id="receipt-pdf-content" className="bg-white dark:bg-gray-800 p-8 rounded-lg border-2 border-gray-300 dark:border-gray-700 print:border-0 print:p-0">
