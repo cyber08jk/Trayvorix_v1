@@ -356,13 +356,74 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
     setIsEditing(false);
   };
 
-  if (!receipt) return null;
+  if (!receipt || !editData) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Receipt Details" size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} title={isEditing ? "Edit Receipt" : "Receipt Details"} size="xl">
       <div className="space-y-4">
-        {/* Preview */}
-        <div className="bg-white dark:bg-white p-8 rounded-lg border-2 border-gray-200 shadow-lg max-h-96 overflow-y-auto">
+        {isEditing ? (
+          // Edit Mode
+          <div className="bg-white p-6 rounded-lg border-2 border-blue-200 space-y-4">
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Supplier Name</label>
+                <input
+                  type="text"
+                  value={editData.supplier_name}
+                  onChange={(e) => setEditData({ ...editData, supplier_name: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Status</label>
+                <select
+                  value={editData.status}
+                  onChange={(e) => setEditData({ ...editData, status: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="draft">Draft</option>
+                  <option value="ready">Ready</option>
+                  <option value="waiting">Waiting</option>
+                  <option value="done">Done</option>
+                  <option value="canceled">Canceled</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Notes</label>
+                <textarea
+                  value={editData.notes || ''}
+                  onChange={(e) => setEditData({ ...editData, notes: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  rows={3}
+                />
+              </div>
+
+              <div className="pt-2 border-t border-gray-200">
+                <p className="text-sm text-gray-600">
+                  <span className="font-bold">Created by:</span> {receipt.created_by}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <span className="font-bold">Total Items:</span> {receipt.total_items}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+              <Button variant="secondary" onClick={handleCancel} disabled={saving}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleSaveEdit} disabled={saving}>
+                {saving ? 'Saving...' : 'Save Changes'}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          // View Mode
+          <>
+            {/* Preview */}
+            <div className="bg-white dark:bg-white p-8 rounded-lg border-2 border-gray-200 shadow-lg max-h-96 overflow-y-auto">
           <div className="space-y-4">
             {/* Header */}
             <div className="flex justify-between items-start pb-4 border-b-2 border-gray-300">
