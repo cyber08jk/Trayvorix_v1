@@ -37,7 +37,7 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
     if (receipt && isOpen) {
       fetchReceiptItems();
     }
-  }, [receipt, isOpen]);
+  }, [receipt, isOpen, isDemoMode]);
 
   const fetchReceiptItems = async () => {
     if (!receipt) return;
@@ -63,6 +63,7 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
             warehouse_name: 'Main Warehouse'
           }
         ]);
+        setLoading(false);
       } else {
         const { data, error } = await supabase
           .from('receipt_items')
@@ -337,7 +338,13 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
                   })}
                 </p>
               </div>
-              <span className="px-3 py-1 rounded text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300">
+              <span className={`px-3 py-1 rounded text-xs font-bold border ${
+                receipt.status === 'done' ? 'bg-green-100 text-green-800 border-green-300' :
+                receipt.status === 'waiting' ? 'bg-yellow-100 text-yellow-800 border-yellow-300' :
+                receipt.status === 'ready' ? 'bg-blue-100 text-blue-800 border-blue-300' :
+                receipt.status === 'canceled' ? 'bg-red-100 text-red-800 border-red-300' :
+                'bg-gray-100 text-gray-800 border-gray-300'
+              }`}>
                 {receipt.status.toUpperCase()}
               </span>
             </div>
