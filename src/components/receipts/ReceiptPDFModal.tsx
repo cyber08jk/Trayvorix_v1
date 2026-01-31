@@ -312,6 +312,7 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
       printWindow.focus();
       setTimeout(() => {
         printWindow.print();
+        printWindow.close();
       }, 500);
     }
   };
