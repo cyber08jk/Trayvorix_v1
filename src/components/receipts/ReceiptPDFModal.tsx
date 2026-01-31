@@ -309,19 +309,6 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
     }
   };
 
-  const handleDownloadPDF = () => {
-    const printWindow = window.open('', '_blank', 'width=800,height=600');
-    if (printWindow) {
-      printWindow.document.write(generatePrintHTML());
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 500);
-    }
-  };
-
   const handleSaveEdit = async () => {
     if (!editData || isDemoMode) return;
 
