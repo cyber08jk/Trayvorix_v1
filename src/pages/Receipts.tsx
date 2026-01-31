@@ -252,8 +252,10 @@ export function Receipts() {
         onClose={() => {
           setShowPDFModal(false);
           setSelectedReceipt(null);
+          setEditMode(false);
         }}
         receipt={selectedReceipt}
+        initialEditMode={editMode}
       />
       </Card>
 
