@@ -345,8 +345,6 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt, initialEditMode = fa
   };
 
   if (!receipt) return null;
-  
-  const displayData = editData || receipt;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={isEditing ? "Edit Receipt" : "Receipt Details"} size="xl">
@@ -356,22 +354,22 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt, initialEditMode = fa
           <div className="bg-white p-6 rounded-lg border-2 border-blue-200 space-y-4">
             <div className="grid grid-cols-1 gap-4">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Supplier Name</label>
+                <label className="block text-sm font-bold text-gray-900 mb-1">Supplier Name</label>
                 <input
                   type="text"
                   value={(editData || receipt)?.supplier_name || ''}
                   onChange={(e) => setEditData({ ...editData!, supplier_name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
                   placeholder="Enter supplier name"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Status</label>
+                <label className="block text-sm font-bold text-gray-900 mb-1">Status</label>
                 <select
                   value={(editData || receipt)?.status || 'draft'}
                   onChange={(e) => setEditData({ ...editData!, status: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
                 >
                   <option value="draft">Draft</option>
                   <option value="ready">Ready</option>
@@ -382,21 +380,21 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt, initialEditMode = fa
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Notes</label>
+                <label className="block text-sm font-bold text-gray-900 mb-1">Notes</label>
                 <textarea
                   value={(editData || receipt)?.notes || ''}
                   onChange={(e) => setEditData({ ...editData!, notes: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
                   rows={3}
                   placeholder="Enter notes"
                 />
               </div>
 
               <div className="pt-2 border-t border-gray-200">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-900">
                   <span className="font-bold">Created by:</span> {receipt.created_by}
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-900">
                   <span className="font-bold">Total Items:</span> {receipt.total_items}
                 </p>
               </div>
