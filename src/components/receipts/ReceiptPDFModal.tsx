@@ -382,10 +382,11 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt, initialEditMode = fa
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-1">Notes</label>
                 <textarea
-                  value={editData.notes || ''}
-                  onChange={(e) => setEditData({ ...editData, notes: e.target.value })}
+                  value={editData?.notes || ''}
+                  onChange={(e) => setEditData({ ...editData!, notes: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   rows={3}
+                  placeholder="Enter notes"
                 />
               </div>
 
