@@ -156,6 +156,7 @@ export function Receipts() {
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedReceipt(receipt);
+                setEditMode(true);
                 setShowPDFModal(true);
               }}
               title="Edit Receipt"
