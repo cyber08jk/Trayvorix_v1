@@ -322,6 +322,40 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
     }
   };
 
+  const handleSaveEdit = async () => {
+    if (!editData || isDemoMode) return;
+
+    try {
+      setSaving(true);
+      const { error } = await supabase
+        .from('receipts')
+        .update({
+          supplier_name: editData.supplier_name,
+          status: editData.status,
+          notes: editData.notes
+        })
+        .eq('id', editData.id);
+
+      if (error) throw error;
+
+      setIsEditing(false);
+      // Refresh receipt data
+      if (receipt) {
+        fetchReceiptItems();
+      }
+    } catch (error) {
+      console.error('Error saving receipt:', error);
+      alert('Failed to save receipt. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditData(receipt);
+    setIsEditing(false);
+  };
+
   if (!receipt) return null;
 
   return (
