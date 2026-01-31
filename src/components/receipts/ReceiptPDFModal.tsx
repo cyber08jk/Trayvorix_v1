@@ -31,11 +31,16 @@ interface ReceiptPDFModalProps {
 export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalProps) {
   const [items, setItems] = useState<ReceiptItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editData, setEditData] = useState<Receipt | null>(null);
   const { isDemoMode } = useDemo();
 
   useEffect(() => {
     if (receipt && isOpen) {
       fetchReceiptItems();
+      setEditData(receipt);
+      setIsEditing(false);
     }
   }, [receipt, isOpen, isDemoMode]);
 
