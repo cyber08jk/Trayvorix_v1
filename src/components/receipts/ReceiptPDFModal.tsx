@@ -26,12 +26,13 @@ interface ReceiptPDFModalProps {
   isOpen: boolean;
   onClose: () => void;
   receipt: Receipt | null;
+  initialEditMode?: boolean;
 }
 
-export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalProps) {
+export function ReceiptPDFModal({ isOpen, onClose, receipt, initialEditMode = false }: ReceiptPDFModalProps) {
   const [items, setItems] = useState<ReceiptItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(initialEditMode);
   const [saving, setSaving] = useState(false);
   const [editData, setEditData] = useState<Receipt | null>(null);
   const { isDemoMode } = useDemo();
@@ -40,9 +41,9 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
     if (receipt && isOpen) {
       fetchReceiptItems();
       setEditData(receipt);
-      setIsEditing(false);
+      setIsEditing(initialEditMode);
     }
-  }, [receipt, isOpen, isDemoMode]);
+  }, [receipt, isOpen, isDemoMode, initialEditMode]);
 
   const fetchReceiptItems = async () => {
     if (!receipt) return;
