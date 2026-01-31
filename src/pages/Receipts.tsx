@@ -29,6 +29,7 @@ export function Receipts() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showPDFModal, setShowPDFModal] = useState(false);
   const [selectedReceipt, setSelectedReceipt] = useState<Receipt | null>(null);
+  const [editMode, setEditMode] = useState(false);
   const { showToast } = useToast();
   const { isDemoMode } = useDemo();
 
