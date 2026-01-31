@@ -540,7 +540,7 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt }: ReceiptPDFModalPro
             Print & Save as PDF
           </Button>
         </div>
-            </>
+          </>
         )}
       </div>
     </Modal>
