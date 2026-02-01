@@ -37,6 +37,7 @@ export function ReceiptPDFModal({ isOpen, onClose, receipt, initialEditMode = fa
   const [editData, setEditData] = useState<Receipt | null>(receipt);
   const { isDemoMode } = useDemo();
 
+  
   useEffect(() => {
     if (receipt && isOpen) {
       fetchReceiptItems();
