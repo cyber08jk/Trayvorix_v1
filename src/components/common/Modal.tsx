@@ -7,9 +7,10 @@ interface ModalProps {
   children: ReactNode;
   footer?: ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  backgroundImage?: string;
 }
 
-export function Modal({ isOpen, onClose, title, children, footer, size = 'md' }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, footer, size = 'md', backgroundImage }: ModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -50,8 +51,9 @@ export function Modal({ isOpen, onClose, title, children, footer, size = 'md' }:
         <div
           className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full ${sizeClasses[size]} transform transition-all`}
           onClick={(e) => e.stopPropagation()}
+          style={backgroundImage ? { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
         >
-          {/* Header */}
+          {/* Header */} bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95
           <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
               {title}
@@ -66,14 +68,14 @@ export function Modal({ isOpen, onClose, title, children, footer, size = 'md' }:
             </button>
           </div>
 
-          {/* Body */}
+          {/* Body */} bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95
           <div className="p-6">
             {children}
           </div>
 
           {/* Footer */}
           {footer && (
-            <div className="flex items-center justify-end gap-3 p-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-end gap-3 p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95">
               {footer}
             </div>
           )}
