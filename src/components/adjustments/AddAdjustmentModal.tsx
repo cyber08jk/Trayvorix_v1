@@ -70,7 +70,7 @@ export function AddAdjustmentModal({ isOpen, onClose, onSuccess }: AddAdjustment
 
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Create Stock Adjustment">
+    <Modal isOpen={isOpen} onClose={onClose} title="Create Stock Adjustment" backgroundImage="/module_bg.png">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input

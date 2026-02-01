@@ -81,7 +81,7 @@ export function AddReceiptModal({ isOpen, onClose, onSuccess }: AddReceiptModalP
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Create New Receipt">
+    <Modal isOpen={isOpen} onClose={onClose} title="Create New Receipt" backgroundImage="/module_bg.png">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input

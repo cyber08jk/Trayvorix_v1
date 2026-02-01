@@ -81,7 +81,7 @@ export function AddProductModal({ isOpen, onClose, onSuccess }: AddProductModalP
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add New Product">
+    <Modal isOpen={isOpen} onClose={onClose} title="Add New Product" backgroundImage="/module_bg.png">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input

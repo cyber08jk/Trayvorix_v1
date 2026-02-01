@@ -87,7 +87,7 @@ export function AddDeliveryModal({ isOpen, onClose, onSuccess }: AddDeliveryModa
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Create New Delivery">
+    <Modal isOpen={isOpen} onClose={onClose} title="Create New Delivery" backgroundImage="/module_bg.png">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input

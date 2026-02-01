@@ -82,7 +82,7 @@ export function AddWarehouseModal({ isOpen, onClose, onSuccess }: AddWarehouseMo
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add New Warehouse">
+    <Modal isOpen={isOpen} onClose={onClose} title="Add New Warehouse" backgroundImage="/module_bg.png">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input
