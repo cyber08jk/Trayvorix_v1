@@ -44,6 +44,7 @@ export function Modal({ isOpen, onClose, title, children, footer, size = 'md', b
       <div
         className="fixed inset-0 bg-gray-900 bg-opacity-50 transition-opacity"
         onClick={onClose}
+        style={backgroundImage ? { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
       ></div>
 
       {/* Modal */}
@@ -51,10 +52,9 @@ export function Modal({ isOpen, onClose, title, children, footer, size = 'md', b
         <div
           className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full ${sizeClasses[size]} transform transition-all`}
           onClick={(e) => e.stopPropagation()}
-          style={backgroundImage ? { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
         >
-          {/* Header */} bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95
-          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
               {title}
             </h3>
@@ -68,8 +68,8 @@ export function Modal({ isOpen, onClose, title, children, footer, size = 'md', b
             </button>
           </div>
 
-          {/* Body */} bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95
-          <div className="p-6">
+          {/* Body */}
+          <div className="p-6 bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95">
             {children}
           </div>
 
