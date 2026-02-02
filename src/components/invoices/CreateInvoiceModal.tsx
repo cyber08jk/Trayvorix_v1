@@ -128,7 +128,8 @@ export function CreateInvoiceModal({ isOpen, onClose, onSuccess }: CreateInvoice
 
             const invoiceNumber = `INV-${invoiceType[0].toUpperCase()}-${Date.now().toString().slice(-8)}`;
 
-            const invoice: Partial<Invoice> = {
+            // Create invoice object (would be used in actual API call)
+            const invoiceData = {
                 invoice_number: invoiceNumber,
                 invoice_type: invoiceType,
                 party_name: partyName,
@@ -143,14 +144,16 @@ export function CreateInvoiceModal({ isOpen, onClose, onSuccess }: CreateInvoice
                 discount_amount: totals.discount,
                 total_amount: totals.total,
                 paid_amount: 0,
-                payment_status: 'unpaid',
-                status: 'draft',
+                payment_status: 'unpaid' as const,
+                status: 'draft' as const,
                 notes: '',
                 created_by: '', // Will be set by backend
             };
 
-            // Call the service to create invoice
-            // For now, we'll show success and close
+            // Uncomment when API is ready:
+            // await createInvoice(invoiceData);
+            
+            console.log('Invoice data:', invoiceData);
             showToast('Invoice created successfully', 'success');
             onSuccess();
             resetForm();
