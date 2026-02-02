@@ -6,6 +6,7 @@ import { Table } from '@components/common/Table';
 import { TableSkeleton } from '@components/common/Loading';
 import { useToast } from '@components/common/Toast';
 import { useDemo } from '@contexts/DemoContext';
+import { CreateInvoiceModal } from '@components/invoices/CreateInvoiceModal';
 import { sampleInvoices } from '@data/sampleData';
 import { fetchInvoices } from '@services/invoices.service';
 import type { Invoice } from '../types/database.types';
@@ -17,6 +18,7 @@ export function Invoices() {
     const [typeFilter, setTypeFilter] = useState<string>('all');
     const [paymentStatusFilter, setPaymentStatusFilter] = useState<string>('all');
     const [statusFilter, setStatusFilter] = useState<string>('all');
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const { showToast } = useToast();
     const { isDemoMode } = useDemo();
 
@@ -241,7 +243,7 @@ export function Invoices() {
                         Track purchase and sales invoices, payments, and outstanding amounts
                     </p>
                 </div>
-                <Button variant="primary" onClick={() => showToast('Create invoice modal - Coming soon', 'info')}>
+                <Button variant="primary" onClick={() => setIsCreateModalOpen(true)}>
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
@@ -400,6 +402,15 @@ export function Invoices() {
                     </div>
                 </div>
             </Card>
+
+            {/* Create Invoice Modal */}
+            <CreateInvoiceModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                onSuccess={() => {
+                    loadInvoices();
+                }}
+            />
         </div>
     );
 }
