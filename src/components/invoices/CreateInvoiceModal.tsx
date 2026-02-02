@@ -4,7 +4,7 @@ import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
 import { useToast } from '@components/common/Toast';
 import { getAllProducts } from '@services/products.service';
-import type { Invoice, Product } from '../../types/database.types';
+import type { Product } from '@services/products.service';
 
 interface CreateInvoiceModalProps {
     isOpen: boolean;
