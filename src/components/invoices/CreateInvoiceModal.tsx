@@ -48,14 +48,11 @@ export function CreateInvoiceModal({ isOpen, onClose, onSuccess }: CreateInvoice
 
     const loadProducts = async () => {
         try {
-            setLoading(true);
-            const data = await fetchProducts();
+            const data = await getAllProducts();
             setProducts(data);
         } catch (error: any) {
             console.error('Error loading products:', error);
             showToast('Failed to load products', 'error');
-        } finally {
-            setLoading(false);
         }
     };
 
