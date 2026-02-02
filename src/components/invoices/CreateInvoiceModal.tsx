@@ -3,9 +3,8 @@ import { Modal } from '@components/common/Modal';
 import { Button } from '@components/common/Button';
 import { Input } from '@components/common/Input';
 import { useToast } from '@components/common/Toast';
-import { createInvoice } from '@services/invoices.service';
-import { fetchProducts } from '@services/products.service';
-import type { Invoice, InvoiceItem, Product } from '../../types/database.types';
+import { getAllProducts } from '@services/products.service';
+import type { Invoice, Product } from '../../types/database.types';
 
 interface CreateInvoiceModalProps {
     isOpen: boolean;
@@ -34,7 +33,6 @@ export function CreateInvoiceModal({ isOpen, onClose, onSuccess }: CreateInvoice
     const [discountAmount, setDiscountAmount] = useState('0');
     const [taxRate, setTaxRate] = useState('18');
     const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const { showToast } = useToast();
 
