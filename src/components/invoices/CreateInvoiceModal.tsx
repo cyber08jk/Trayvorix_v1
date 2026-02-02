@@ -456,7 +456,7 @@ export function CreateInvoiceModal({ isOpen, onClose, onSuccess }: CreateInvoice
                     <Button
                         type="submit"
                         variant="primary"
-                        loading={submitting}
+                        isLoading={submitting}
                         disabled={submitting || items.length === 0}
                         className="flex-1"
                     >
