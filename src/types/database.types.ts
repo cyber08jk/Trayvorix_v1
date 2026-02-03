@@ -7,7 +7,6 @@ export interface User {
   createdAt: string;
 }
 
-
 export interface Session {
   id: string;
   userId: string;
