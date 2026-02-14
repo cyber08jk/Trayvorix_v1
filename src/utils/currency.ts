@@ -50,9 +50,7 @@ export const formatCompactCurrency = (
         if (convertedAmount >= 1000000) {
             return `${symbol}${(convertedAmount / 1000000).toFixed(2)}M`;
         }
-        if (convertedAmount >= 1000) {
-            return `${symbol}${(convertedAmount / 1000).toFixed(1)}K`;
-        }
+        
     }
     return formatCurrency(amountInUSD, targetCurrency);
 };
