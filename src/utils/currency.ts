@@ -44,9 +44,6 @@ export const formatCompactCurrency = (
         }
     } else {
         // For other currencies, use K, M, B notation
-        if (convertedAmount >= 1000000000) {
-            return `${symbol}${(convertedAmount / 1000000000).toFixed(2)}B`;
-        }
         
         
     }
