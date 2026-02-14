@@ -54,6 +54,5 @@ export const formatCompactCurrency = (
             return `${symbol}${(convertedAmount / 1000).toFixed(1)}K`;
         }
     }
-    
     return formatCurrency(amountInUSD, targetCurrency);
 };
